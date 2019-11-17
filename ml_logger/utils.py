@@ -17,6 +17,6 @@ def flatten_dict(d: Dict, parent_key: str = "", sep: str = "#") -> Dict:
     return dict(items)
 
 
-def make_dir(path: string) -> None:
+def make_dir(path: str) -> None:
     """Make dir, if not exists"""
     pathlib.Path(path).mkdir(parents=True, exist_ok=True)

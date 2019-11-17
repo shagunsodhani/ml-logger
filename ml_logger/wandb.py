@@ -11,33 +11,34 @@ from ml_logger.utils import flatten_dict, make_dir
 from ml_logger import logbook
 
 
-class WandbLogBook(LogBook):
+class WandbLogBook(logbook.LogBook):
     """Logging utility that wraps over the wandb API"""
 
-    def __init__(self, logbook_config: Dict, config: Dict) -> LogBook:
+    def __init__(self, logbook_config: Dict, config: Dict) -> logbook.LogBook:
         """
         `logbook_config` is the config to initilalize the logbook 
         `config` is the config for the experiment
         """
-        super().__init__(logbook_config=logbook_config)
-        self.metrics_to_record = ["mode ", "num_timesteps"]
-        #
+        super().__init__(logbook_config=logbook_config, config=config)
+        self.metrics_to_record = []
 
         flattened_config = flatten_dict(config, sep="_")
 
         wandb.init(
             config=flattened_config,
-            notes=logbook_config["notes"],
-            project=logbook_config["project"],
-            name=logbook_config["name"],
-            entity=logbook_config["entity"],
-            dir=logbook_config["dir"],
+            notes=logbook_config["wandb"]["notes"],
+            project=logbook_config["wandb"]["project"],
+            name=logbook_config["wandb"]["name"],
+            entity=logbook_config["wandb"]["entity"],
+            dir=logbook_config["wandb"]["dir"],
         )
 
         dir_to_save_config = f"{wandb.run.dir}/config"
         make_dir(dir_to_save_config)
 
-        with open(f"{dir_to_save_config}/{logbook_config['name']}.yaml", "w") as f:
+        with open(
+            f"{dir_to_save_config}/{logbook_config['wandb']['name']}.yaml", "w"
+        ) as f:
             f.write(json.dumps(config, indent=4))
 
     def log_metrics_to_remote(self, kwargs: Dict) -> None:
@@ -47,19 +48,16 @@ class WandbLogBook(LogBook):
         formatted_dict = {}
         for key, val in dic.items():
             formatted_dict[prefix + "_" + key] = val
-        if self.should_use_remote_logger:
-            wandb.log(formatted_dict, step=step)
-
-    def write_metric_logs(self, metrics):
-        """Write Metric"""
+        wandb.log(formatted_dict, step=step)
 
     def write_metric_logs(self, metrics: Dict) -> None:
         """Write Metric to the filesystem"""
-        processed_metric = self.preprocess_log(metric)
+        processed_metric = self.preprocess_log(metrics)
         fs_log.write_metric_logs(processed_metric)
 
-        flatten_dict = flatten_dict(metrics, sep="_")
-        metric_dict = flatten_dict
+        flattened_metrics = flatten_dict(metrics, sep="_")
+
+        metric_dict = flattened_metrics
 
         if self.metrics_to_record:
 
@@ -70,9 +68,9 @@ class WandbLogBook(LogBook):
             }
 
         prefix = metrics.get("mode", None)
-        num_timesteps = metric_dict.pop("num_timesteps")
+        logging_idx = metric_dict.pop(self.logging_idx_key)
         self.log_metrics_to_remote(
-            {"dic": metric_dict, "prefix": prefix, "step": num_timesteps}
+            {"dic": metric_dict, "prefix": prefix, "step": logging_idx}
         )
 
     def write_compute_logs(self, metrics: Dict) -> None:
@@ -81,7 +79,7 @@ class WandbLogBook(LogBook):
         metrics = flatten_dict(metrics, sep="_")
         num_timesteps = metrics.pop("num_timesteps")
         return self.log_metrics_to_remote(
-            {"dic": metric_dict, "step": num_timesteps, "prefix": compute}
+            {"dic": metrics, "step": num_timesteps, "prefix": "compute"}
         )
 
     def watch_model(self, model):
@@ -91,6 +89,7 @@ class WandbLogBook(LogBook):
 
 def make_config(
     logger_file_path: str,
+    logging_idx_key: str,
     wandb_notes: str,
     wandb_project: str,
     wandb_name: str,
@@ -101,7 +100,9 @@ def make_config(
     """Method to prepare the config dict that will be passed to
     the Logbook constructor"""
     config = logbook.make_config(
-        logger_file_path=logger_file_path, process_rank=process_rank
+        logger_file_path=logger_file_path, 
+        process_rank=process_rank,
+        logging_idx_key=logging_idx_key
     )
     config["wandb"] = {
         "notes": wandb_notes,
