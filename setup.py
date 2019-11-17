@@ -9,10 +9,10 @@ setuptools.setup(
     author="Shagun Sodhani",
     author_email="sshagunsodhani@gmail.com",
     description="Logging Utility for ML Experiments",
-    long_description="",
+    long_description=open('README.md').read(),
     long_description_content_type="text/markdown",
     url="https://github.com/shagunsodhani/ml-logger",
-    packages=setuptools.find_packages(),
+    packages=["ml_logger"],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
