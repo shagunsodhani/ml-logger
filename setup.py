@@ -3,6 +3,9 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+with open('requirements.txt') as f:
+    requirements = f.read().splitlines()
+
 setuptools.setup(
     name="ml_logger", # Replace with your own username
     version="0.0.1",
@@ -11,6 +14,7 @@ setuptools.setup(
     description="Logging Utility for ML Experiments",
     long_description=open('README.md').read(),
     long_description_content_type="text/markdown",
+    install_requires=requirements,
     url="https://github.com/shagunsodhani/ml-logger",
     packages=["ml_logger"],
     classifiers=[
