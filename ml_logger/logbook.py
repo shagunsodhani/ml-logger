@@ -36,8 +36,8 @@ class LogBook:
 
     def write_metric_logs(self, metrics: Dict) -> None:
         """Write Metric to the filesystem"""
-        processed_metric = self.preprocess_log(metric)
-        fs_log.write_metric_logs(processed_metric)
+        processed_metrics = self.preprocess_log(metrics)
+        fs_log.write_metric_logs(processed_metrics)
         # if self.should_use_tb:
 
         #     timestep_key = "num_timesteps"
