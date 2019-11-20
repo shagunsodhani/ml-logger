@@ -95,13 +95,13 @@ def make_config(
     wandb_name: str,
     wandb_entity: str,
     wandb_dir: str,
-    process_rank: str = "0",
+    id: str = "0",
 ) -> Dict:
     """Method to prepare the config dict that will be passed to
     the Logbook constructor"""
     config = logbook.make_config(
         logger_file_path=logger_file_path, 
-        process_rank=process_rank,
+        id=id,
         logging_idx_key=logging_idx_key
     )
     config["wandb"] = {
