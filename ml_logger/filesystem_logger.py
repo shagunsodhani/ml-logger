@@ -54,8 +54,7 @@ def write_message_logs(message: Dict) -> None:
 
 def write_config_log(config: Dict) -> None:
     """Write config logs"""
-    config_to_write = json.loads(config)
-    log, _ = format_custom_logs(keys=[], raw_log=config_to_write, log_type="config")
+    log, _ = format_custom_logs(keys=[], raw_log=config, log_type="config")
     write_log(log)
 
 
