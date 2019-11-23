@@ -1,5 +1,5 @@
-from typing import Dict, Optional
 import time
+from typing import Dict, Optional
 
 from ml_logger import filesystem_logger as fs_log
 
@@ -9,10 +9,12 @@ class LogBook:
 
     def __init__(self, logbook_config: Dict, config: Dict) -> "LogBook":
         self.id = logbook_config["id"]
+        self.logger_name = logbook_config["name"]
         fs_log.set_logger(
             logger_file_path=logbook_config["logger_file_path"],
-            logger_name=logbook_config["name"],
+            logger_name=self.logger_name,
         )
+
         self.logging_idx_key = logbook_config["logging_idx_key"]
         self.config = config
         # self.tensorboard_writer = None
@@ -35,12 +37,12 @@ class LogBook:
         if config is None:
             config = self.config
         processed_config = self.preprocess_log(config)
-        fs_log.write_config_log(processed_config)
+        fs_log.write_config_log(processed_config, logger_name=self.logger_name)
 
     def write_metric_logs(self, metrics: Dict) -> None:
         """Write Metric to the filesystem"""
         processed_metrics = self.preprocess_log(metrics)
-        fs_log.write_metric_logs(processed_metrics)
+        fs_log.write_metric_logs(processed_metrics, logger_name=self.logger_name)
         # if self.should_use_tb:
 
         #     timestep_key = "num_timesteps"
@@ -58,12 +60,12 @@ class LogBook:
     def write_message_logs(self, message) -> None:
         """Write message logs"""
         processed_message = self.preprocess_log(message)
-        fs_log.write_message_logs(processed_message)
+        fs_log.write_message_logs(processed_message, logger_name=self.logger_name)
 
     def write_metadata_logs(self, metadata: Dict) -> None:
         """Write metadata"""
         processed_metadata = self.preprocess_log(metadata)
-        fs_log.write_metadata_logs(processed_metadata)
+        fs_log.write_metadata_logs(processed_metadata, logger_name=self.logger_name)
 
 
 def make_config(
@@ -79,6 +81,7 @@ def make_config(
         "id": id,
         "logger_file_path": logger_file_path,
         "logging_idx_key": logging_idx_key,
-        "name": loggger_name,
+        "name": logger_name,
+        "use_multiprocessing_logging": use_multiprocessing_logging,
     }
     return config

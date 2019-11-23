@@ -11,11 +11,11 @@ def format_log(log: Dict) -> str:
     return json.dumps(log)
 
 
-def write_log(log: Dict) -> None:
+def write_log(log: Dict, logger_name: str = "default_logger") -> None:
     """This is the default method to write a log.
     It is assumed that the log has already been processed
      before feeding to this method"""
-    get_logger().info(log)
+    get_logger(logger_name).info(log)
 
 
 def read_log_string(log_string: str) -> Dict:
@@ -46,31 +46,32 @@ def format_custom_logs(
     return format_log(log), log
 
 
-def write_message_logs(message: Dict) -> None:
+def write_message_logs(message: Dict, logger_name: str = "default_logger") -> None:
     """"Write message logs"""
     log, _ = format_custom_logs(keys=[], raw_log=message, log_type="print")
-    write_log(log)
+    write_log(log, logger_name=logger_name)
 
 
-def write_config_log(config: Dict) -> None:
+
+def write_config_log(config: Dict, logger_name: str = "default_logger") -> None:
     """Write config logs"""
     log, _ = format_custom_logs(keys=[], raw_log=config, log_type="config")
-    write_log(log)
+    write_log(log, logger_name=logger_name)
 
 
-def write_metric_logs(metric: Dict) -> None:
+def write_metric_logs(metric: Dict, logger_name: str = "default_logger") -> None:
     """Write metric logs"""
     keys = []
     log, _ = format_custom_logs(
         keys=keys, raw_log=flatten_dict(metric), log_type="metric"
     )
-    write_log(log)
+    write_log(log, logger_name=logger_name)
 
 
-def write_metadata_logs(metadata: Dict) -> None:
+def write_metadata_logs(metadata: Dict, logger_name: str = "default_logger") -> None:
     """Write metadata logs"""
     log, _ = format_custom_logs(keys=[], raw_log=metadata, log_type="metadata")
-    write_log(log)
+    write_log(log, logger_name=logger_name)
 
 
 def pprint(config: Dict) -> None:
@@ -79,7 +80,8 @@ def pprint(config: Dict) -> None:
 
 
 def set_logger(
-    logger_file_path: str, logger_name: str = "default_logger"
+    logger_file_path: str,
+    logger_name: str = "default_logger",
 ) -> logging.RootLogger:
     """Modified from
     https://docs.python.org/3/howto/logging-cookbook.html"""
@@ -101,6 +103,6 @@ def set_logger(
     return logger
 
 
-def get_logger() -> logging.RootLogger:
+def get_logger(logger_name: str = "default_logger") -> logging.RootLogger:
     """get logger"""
-    return logging.getLogger("default_logger")
+    return logging.getLogger(logger_name)
