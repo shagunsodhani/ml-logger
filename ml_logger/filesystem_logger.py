@@ -78,10 +78,12 @@ def pprint(config: Dict) -> None:
     print(json.dumps(config, indent=4))
 
 
-def set_logger(logger_file_path: str) -> logging.RootLogger:
+def set_logger(
+    logger_file_path: str, logger_name: str = "default_logger"
+) -> logging.RootLogger:
     """Modified from
     https://docs.python.org/3/howto/logging-cookbook.html"""
-    logger = logging.getLogger("default_logger")
+    logger = logging.getLogger(logger_name)
     logger.setLevel(logging.INFO)
     # create file handler which logs all the messages
     file_handler = logging.FileHandler(logger_file_path)

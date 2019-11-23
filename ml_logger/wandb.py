@@ -96,13 +96,15 @@ def make_config(
     wandb_entity: str,
     wandb_dir: str,
     id: str = "0",
+    logger_name: str = "default_logger",
 ) -> Dict:
     """Method to prepare the config dict that will be passed to
     the Logbook constructor"""
     config = logbook.make_config(
-        logger_file_path=logger_file_path, 
+        logger_file_path=logger_file_path,
         id=id,
-        logging_idx_key=logging_idx_key
+        logging_idx_key=logging_idx_key,
+        logger_name=logger_name,
     )
     config["wandb"] = {
         "notes": wandb_notes,

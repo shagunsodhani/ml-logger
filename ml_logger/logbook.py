@@ -9,7 +9,10 @@ class LogBook:
 
     def __init__(self, logbook_config: Dict, config: Dict) -> "LogBook":
         self.id = logbook_config["id"]
-        fs_log.set_logger(logger_file_path=logbook_config["logger_file_path"])
+        fs_log.set_logger(
+            logger_file_path=logbook_config["logger_file_path"],
+            logger_name=logbook_config["name"],
+        )
         self.logging_idx_key = logbook_config["logging_idx_key"]
         self.config = config
         # self.tensorboard_writer = None
@@ -63,14 +66,19 @@ class LogBook:
         fs_log.write_metadata_logs(processed_metadata)
 
 
-def make_config(logger_file_path: str, id: str = "0", 
-                logging_idx_key: str = "minibatch_idx") -> Dict:
+def make_config(
+    logger_file_path: str,
+    id: str = "0",
+    logging_idx_key: str = "minibatch_idx",
+    logger_name: str = "default_logger",
+) -> Dict:
     """Method to prepare the config dict that will be passed to
     the Logbook constructor.
     `id` flag is useful when using multi-processing"""
     config = {
-        "id": id, 
+        "id": id,
         "logger_file_path": logger_file_path,
-        "logging_idx_key": logging_idx_key
-        }
+        "logging_idx_key": logging_idx_key,
+        "name": loggger_name,
+    }
     return config
