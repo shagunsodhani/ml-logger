@@ -54,6 +54,12 @@ def write_message_logs(message: Dict, logger_name: str = "default_logger") -> No
     write_log(log, logger_name=logger_name)
 
 
+def write_message(message: str, logger_name: str = "default_logger") -> None:
+    """"Write message"""
+    message = {"message": message}
+    log, _ = format_custom_logs(keys=[], raw_log=message, log_type="print")
+    write_log(log, logger_name=logger_name)
+
 
 def write_config_log(config: Dict, logger_name: str = "default_logger") -> None:
     """Write config logs"""
