@@ -1,14 +1,14 @@
 """Wrapper over wandb api"""
 
 
-import wandb
-
 import json
 from typing import Dict
 
+import wandb
+
 from ml_logger import filesystem_logger as fs_log
-from ml_logger.utils import flatten_dict, make_dir
 from ml_logger import logbook
+from ml_logger.utils import flatten_dict, make_dir
 
 
 class WandbLogBook(logbook.LogBook):
