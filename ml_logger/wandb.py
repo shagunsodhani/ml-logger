@@ -97,6 +97,7 @@ def make_config(
     wandb_dir: str,
     id: str = "0",
     logger_name: str = "default_logger",
+    use_multiprocessing_logging: bool = False,
 ) -> Dict:
     """Method to prepare the config dict that will be passed to
     the Logbook constructor"""
@@ -105,6 +106,7 @@ def make_config(
         id=id,
         logging_idx_key=logging_idx_key,
         logger_name=logger_name,
+        use_multiprocessing_logging=use_multiprocessing_logging,
     )
     config["wandb"] = {
         "notes": wandb_notes,

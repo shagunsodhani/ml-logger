@@ -3,6 +3,8 @@ import json
 import logging
 from typing import Dict, List, Tuple
 
+import multiprocessing_logging
+
 from ml_logger.utils import flatten_dict
 
 
@@ -82,11 +84,14 @@ def pprint(config: Dict) -> None:
 def set_logger(
     logger_file_path: str,
     logger_name: str = "default_logger",
+    use_multiprocessing_logging: bool = False,
 ) -> logging.RootLogger:
     """Modified from
     https://docs.python.org/3/howto/logging-cookbook.html"""
     logger = logging.getLogger(logger_name)
     logger.setLevel(logging.INFO)
+    if use_multiprocessing_logging:
+        multiprocessing_logging.install_mp_handler()
     # create file handler which logs all the messages
     file_handler = logging.FileHandler(logger_file_path)
     file_handler.setLevel(logging.INFO)

@@ -13,6 +13,7 @@ class LogBook:
         fs_log.set_logger(
             logger_file_path=logbook_config["logger_file_path"],
             logger_name=self.logger_name,
+            use_multiprocessing_logging=logbook_config["use_multiprocessing_logging"],
         )
 
         self.logging_idx_key = logbook_config["logging_idx_key"]
@@ -73,6 +74,7 @@ def make_config(
     id: str = "0",
     logging_idx_key: str = "minibatch_idx",
     logger_name: str = "default_logger",
+    use_multiprocessing_logging: bool = False,
 ) -> Dict:
     """Method to prepare the config dict that will be passed to
     the Logbook constructor.

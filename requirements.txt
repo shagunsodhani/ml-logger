@@ -1,2 +1,4 @@
 black==19.10b
 mypy==0.740
+multiprocessing-logging==0.3.0
+
