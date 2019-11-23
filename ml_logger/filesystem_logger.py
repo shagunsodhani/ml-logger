@@ -24,7 +24,7 @@ def read_log_string(log_string: str) -> Dict:
     """This is the single point to read any log message from the file.
      All the log messages are persisted as json strings in the filesystem"""
     try:
-        data = json.loads(log)
+        data = json.loads(log_string)
     except json.JSONDecodeError as _:
         data = {}
     if data["type"] == "print":

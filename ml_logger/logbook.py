@@ -58,8 +58,9 @@ class LogBook:
         """Write Compute Logs"""
         return self.write_metric_logs(metrics=metrics)
 
-    def write_message_logs(self, message) -> None:
+    def write_message_logs(self, message: str) -> None:
         """Write message logs"""
+        message = {"messgae": message}
         processed_message = self.preprocess_log(message)
         fs_log.write_message_logs(processed_message, logger_name=self.logger_name)
 
