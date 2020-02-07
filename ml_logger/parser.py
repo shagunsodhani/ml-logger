@@ -21,6 +21,12 @@ def error_handler_when_parsing_log_file(
     return None
 
 
+def silent_error_handler_when_parsing_log_file(
+    line: str, error: json.decoder.JSONDecodeError
+) -> Optional[LogType]:
+    return None
+
+
 def transform_log(log: LogType) -> LogType:
     return log
 
