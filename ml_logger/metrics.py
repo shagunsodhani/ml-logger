@@ -2,8 +2,7 @@
 
 from typing import Any, Dict, Iterable, Optional, TypeVar, Union
 
-ValueType = Union[str, int, float]
-NumType = Union[int, float]
+from ml_logger.types import NumType, ValueType
 
 
 class BaseMetric:
