@@ -3,26 +3,28 @@ import json
 import logging
 from typing import Dict, List, Tuple
 
-import multiprocessing_logging
-
+from ml_logger.types import ValueType
 from ml_logger.utils import flatten_dict
 
+LogType = Dict[str, ValueType]
 
-def format_log(log: Dict) -> str:
+
+def format_log(log: LogType) -> str:
     """format the log dict before converting into the json string"""
     return json.dumps(log)
 
 
-def write_log(log: Dict, logger_name: str = "default_logger") -> None:
+def write_log(log_str: str, logger_name: str = "default_logger") -> None:
     """This is the default method to write a log.
     It is assumed that the log has already been processed
      before feeding to this method"""
-    get_logger(logger_name).info(log)
+    get_logger(logger_name).info(log_str)
 
 
-def read_log_string(log_string: str) -> Dict:
+def read_log_string(log_string: str) -> LogType:
     """This is the single point to read any log message from the file.
      All the log messages are persisted as json strings in the filesystem"""
+    data: LogType
     try:
         data = json.loads(log_string)
     except json.JSONDecodeError as _:
@@ -33,71 +35,68 @@ def read_log_string(log_string: str) -> Dict:
 
 
 def format_custom_logs(
-    keys: List[str], raw_log: Dict, log_type: str = "metric"
-) -> Tuple[str, Dict]:
+    keys: List[str], unprocessed_log: LogType, log_type: str = "metric"
+) -> Tuple[str, LogType]:
     """Method to format the custom logs.
     If keys is not empty, only entries appearing in the keys are kept."""
     log = {}
     if keys:
         for key in keys:
-            if key in raw_log:
-                log[key] = raw_log[key]
+            if key in unprocessed_log:
+                log[key] = unprocessed_log[key]
     else:
-        log = raw_log
+        log = unprocessed_log
     log["type"] = log_type
     return format_log(log), log
 
 
-def write_message_logs(message: Dict, logger_name: str = "default_logger") -> None:
+def write_message_logs(message: LogType, logger_name: str = "default_logger") -> None:
     """"Write message logs"""
-    log, _ = format_custom_logs(keys=[], raw_log=message, log_type="print")
-    write_log(log, logger_name=logger_name)
+    log, _ = format_custom_logs(keys=[], unprocessed_log=message, log_type="print")
+    write_log(log_str=log, logger_name=logger_name)
 
 
 def write_message(message: str, logger_name: str = "default_logger") -> None:
     """"Write message"""
-    message = {"message": message}
-    log, _ = format_custom_logs(keys=[], raw_log=message, log_type="print")
-    write_log(log, logger_name=logger_name)
-
-
-def write_config_log(config: Dict, logger_name: str = "default_logger") -> None:
-    """Write config logs"""
-    log, _ = format_custom_logs(keys=[], raw_log=config, log_type="config")
-    write_log(log, logger_name=logger_name)
-
-
-def write_metric_logs(metric: Dict, logger_name: str = "default_logger") -> None:
-    """Write metric logs"""
-    keys = []
+    unprocessed_log = {"message": message}
     log, _ = format_custom_logs(
-        keys=keys, raw_log=flatten_dict(metric), log_type="metric"
+        keys=[], unprocessed_log=unprocessed_log, log_type="print"
     )
-    write_log(log, logger_name=logger_name)
+    write_log(log_str=log, logger_name=logger_name)
 
 
-def write_metadata_logs(metadata: Dict, logger_name: str = "default_logger") -> None:
+def write_config_log(config: LogType, logger_name: str = "default_logger") -> None:
+    """Write config logs"""
+    log, _ = format_custom_logs(keys=[], unprocessed_log=config, log_type="config")
+    write_log(log_str=log, logger_name=logger_name)
+
+
+def write_metric_logs(metric: LogType, logger_name: str = "default_logger") -> None:
+    """Write metric logs"""
+    log, _ = format_custom_logs(
+        keys=[], unprocessed_log=flatten_dict(metric), log_type="metric"
+    )
+    write_log(log_str=log, logger_name=logger_name)
+
+
+def write_metadata_logs(metadata: LogType, logger_name: str = "default_logger") -> None:
     """Write metadata logs"""
-    log, _ = format_custom_logs(keys=[], raw_log=metadata, log_type="metadata")
-    write_log(log, logger_name=logger_name)
+    log, _ = format_custom_logs(keys=[], unprocessed_log=metadata, log_type="metadata")
+    write_log(log_str=log, logger_name=logger_name)
 
 
-def pprint(config: Dict) -> None:
+def pprint(config: LogType) -> None:
     """pretty print a json dict"""
     print(json.dumps(config, indent=4))
 
 
 def set_logger(
-    logger_file_path: str,
-    logger_name: str = "default_logger",
-    use_multiprocessing_logging: bool = False,
-) -> logging.RootLogger:
+    logger_file_path: str, logger_name: str = "default_logger",
+) -> logging.Logger:
     """Modified from
     https://docs.python.org/3/howto/logging-cookbook.html"""
     logger = logging.getLogger(logger_name)
     logger.setLevel(logging.INFO)
-    if use_multiprocessing_logging:
-        multiprocessing_logging.install_mp_handler()
     # create file handler which logs all the messages
     file_handler = logging.FileHandler(logger_file_path)
     file_handler.setLevel(logging.INFO)
@@ -114,6 +113,6 @@ def set_logger(
     return logger
 
 
-def get_logger(logger_name: str = "default_logger") -> logging.RootLogger:
+def get_logger(logger_name: str = "default_logger") -> logging.Logger:
     """get logger"""
     return logging.getLogger(logger_name)
