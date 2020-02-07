@@ -1,6 +1,6 @@
 """List of different type of metrics"""
 
-from typing import Dict, Iterable, Optional, Union
+from typing import Any, Dict, Iterable, Optional, TypeVar, Union
 
 ValueType = Union[str, int, float]
 NumType = Union[int, float]
@@ -11,13 +11,13 @@ class BaseMetric:
 
     def __init__(self, name: str):
         self.name = name
-        self.val = None
+        self.val: ValueType
         self.reset()
 
     def reset(self) -> None:
         self.val = 0
 
-    def update(self) -> None:
+    def update(self, val: Any) -> None:
         pass
 
     def get_val(self) -> ValueType:
@@ -45,7 +45,6 @@ class ConstantMetric(BaseMetric):
 
     def __init__(self, name: str, val: ValueType):
         self.name = name
-        super().__init__(name)
         self.val = val
 
     def reset(self) -> None:
@@ -60,17 +59,17 @@ class AverageMetric(BaseMetric):
 
     def __init__(self, name: str):
         self.name = name
-        self.val = None
-        self.avg = None
-        self.sum = None
-        self.count = None
+        self.val: float
+        self.avg: float
+        self.sum: float
+        self.count: float
         self.reset()
 
-    def reset(self):
-        self.val = 0
-        self.avg = 0
+    def reset(self) -> None:
+        self.val = 0.0
+        self.avg = 0.0
         self.sum = 0.0
-        self.count = 0
+        self.count = 0.0
 
     def update(self, val: NumType, n: int = 1) -> None:
         self.val = val
