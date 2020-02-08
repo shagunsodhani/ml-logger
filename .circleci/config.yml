@@ -23,8 +23,8 @@ jobs:
           command: |
             export NOX_PYTHON_VERSIONS=3.6
             ~/miniconda3/bin/conda create -n ml_logger python=3.6 -q -y
-            ~/miniconda3/bin/conda run -n hydra pip install nox
-            ~/miniconda3/bin/conda run -n hydra python3 -m nox
+            ~/miniconda3/bin/conda run -n ml_logger pip install nox
+            ~/miniconda3/bin/conda run -n ml_logger python3 -m nox
       - run:
           name: "Test ml_logger"
           no_output_timeout: 60m
@@ -49,8 +49,8 @@ jobs:
           command: |
             export NOX_PYTHON_VERSIONS=3.6
             ~/miniconda3/bin/conda create -n ml_logger python=3.7 -q -y
-            ~/miniconda3/bin/conda run -n hydra pip install nox
-            ~/miniconda3/bin/conda run -n hydra python3 -m nox
+            ~/miniconda3/bin/conda run -n ml_logger pip install nox
+            ~/miniconda3/bin/conda run -n ml_logger python3 -m nox
       - run:
           name: "Test ml_logger"
           no_output_timeout: 60m
@@ -75,8 +75,8 @@ jobs:
           command: |
             export NOX_PYTHON_VERSIONS=3.6
             ~/miniconda3/bin/conda create -n ml_logger python=3.8 -q -y
-            ~/miniconda3/bin/conda run -n hydra pip install nox
-            ~/miniconda3/bin/conda run -n hydra python3 -m nox
+            ~/miniconda3/bin/conda run -n ml_logger pip install nox
+            ~/miniconda3/bin/conda run -n ml_logger python3 -m nox
       - run:
           name: "Test ml_logger"
           no_output_timeout: 60m
