@@ -5,67 +5,6 @@
 version: 2
 jobs:
 
-  # Mac
-  py36_mac:
-    macos:
-      xcode: "10.0.0"
-    steps:
-      - checkout
-      - run:
-          name: "Installing Conda"
-          command: |
-            curl -o Miniconda3-latest-MacOSX-x86_64.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
-            bash ./Miniconda3-latest-MacOSX-x86_64.sh -b
-            ~/miniconda3/bin/conda init bash
-      - run:
-          name: "Testing ml_logger"
-          no_output_timeout: 60m
-          command: |
-            export NOX_PYTHON_VERSIONS=3.6
-            ~/miniconda3/bin/conda create -n ml_logger python=3.6 -q -y
-            ~/miniconda3/bin/conda run -n ml_logger pip install nox
-            ~/miniconda3/bin/conda run -n ml_logger python3 -m nox
-  
-  py37_mac:
-    macos:
-      xcode: "10.0.0"
-    steps:
-      - checkout
-      - run:
-          name: "Installing Conda"
-          command: |
-            curl -o Miniconda3-latest-MacOSX-x86_64.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
-            bash ./Miniconda3-latest-MacOSX-x86_64.sh -b
-            ~/miniconda3/bin/conda init bash
-      - run:
-          name: "Testing ml_logger"
-          no_output_timeout: 60m
-          command: |
-            export NOX_PYTHON_VERSIONS=3.7
-            ~/miniconda3/bin/conda create -n ml_logger python=3.7 -q -y
-            ~/miniconda3/bin/conda run -n ml_logger pip install nox
-            ~/miniconda3/bin/conda run -n ml_logger python3 -m nox
-  
-  py38_mac:
-    macos:
-      xcode: "10.0.0"
-    steps:
-      - checkout
-      - run:
-          name: "Installing Conda"
-          command: |
-            curl -o Miniconda3-latest-MacOSX-x86_64.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
-            bash ./Miniconda3-latest-MacOSX-x86_64.sh -b
-            ~/miniconda3/bin/conda init bash
-      - run:
-          name: "Testing ml_logger"
-          no_output_timeout: 60m
-          command: |
-            export NOX_PYTHON_VERSIONS=3.8
-            ~/miniconda3/bin/conda create -n ml_logger python=3.8 -q -y
-            ~/miniconda3/bin/conda run -n ml_logger pip install nox
-            ~/miniconda3/bin/conda run -n ml_logger python3 -m nox
-  
   # Linux
   py36_linux:
     docker:
@@ -106,7 +45,3 @@ workflows:
       - py36_linux
       - py37_linux
       - py38_linux
-      # mac
-      - py36_mac
-      - py37_mac
-      - py38_mac
