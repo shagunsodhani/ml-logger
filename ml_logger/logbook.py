@@ -1,8 +1,8 @@
 import time
-from typing import List, Optional
+from typing import Optional
 
 from ml_logger import filesystem_logger as fs_log
-from ml_logger.types import ConfigType, LogType, MetricType, RemoteMetricType, ValueType
+from ml_logger.types import ConfigType, LogType, MetricType
 
 
 class LogBook:

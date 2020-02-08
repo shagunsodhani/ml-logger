@@ -1,5 +1,5 @@
 import json
-from typing import Callable, Dict, Iterator, List, Optional, Union
+from typing import Callable, Dict, Iterator, List, Optional
 
 import pandas as pd
 
@@ -96,10 +96,10 @@ class Parser:
             [List[LogType]], List[LogType]
         ] = fn_to_merge_metrics,
     ) -> Dict[str, pd.DataFrame]:
-        """Method that: 
-        (i) reads the requested metrics (for each specified mode), 
+        """Method that:
+        (i) reads the requested metrics (for each specified mode),
         (ii) groups metrics
-        (iii) merge all the metrics in a group, 
+        (iii) merge all the metrics in a group,
         (iii) converts the merged metrics into dataframes and returns a list of dataframes.
         """
         metric_logs = list(self.get_metric_logs(log_file_path=log_file_path))

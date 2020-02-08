@@ -1,4 +1,3 @@
-import collections
 import pathlib
 from typing import Any, Dict, List, Tuple
 

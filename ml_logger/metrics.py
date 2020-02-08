@@ -1,6 +1,6 @@
 """List of different type of metrics"""
 
-from typing import Any, Dict, Iterable, Optional, TypeVar, Union
+from typing import Any, Iterable, Optional
 
 from ml_logger.types import LogType, NumType, ValueType
 

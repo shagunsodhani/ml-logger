@@ -2,19 +2,12 @@
 
 
 import json
-from typing import Any, Dict, List, Optional, Union, cast
+from typing import List, cast
 
 import wandb
 from ml_logger import filesystem_logger as fs_log
 from ml_logger import logbook, utils
-from ml_logger.types import (
-    ConfigType,
-    LogType,
-    MetricType,
-    ModelType,
-    RemoteMetricType,
-    ValueType,
-)
+from ml_logger.types import ConfigType, MetricType, ModelType
 
 
 class WandbLogBook(logbook.LogBook):
@@ -22,7 +15,7 @@ class WandbLogBook(logbook.LogBook):
 
     def __init__(self, logbook_config: ConfigType, config: ConfigType):
         """
-        `logbook_config` is the config to initilalize the logbook 
+        `logbook_config` is the config to initilalize the logbook
         `config` is the config for the experiment
         """
         super().__init__(logbook_config=logbook_config, config=config)

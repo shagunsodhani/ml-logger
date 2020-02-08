@@ -1,10 +1,10 @@
 """Logging functions to interface with the filesystem"""
 import json
 import logging
-from typing import List, MutableMapping, Tuple
+from typing import List, Tuple
 
 from ml_logger import utils
-from ml_logger.types import LogType, ValueType
+from ml_logger.types import LogType
 
 
 def serialize_log(log: LogType) -> str:
