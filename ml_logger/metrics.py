@@ -2,7 +2,7 @@
 
 from typing import Any, Dict, Iterable, Optional, TypeVar, Union
 
-from ml_logger.types import NumType, ValueType
+from ml_logger.types import LogType, NumType, ValueType
 
 
 class BaseMetric:
@@ -100,7 +100,7 @@ class MetricDict:
         for key in self._metrics_dict:
             self._metrics_dict[key].reset()
 
-    def update(self, metrics_dict: Dict[str, ValueType]) -> None:
+    def update(self, metrics_dict: LogType) -> None:
         for key, val in metrics_dict.items():
             if key in self._metrics_dict:
                 self._metrics_dict[key].update(val)
@@ -108,6 +108,6 @@ class MetricDict:
     def __str__(self) -> str:
         return "\n".join([repr(val) for key, val in self._metrics_dict.items()])
 
-    def to_dict(self) -> Dict[str, ValueType]:
+    def to_dict(self) -> LogType:
         """Method to get a dict that can be written to the logbook"""
         return {key: val.get_val() for key, val in self._metrics_dict.items()}

@@ -3,8 +3,7 @@ from typing import Callable, Dict, Iterator, List, Optional, Union
 
 import pandas as pd
 
-ValType = Union[str, int, float]
-LogType = Dict[str, ValType]
+from ml_logger.types import LogType, MetricType, ValueType
 
 
 def filter_metric_log(log: LogType) -> bool:
@@ -15,14 +14,14 @@ def filter_metric_log(log: LogType) -> bool:
 
 
 def error_handler_when_parsing_log_file(
-    line: str, error: json.decoder.JSONDecodeError
+    log_line: str, error: json.decoder.JSONDecodeError
 ) -> Optional[LogType]:
-    print(f"Could not parse: {line} because of error: {error}")
+    print(f"Could not parse: {log_line} because of error: {error}")
     return None
 
 
 def silent_error_handler_when_parsing_log_file(
-    line: str, error: json.decoder.JSONDecodeError
+    log_line: str, error: json.decoder.JSONDecodeError
 ) -> Optional[LogType]:
     return None
 
@@ -31,17 +30,17 @@ def transform_log(log: LogType) -> LogType:
     return log
 
 
-def fn_to_group_metrics(metrics: List[LogType]) -> Dict[str, List[LogType]]:
+def fn_to_group_metrics(metrics: List[MetricType]) -> Dict[str, List[LogType]]:
     return {"all": metrics}
 
 
-def fn_to_merge_metrics(metrics: List[LogType]) -> List[LogType]:
+def fn_to_merge_metrics(metrics: List[MetricType]) -> List[LogType]:
     return metrics
 
 
 def map_list_of_dicts_to_dict_of_lists(
-    list_of_dicts: List[Dict[str, ValType]]
-) -> Dict[str, List[Optional[ValType]]]:
+    list_of_dicts: List[Dict[str, ValueType]]
+) -> Dict[str, List[Optional[ValueType]]]:
     if not list_of_dicts:
         return {}
     keys = list_of_dicts[0].keys()
@@ -111,7 +110,9 @@ class Parser:
         }
 
         metric_dfs = {
-            key: pd.DataFrame.from_dict(map_list_of_dicts_to_dict_of_lists(metrics))
+            key: pd.DataFrame.from_dict(
+                data=map_list_of_dicts_to_dict_of_lists(metrics)
+            )
             for key, metrics in merged_metrics.items()
         }
         return metric_dfs

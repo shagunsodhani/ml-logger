@@ -1,16 +1,18 @@
 import collections
 import pathlib
-from typing import Dict
+from typing import Any, Dict, List, Tuple
 
 
-def flatten_dict(d: Dict, parent_key: str = "", sep: str = "#") -> Dict:
+def flatten_dict(
+    d: Dict[str, Any], parent_key: str = "", sep: str = "#"
+) -> Dict[str, Any]:
     """Method to flatten a given dict using the given seperator.
     Taken from https://stackoverflow.com/a/6027615/1353861
     """
-    items = []
+    items: List[Tuple[str, Any]] = []
     for k, v in d.items():
         new_key = parent_key + sep + k if parent_key else k
-        if isinstance(v, collections.MutableMapping):
+        if isinstance(v, dict):
             items.extend(flatten_dict(v, new_key, sep=sep).items())
         else:
             items.append((new_key, v))
