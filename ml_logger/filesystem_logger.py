@@ -19,19 +19,6 @@ def write_log(log_str: str, logger_name: str = "default_logger") -> None:
     get_logger(logger_name=logger_name).info(msg=log_str)
 
 
-def read_log_string(log_string: str) -> LogType:
-    """This is the single point to read any log message from the file.
-     All the log messages are persisted as json strings in the filesystem"""
-    data: LogType
-    try:
-        data = json.loads(s=log_string)
-    except json.JSONDecodeError as _:
-        data = {}
-    if data["type"] == "print":
-        data = {}
-    return data
-
-
 def serialize_custom_log(
     keys_to_serialize: List[str], log: LogType, log_type: str = "metric"
 ) -> Tuple[str, LogType]:
