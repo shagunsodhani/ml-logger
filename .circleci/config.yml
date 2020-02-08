@@ -1,0 +1,112 @@
+# Python CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-python/ for more details
+#
+version: 2
+jobs:
+
+  # Mac
+  py36_mac:
+    macos:
+      xcode: "10.0.0"
+    steps:
+      - checkout
+      - run:
+          name: "Installing Conda"
+          command: |
+            curl -o Miniconda3-latest-MacOSX-x86_64.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
+            bash ./Miniconda3-latest-MacOSX-x86_64.sh -b
+            ~/miniconda3/bin/conda init bash
+      - run:
+          name: "Testing ml_logger"
+          no_output_timeout: 60m
+          command: |
+            export NOX_PYTHON_VERSIONS=3.6
+            ~/miniconda3/bin/conda create -n ml_logger python=3.6 -q -y
+            ~/miniconda3/bin/conda run -n ml_logger pip install nox
+            ~/miniconda3/bin/conda run -n ml_logger python3 -m nox
+  
+  py37_mac:
+    macos:
+      xcode: "10.0.0"
+    steps:
+      - checkout
+      - run:
+          name: "Installing Conda"
+          command: |
+            curl -o Miniconda3-latest-MacOSX-x86_64.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
+            bash ./Miniconda3-latest-MacOSX-x86_64.sh -b
+            ~/miniconda3/bin/conda init bash
+      - run:
+          name: "Testing ml_logger"
+          no_output_timeout: 60m
+          command: |
+            export NOX_PYTHON_VERSIONS=3.7
+            ~/miniconda3/bin/conda create -n ml_logger python=3.7 -q -y
+            ~/miniconda3/bin/conda run -n ml_logger pip install nox
+            ~/miniconda3/bin/conda run -n ml_logger python3 -m nox
+  
+  py38_mac:
+    macos:
+      xcode: "10.0.0"
+    steps:
+      - checkout
+      - run:
+          name: "Installing Conda"
+          command: |
+            curl -o Miniconda3-latest-MacOSX-x86_64.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
+            bash ./Miniconda3-latest-MacOSX-x86_64.sh -b
+            ~/miniconda3/bin/conda init bash
+      - run:
+          name: "Testing ml_logger"
+          no_output_timeout: 60m
+          command: |
+            export NOX_PYTHON_VERSIONS=3.8
+            ~/miniconda3/bin/conda create -n ml_logger python=3.8 -q -y
+            ~/miniconda3/bin/conda run -n ml_logger pip install nox
+            ~/miniconda3/bin/conda run -n ml_logger python3 -m nox
+  
+  # Linux
+  py36_linux:
+    docker:
+      - image: circleci/python:3.6
+    steps:
+      - checkout
+      - run: sudo apt-get install -y expect
+      - run: echo 'export NOX_PYTHON_VERSIONS=3.6' >> $BASH_ENV
+      - run: sudo pip install nox
+      - run: nox
+
+  py37_linux:
+    docker:
+      - image: circleci/python:3.7
+    steps:
+      - checkout
+      - run: sudo apt-get install -y expect
+      - run: echo 'export NOX_PYTHON_VERSIONS=3.7' >> $BASH_ENV
+      - run: sudo pip install nox
+      - run: nox
+
+  py38_linux:
+    docker:
+      - image: circleci/python:3.8
+    steps:
+      - checkout
+      - run: sudo apt-get install -y expect
+      - run: echo 'export NOX_PYTHON_VERSIONS=3.8' >> $BASH_ENV
+      - run: sudo pip install nox
+      - run: nox
+
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      # linux
+      - py36_linux
+      - py37_linux
+      - py38_linux
+      # mac
+      - py36_mac
+      - py37_mac
+      - py38_mac
