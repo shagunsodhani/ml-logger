@@ -1,10 +1,8 @@
-black==19.10b
-mypy==0.740
-multiprocessing-logging==0.3.0
 pandas==0.25.3
-numpy==1.17.5
-matplotlib==3.1.2
 flake8==3.7.9
 flake8-bugbear==20.1.4
 flake8-comprehensions==3.2.2
 nox==2019.11.9
+typing-extensions==3.7.4.1
+black==19.10b
+mypy==0.740
