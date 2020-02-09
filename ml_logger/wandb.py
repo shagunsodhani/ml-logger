@@ -17,7 +17,7 @@ class WandbLogBook(logbook.LogBook):
         logs to Wandb and filesystem
 
     Args:
-        logbook ([type]): This class provides an interface to perist the
+        logbook.LogBook: This class provides an interface to persist the
             logs to the filesystem
     """
 
