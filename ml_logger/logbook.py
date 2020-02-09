@@ -4,7 +4,7 @@ This class provides an interface to persist the logs on the filesystem
 
 """
 import time
-from typing import List, NoReturn, Optional
+from typing import List, Optional
 
 from ml_logger import filesystem_logger as fs_log
 from ml_logger.types import ConfigType, LogType, MetricType
@@ -42,9 +42,7 @@ class LogBook:
         )
         self.config = config
 
-    def _log_metric_to_remote(
-        self, metric: MetricType, metadata: ConfigType
-    ) -> NoReturn:
+    def _log_metric_to_remote(self, metric: MetricType, metadata: ConfigType) -> None:
         """Log metric to remote backend
 
         Args:
