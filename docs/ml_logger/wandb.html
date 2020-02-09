@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.7.4" />
+<title>ml_logger.wandb API documentation</title>
+<meta name="description" content="Implementation of the `WandbLogBook` class …" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>ml_logger.wandb</code></h1>
+</header>
+<section id="section-intro">
+<p>Implementation of the <a title="ml_logger.wandb.WandbLogBook" href="#ml_logger.wandb.WandbLogBook"><code>WandbLogBook</code></a> class</p>
+<p>This class provides an interface to persist the logs on Wandb and
+filesystem</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Implementation of the `WandbLogBook` class
+
+This class provides an interface to persist the logs on Wandb and
+filesystem
+&#34;&#34;&#34;
+
+import json
+from typing import List, Optional, cast
+
+import wandb
+from ml_logger import logbook, utils
+from ml_logger.types import ConfigType, MetricType, ModelType
+
+
+class WandbLogBook(logbook.LogBook):
+    &#34;&#34;&#34;This class provides an interface for the experiments to persist
+        logs to Wandb and filesystem
+
+    Args:
+        logbook.LogBook: This class provides an interface to persist the
+            logs to the filesystem
+    &#34;&#34;&#34;
+
+    def __init__(
+        self,
+        logbook_config: ConfigType,
+        config: ConfigType,
+        metrics_to_log_remotely: Optional[List[str]] = None,
+    ):
+        &#34;&#34;&#34;Initialise the `WandbLogBook` class
+
+        Args:
+            logbook_config (ConfigType): Config to initialise the
+                `WandbLogBook` class. The logbook config must have the
+                following keys:
+                * `logger_file_path`: Path to the file, where the
+                    logs will be written
+                * `logging_idx_key`: The key (in `log`) to use as the
+                    `step` key for wandb
+                    Refer https://docs.wandb.com/library/python/log
+                * `wandb_notes`:
+                    Refer https://docs.wandb.com/library/python/init
+                * `wandb_project`:
+                    Refer https://docs.wandb.com/library/python/init
+                * `wandb_name`:
+                    Refer https://docs.wandb.com/library/python/init
+                * `wandb_entity`:
+                    Refer https://docs.wandb.com/library/python/init
+                * `wandb_dir`:
+                    Refer https://docs.wandb.com/library/python/init
+                * `id`: Id of the current `LogBook` instance
+                * `logger_name`: Name of the logger
+            config (ConfigType): config corresponding to the ml experiment
+                creating the logbook
+            metrics_to_log_remotely (List[str]): Name of the metrics that
+                will be logged in wandb. If None is passed, all metrics
+                are logged. Defaults to None
+        &#34;&#34;&#34;
+        super().__init__(logbook_config=logbook_config, config=config)
+        self.logging_idx_key = logbook_config[&#34;logging_idx_key&#34;]
+        self.metrics_to_log_remotely = metrics_to_log_remotely
+
+        flattened_config = utils.flatten_dict(d=config, sep=&#34;_&#34;)
+
+        wandb.init(
+            config=flattened_config,
+            notes=logbook_config[&#34;wandb&#34;][&#34;notes&#34;],
+            project=logbook_config[&#34;wandb&#34;][&#34;project&#34;],
+            name=logbook_config[&#34;wandb&#34;][&#34;name&#34;],
+            entity=logbook_config[&#34;wandb&#34;][&#34;entity&#34;],
+            dir=logbook_config[&#34;wandb&#34;][&#34;dir&#34;],
+        )
+
+        dir_to_save_config = f&#34;{wandb.run.dir}/config&#34;
+        utils.make_dir(path=dir_to_save_config)
+
+        with open(
+            f&#34;{dir_to_save_config}/{logbook_config[&#39;wandb&#39;][&#39;name&#39;]}.yaml&#34;, &#34;w&#34;
+        ) as f:
+            f.write(json.dumps(config, indent=4))
+
+    def _log_metric_to_remote(self, metric: MetricType, metadata: ConfigType) -&gt; None:
+        &#34;&#34;&#34;Log metric to remote backend
+
+        Args:
+            metric (MetricType): metric to log
+            metadata (ConfigType): metadata that is used to interface
+                with the remote backend
+        &#34;&#34;&#34;
+        prefix = cast(&#34;str&#34;, metric.get(&#34;prefix&#34;))
+        step = cast(&#34;int&#34;, metric.get(&#34;step&#34;))
+        formatted_metric: MetricType = {}
+        if prefix == &#34;&#34;:
+            formatted_metric = metric
+        else:
+            for key, val in metric.items():
+                formatted_metric[prefix + &#34;_&#34; + key] = val
+        wandb.log(formatted_metric, step=step)
+
+    def write_metric_log(self, metric: MetricType) -&gt; None:
+        &#34;&#34;&#34;Write metric log to filesystem and wandb
+
+        Args:
+            metric (MetricType): metric to write
+
+        &#34;&#34;&#34;
+        processed_metric = self._process_log(log=metric)
+        super().write_metric_log(metric=processed_metric)
+        if self.metrics_to_log_remotely is not None:
+            metric_to_log = {
+                key: metric[key]
+                for key in self.metrics_to_log_remotely
+                if key in metric
+            }
+        else:
+            metric_to_log = metric
+        prefix = metric.get(&#34;mode&#34;, &#34;&#34;)
+        logging_idx = metric.pop(self.logging_idx_key)
+        self._log_metric_to_remote(
+            metric=metric_to_log, metadata={&#34;prefix&#34;: prefix, &#34;step&#34;: logging_idx}
+        )
+
+    def write_compute_log(self, metric: MetricType) -&gt; None:
+        &#34;&#34;&#34;Write compute log to filesystem and wandb
+
+        Args:
+            metric (MetricType): Compute metric to write
+
+        &#34;&#34;&#34;
+        super().write_compute_log(metric=metric)
+        num_timesteps = metric.pop(&#34;num_timesteps&#34;)
+        self._log_metric_to_remote(
+            metric=metric, metadata={&#34;step&#34;: num_timesteps, &#34;prefix&#34;: &#34;compute&#34;}
+        )
+
+    def watch_model(self, model: ModelType) -&gt; None:
+        &#34;&#34;&#34;Track the gradients of the model
+
+        Args:
+            model (ModelType): model to track gradients of
+        &#34;&#34;&#34;
+
+        wandb.watch(models=model, log=&#34;all&#34;)
+
+
+def make_config(
+    logger_file_path: str,
+    logging_idx_key: str,
+    wandb_notes: str,
+    wandb_project: str,
+    wandb_name: str,
+    wandb_entity: str,
+    wandb_dir: str,
+    id: str = &#34;0&#34;,
+    logger_name: str = &#34;default_logger&#34;,
+) -&gt; ConfigType:
+    &#34;&#34;&#34;Make a config that can be passed to the `WandbLogBook` constructor
+
+    Args:
+        logger_file_path (str): Path to the file, where the logs
+            will be written
+        logging_idx_key (str): The key (in `log`) to use as the `step` key
+            for wandb. Refer https://docs.wandb.com/library/python/log
+        wandb_notes (str): Refer https://docs.wandb.com/library/python/init
+        wandb_project (str): Refer https://docs.wandb.com/library/python/init
+        wandb_name (str): Refer https://docs.wandb.com/library/python/init
+        wandb_entity (str): Refer https://docs.wandb.com/library/python/init
+        wandb_dir (str): Refer https://docs.wandb.com/library/python/init
+        id (str, optional): Id of the current `LogBook` instance. Defaults
+            to &#34;0&#34;
+        logger_name (str, optional): Name of the logger. Defaults to
+            &#34;default_logger&#34;
+
+    Returns:
+        ConfigType: `config` to construct the `WandbLogBook`
+    &#34;&#34;&#34;
+    config = logbook.make_config(
+        logger_file_path=logger_file_path, id=id, logger_name=logger_name,
+    )
+    config[&#34;logging_idx_key&#34;] = logging_idx_key
+    config[&#34;wandb&#34;] = {
+        &#34;notes&#34;: wandb_notes,
+        &#34;project&#34;: wandb_project,
+        &#34;name&#34;: wandb_name,
+        &#34;entity&#34;: wandb_entity,
+        &#34;dir&#34;: wandb_dir,
+    }
+
+    return config</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="ml_logger.wandb.make_config"><code class="name flex">
+<span>def <span class="ident">make_config</span></span>(<span>logger_file_path, logging_idx_key, wandb_notes, wandb_project, wandb_name, wandb_entity, wandb_dir, id='0', logger_name='default_logger')</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Make a config that can be passed to the <a title="ml_logger.wandb.WandbLogBook" href="#ml_logger.wandb.WandbLogBook"><code>WandbLogBook</code></a> constructor</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>logger_file_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>Path to the file, where the logs
+will be written</dd>
+<dt><strong><code>logging_idx_key</code></strong> :&ensp;<code>str</code></dt>
+<dd>The key (in <code>log</code>) to use as the <code>step</code> key
+for wandb. Refer <a href="https://docs.wandb.com/library/python/log">https://docs.wandb.com/library/python/log</a></dd>
+<dt><strong><code>wandb_notes</code></strong> :&ensp;<code>str</code></dt>
+<dd>Refer <a href="https://docs.wandb.com/library/python/init">https://docs.wandb.com/library/python/init</a></dd>
+<dt><strong><code>wandb_project</code></strong> :&ensp;<code>str</code></dt>
+<dd>Refer <a href="https://docs.wandb.com/library/python/init">https://docs.wandb.com/library/python/init</a></dd>
+<dt><strong><code>wandb_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Refer <a href="https://docs.wandb.com/library/python/init">https://docs.wandb.com/library/python/init</a></dd>
+<dt><strong><code>wandb_entity</code></strong> :&ensp;<code>str</code></dt>
+<dd>Refer <a href="https://docs.wandb.com/library/python/init">https://docs.wandb.com/library/python/init</a></dd>
+<dt><strong><code>wandb_dir</code></strong> :&ensp;<code>str</code></dt>
+<dd>Refer <a href="https://docs.wandb.com/library/python/init">https://docs.wandb.com/library/python/init</a></dd>
+<dt><strong><code>id</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Id of the current <code>LogBook</code> instance. Defaults
+to "0"</dd>
+<dt><strong><code>logger_name</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Name of the logger. Defaults to
+"default_logger"</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>ConfigType</code></strong></dt>
+<dd><code>config</code> to construct the <a title="ml_logger.wandb.WandbLogBook" href="#ml_logger.wandb.WandbLogBook"><code>WandbLogBook</code></a></dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def make_config(
+    logger_file_path: str,
+    logging_idx_key: str,
+    wandb_notes: str,
+    wandb_project: str,
+    wandb_name: str,
+    wandb_entity: str,
+    wandb_dir: str,
+    id: str = &#34;0&#34;,
+    logger_name: str = &#34;default_logger&#34;,
+) -&gt; ConfigType:
+    &#34;&#34;&#34;Make a config that can be passed to the `WandbLogBook` constructor
+
+    Args:
+        logger_file_path (str): Path to the file, where the logs
+            will be written
+        logging_idx_key (str): The key (in `log`) to use as the `step` key
+            for wandb. Refer https://docs.wandb.com/library/python/log
+        wandb_notes (str): Refer https://docs.wandb.com/library/python/init
+        wandb_project (str): Refer https://docs.wandb.com/library/python/init
+        wandb_name (str): Refer https://docs.wandb.com/library/python/init
+        wandb_entity (str): Refer https://docs.wandb.com/library/python/init
+        wandb_dir (str): Refer https://docs.wandb.com/library/python/init
+        id (str, optional): Id of the current `LogBook` instance. Defaults
+            to &#34;0&#34;
+        logger_name (str, optional): Name of the logger. Defaults to
+            &#34;default_logger&#34;
+
+    Returns:
+        ConfigType: `config` to construct the `WandbLogBook`
+    &#34;&#34;&#34;
+    config = logbook.make_config(
+        logger_file_path=logger_file_path, id=id, logger_name=logger_name,
+    )
+    config[&#34;logging_idx_key&#34;] = logging_idx_key
+    config[&#34;wandb&#34;] = {
+        &#34;notes&#34;: wandb_notes,
+        &#34;project&#34;: wandb_project,
+        &#34;name&#34;: wandb_name,
+        &#34;entity&#34;: wandb_entity,
+        &#34;dir&#34;: wandb_dir,
+    }
+
+    return config</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="ml_logger.wandb.WandbLogBook"><code class="flex name class">
+<span>class <span class="ident">WandbLogBook</span></span>
+<span>(</span><span>logbook_config, config, metrics_to_log_remotely=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This class provides an interface for the experiments to persist
+logs to Wandb and filesystem</p>
+<h2 id="args">Args</h2>
+<p>logbook.LogBook: This class provides an interface to persist the
+logs to the filesystem
+Initialise the <a title="ml_logger.wandb.WandbLogBook" href="#ml_logger.wandb.WandbLogBook"><code>WandbLogBook</code></a> class</p>
+<h2 id="args_1">Args</h2>
+<dl>
+<dt><strong><code>logbook_config</code></strong> :&ensp;<code>ConfigType</code></dt>
+<dd>Config to initialise the
+<a title="ml_logger.wandb.WandbLogBook" href="#ml_logger.wandb.WandbLogBook"><code>WandbLogBook</code></a> class. The logbook config must have the
+following keys:
+* <code>logger_file_path</code>: Path to the file, where the
+logs will be written
+* <code>logging_idx_key</code>: The key (in <code>log</code>) to use as the
+<code>step</code> key for wandb
+Refer <a href="https://docs.wandb.com/library/python/log">https://docs.wandb.com/library/python/log</a>
+* <code>wandb_notes</code>:
+Refer <a href="https://docs.wandb.com/library/python/init">https://docs.wandb.com/library/python/init</a>
+* <code>wandb_project</code>:
+Refer <a href="https://docs.wandb.com/library/python/init">https://docs.wandb.com/library/python/init</a>
+* <code>wandb_name</code>:
+Refer <a href="https://docs.wandb.com/library/python/init">https://docs.wandb.com/library/python/init</a>
+* <code>wandb_entity</code>:
+Refer <a href="https://docs.wandb.com/library/python/init">https://docs.wandb.com/library/python/init</a>
+* <code>wandb_dir</code>:
+Refer <a href="https://docs.wandb.com/library/python/init">https://docs.wandb.com/library/python/init</a>
+* <code>id</code>: Id of the current <code>LogBook</code> instance
+* <code>logger_name</code>: Name of the logger</dd>
+<dt><strong><code>config</code></strong> :&ensp;<code>ConfigType</code></dt>
+<dd>config corresponding to the ml experiment
+creating the logbook</dd>
+<dt><strong><code>metrics_to_log_remotely</code></strong> :&ensp;<code>List</code>[<code>str</code>]</dt>
+<dd>Name of the metrics that
+will be logged in wandb. If None is passed, all metrics
+are logged. Defaults to None</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class WandbLogBook(logbook.LogBook):
+    &#34;&#34;&#34;This class provides an interface for the experiments to persist
+        logs to Wandb and filesystem
+
+    Args:
+        logbook.LogBook: This class provides an interface to persist the
+            logs to the filesystem
+    &#34;&#34;&#34;
+
+    def __init__(
+        self,
+        logbook_config: ConfigType,
+        config: ConfigType,
+        metrics_to_log_remotely: Optional[List[str]] = None,
+    ):
+        &#34;&#34;&#34;Initialise the `WandbLogBook` class
+
+        Args:
+            logbook_config (ConfigType): Config to initialise the
+                `WandbLogBook` class. The logbook config must have the
+                following keys:
+                * `logger_file_path`: Path to the file, where the
+                    logs will be written
+                * `logging_idx_key`: The key (in `log`) to use as the
+                    `step` key for wandb
+                    Refer https://docs.wandb.com/library/python/log
+                * `wandb_notes`:
+                    Refer https://docs.wandb.com/library/python/init
+                * `wandb_project`:
+                    Refer https://docs.wandb.com/library/python/init
+                * `wandb_name`:
+                    Refer https://docs.wandb.com/library/python/init
+                * `wandb_entity`:
+                    Refer https://docs.wandb.com/library/python/init
+                * `wandb_dir`:
+                    Refer https://docs.wandb.com/library/python/init
+                * `id`: Id of the current `LogBook` instance
+                * `logger_name`: Name of the logger
+            config (ConfigType): config corresponding to the ml experiment
+                creating the logbook
+            metrics_to_log_remotely (List[str]): Name of the metrics that
+                will be logged in wandb. If None is passed, all metrics
+                are logged. Defaults to None
+        &#34;&#34;&#34;
+        super().__init__(logbook_config=logbook_config, config=config)
+        self.logging_idx_key = logbook_config[&#34;logging_idx_key&#34;]
+        self.metrics_to_log_remotely = metrics_to_log_remotely
+
+        flattened_config = utils.flatten_dict(d=config, sep=&#34;_&#34;)
+
+        wandb.init(
+            config=flattened_config,
+            notes=logbook_config[&#34;wandb&#34;][&#34;notes&#34;],
+            project=logbook_config[&#34;wandb&#34;][&#34;project&#34;],
+            name=logbook_config[&#34;wandb&#34;][&#34;name&#34;],
+            entity=logbook_config[&#34;wandb&#34;][&#34;entity&#34;],
+            dir=logbook_config[&#34;wandb&#34;][&#34;dir&#34;],
+        )
+
+        dir_to_save_config = f&#34;{wandb.run.dir}/config&#34;
+        utils.make_dir(path=dir_to_save_config)
+
+        with open(
+            f&#34;{dir_to_save_config}/{logbook_config[&#39;wandb&#39;][&#39;name&#39;]}.yaml&#34;, &#34;w&#34;
+        ) as f:
+            f.write(json.dumps(config, indent=4))
+
+    def _log_metric_to_remote(self, metric: MetricType, metadata: ConfigType) -&gt; None:
+        &#34;&#34;&#34;Log metric to remote backend
+
+        Args:
+            metric (MetricType): metric to log
+            metadata (ConfigType): metadata that is used to interface
+                with the remote backend
+        &#34;&#34;&#34;
+        prefix = cast(&#34;str&#34;, metric.get(&#34;prefix&#34;))
+        step = cast(&#34;int&#34;, metric.get(&#34;step&#34;))
+        formatted_metric: MetricType = {}
+        if prefix == &#34;&#34;:
+            formatted_metric = metric
+        else:
+            for key, val in metric.items():
+                formatted_metric[prefix + &#34;_&#34; + key] = val
+        wandb.log(formatted_metric, step=step)
+
+    def write_metric_log(self, metric: MetricType) -&gt; None:
+        &#34;&#34;&#34;Write metric log to filesystem and wandb
+
+        Args:
+            metric (MetricType): metric to write
+
+        &#34;&#34;&#34;
+        processed_metric = self._process_log(log=metric)
+        super().write_metric_log(metric=processed_metric)
+        if self.metrics_to_log_remotely is not None:
+            metric_to_log = {
+                key: metric[key]
+                for key in self.metrics_to_log_remotely
+                if key in metric
+            }
+        else:
+            metric_to_log = metric
+        prefix = metric.get(&#34;mode&#34;, &#34;&#34;)
+        logging_idx = metric.pop(self.logging_idx_key)
+        self._log_metric_to_remote(
+            metric=metric_to_log, metadata={&#34;prefix&#34;: prefix, &#34;step&#34;: logging_idx}
+        )
+
+    def write_compute_log(self, metric: MetricType) -&gt; None:
+        &#34;&#34;&#34;Write compute log to filesystem and wandb
+
+        Args:
+            metric (MetricType): Compute metric to write
+
+        &#34;&#34;&#34;
+        super().write_compute_log(metric=metric)
+        num_timesteps = metric.pop(&#34;num_timesteps&#34;)
+        self._log_metric_to_remote(
+            metric=metric, metadata={&#34;step&#34;: num_timesteps, &#34;prefix&#34;: &#34;compute&#34;}
+        )
+
+    def watch_model(self, model: ModelType) -&gt; None:
+        &#34;&#34;&#34;Track the gradients of the model
+
+        Args:
+            model (ModelType): model to track gradients of
+        &#34;&#34;&#34;
+
+        wandb.watch(models=model, log=&#34;all&#34;)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="ml_logger.logbook.LogBook" href="logbook.html#ml_logger.logbook.LogBook">LogBook</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="ml_logger.wandb.WandbLogBook.watch_model"><code class="name flex">
+<span>def <span class="ident">watch_model</span></span>(<span>self, model)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Track the gradients of the model</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>model</code></strong> :&ensp;<code>ModelType</code></dt>
+<dd>model to track gradients of</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def watch_model(self, model: ModelType) -&gt; None:
+    &#34;&#34;&#34;Track the gradients of the model
+
+    Args:
+        model (ModelType): model to track gradients of
+    &#34;&#34;&#34;
+
+    wandb.watch(models=model, log=&#34;all&#34;)</code></pre>
+</details>
+</dd>
+<dt id="ml_logger.wandb.WandbLogBook.write_compute_log"><code class="name flex">
+<span>def <span class="ident">write_compute_log</span></span>(<span>self, metric)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Write compute log to filesystem and wandb</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>metric</code></strong> :&ensp;<code>MetricType</code></dt>
+<dd>Compute metric to write</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def write_compute_log(self, metric: MetricType) -&gt; None:
+    &#34;&#34;&#34;Write compute log to filesystem and wandb
+
+    Args:
+        metric (MetricType): Compute metric to write
+
+    &#34;&#34;&#34;
+    super().write_compute_log(metric=metric)
+    num_timesteps = metric.pop(&#34;num_timesteps&#34;)
+    self._log_metric_to_remote(
+        metric=metric, metadata={&#34;step&#34;: num_timesteps, &#34;prefix&#34;: &#34;compute&#34;}
+    )</code></pre>
+</details>
+</dd>
+<dt id="ml_logger.wandb.WandbLogBook.write_metric_log"><code class="name flex">
+<span>def <span class="ident">write_metric_log</span></span>(<span>self, metric)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Write metric log to filesystem and wandb</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>metric</code></strong> :&ensp;<code>MetricType</code></dt>
+<dd>metric to write</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def write_metric_log(self, metric: MetricType) -&gt; None:
+    &#34;&#34;&#34;Write metric log to filesystem and wandb
+
+    Args:
+        metric (MetricType): metric to write
+
+    &#34;&#34;&#34;
+    processed_metric = self._process_log(log=metric)
+    super().write_metric_log(metric=processed_metric)
+    if self.metrics_to_log_remotely is not None:
+        metric_to_log = {
+            key: metric[key]
+            for key in self.metrics_to_log_remotely
+            if key in metric
+        }
+    else:
+        metric_to_log = metric
+    prefix = metric.get(&#34;mode&#34;, &#34;&#34;)
+    logging_idx = metric.pop(self.logging_idx_key)
+    self._log_metric_to_remote(
+        metric=metric_to_log, metadata={&#34;prefix&#34;: prefix, &#34;step&#34;: logging_idx}
+    )</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="ml_logger.logbook.LogBook" href="logbook.html#ml_logger.logbook.LogBook">LogBook</a></b></code>:
+<ul class="hlist">
+<li><code><a title="ml_logger.logbook.LogBook.write_config_log" href="logbook.html#ml_logger.logbook.LogBook.write_config_log">write_config_log</a></code></li>
+<li><code><a title="ml_logger.logbook.LogBook.write_log" href="logbook.html#ml_logger.logbook.LogBook.write_log">write_log</a></code></li>
+<li><code><a title="ml_logger.logbook.LogBook.write_message_log" href="logbook.html#ml_logger.logbook.LogBook.write_message_log">write_message_log</a></code></li>
+<li><code><a title="ml_logger.logbook.LogBook.write_metadata_log" href="logbook.html#ml_logger.logbook.LogBook.write_metadata_log">write_metadata_log</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="ml_logger" href="index.html">ml_logger</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="ml_logger.wandb.make_config" href="#ml_logger.wandb.make_config">make_config</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="ml_logger.wandb.WandbLogBook" href="#ml_logger.wandb.WandbLogBook">WandbLogBook</a></code></h4>
+<ul class="">
+<li><code><a title="ml_logger.wandb.WandbLogBook.watch_model" href="#ml_logger.wandb.WandbLogBook.watch_model">watch_model</a></code></li>
+<li><code><a title="ml_logger.wandb.WandbLogBook.write_compute_log" href="#ml_logger.wandb.WandbLogBook.write_compute_log">write_compute_log</a></code></li>
+<li><code><a title="ml_logger.wandb.WandbLogBook.write_metric_log" href="#ml_logger.wandb.WandbLogBook.write_metric_log">write_metric_log</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.4</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
