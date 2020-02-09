@@ -6,7 +6,6 @@ import json
 import logging
 from typing import List, Optional, Tuple
 
-from ml_logger import utils
 from ml_logger.types import LogType
 
 
@@ -34,7 +33,7 @@ def write_log(log_str: str, logger_name: str = "default_logger") -> None:
     return _get_logger(logger_name=logger_name).info(msg=log_str)
 
 
-def _serialize_log(
+def serialize_log(
     log: LogType,
     keys_to_serialize: Optional[List[str]] = None,
     log_type: str = "metric",
@@ -66,81 +65,32 @@ def _serialize_log(
     return _serialize_log_to_json(log=log_to_serialize), log
 
 
-def write_message_log(
-    message_log: LogType, logger_name: str = "default_logger"
+def serialize_and_write_log(
+    log: LogType,
+    keys_to_serialize: Optional[List[str]] = None,
+    log_type: str = "metric",
+    logger_name: str = "default_logger",
 ) -> None:
-    """Write message (log) to file
+    """Serialize the log into a JSON string and write to the filesystem
+
+    This method adds `type` field to the log and serializes only
+    selected keys. If `keys_to_serialize` is not empty, only keys
+    appearing in the `keys_to_serialize` are serialized
 
     Args:
-        message_log (LogType): Message to write
+        log (LogType): log to serialize
+        keys_to_serialize (Optional[List[str]], optional): keys
+            (in log) to serialize. If None is passed, all the keys are
+            serialized. Defaults to None.
+        log_type (str, optional): `type` of this log. Defaults to "metric"
         logger_name (str, optional):  Name of logger to use. Defaults
             to "default_logger"
+
     """
-    log_str, _ = _serialize_log(
-        log=message_log, keys_to_serialize=None, log_type="print"
+    log_str, _ = serialize_log(
+        log=log, keys_to_serialize=keys_to_serialize, log_type=log_type
     )
-    write_log(log_str=log_str, logger_name=logger_name)
-
-
-def write_message(message: str, logger_name: str = "default_logger") -> None:
-    """Write message (string) to file
-
-    Args:
-        message (str): Message to write
-        logger_name (str, optional):  Name of logger to use. Defaults to
-            "default_logger"
-    """
-    message_log: LogType = {"message": message}
-    write_message_log(message_log=message_log, logger_name=logger_name)
-
-
-def write_config_log(config: LogType, logger_name: str = "default_logger") -> None:
-    """Write config to file
-
-    Args:
-        config (LogType): config to write
-        logger_name (str, optional):  Name of logger to use. Defaults to
-            "default_logger"
-    """
-    log_str, _ = _serialize_log(log=config, keys_to_serialize=None, log_type="config")
-    write_log(log_str=log_str, logger_name=logger_name)
-
-
-def write_metric_log(metric: LogType, logger_name: str = "default_logger") -> None:
-    """Write metric to file
-
-    Args:
-        metric (LogType): metric to write
-        logger_name (str, optional): Name of logger to use. Defaults to
-            "default_logger"
-    """
-    log_str, _ = _serialize_log(
-        log=utils.flatten_dict(metric), keys_to_serialize=None, log_type="metric"
-    )
-    write_log(log_str=log_str, logger_name=logger_name)
-
-
-def write_metadata_log(metadata: LogType, logger_name: str = "default_logger") -> None:
-    """Write metadata to file
-
-    Args:
-        metadata (LogType): metadata to write
-        logger_name (str, optional): Name of logger to use. Defaults to
-            "default_logger"
-    """
-    log_str, _ = _serialize_log(
-        log=metadata, keys_to_serialize=None, log_type="metadata"
-    )
-    write_log(log_str=log_str, logger_name=logger_name)
-
-
-def pprint(log: LogType) -> None:
-    """Pretty print a log
-
-    Args:
-        log (LogType): log to print
-    """
-    print(json.dumps(log, indent=4))
+    return write_log(log_str=log_str, logger_name=logger_name)
 
 
 def set_logger(
