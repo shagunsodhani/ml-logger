@@ -128,7 +128,7 @@ class LogBook:
         """
         return self.write_log(log=metric, keys_to_serialize=None, log_type="compute")
 
-    def write_message_log(self, message: str) -> None:
+    def write_message(self, message: str) -> None:
         """Write message string to filesystem
 
         Args:
