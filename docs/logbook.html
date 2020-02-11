@@ -156,7 +156,7 @@ class LogBook:
         &#34;&#34;&#34;
         return self.write_log(log=metric, keys_to_serialize=None, log_type=&#34;compute&#34;)
 
-    def write_message_log(self, message: str) -&gt; None:
+    def write_message(self, message: str) -&gt; None:
         &#34;&#34;&#34;Write message string to filesystem
 
         Args:
@@ -411,7 +411,7 @@ creating the logbook</dd>
         &#34;&#34;&#34;
         return self.write_log(log=metric, keys_to_serialize=None, log_type=&#34;compute&#34;)
 
-    def write_message_log(self, message: str) -&gt; None:
+    def write_message(self, message: str) -&gt; None:
         &#34;&#34;&#34;Write message string to filesystem
 
         Args:
@@ -532,8 +532,8 @@ serialized. Defaults to None.</dd>
     )</code></pre>
 </details>
 </dd>
-<dt id="ml_logger.logbook.LogBook.write_message_log"><code class="name flex">
-<span>def <span class="ident">write_message_log</span></span>(<span>self, message)</span>
+<dt id="ml_logger.logbook.LogBook.write_message"><code class="name flex">
+<span>def <span class="ident">write_message</span></span>(<span>self, message)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Write message string to filesystem</p>
@@ -546,7 +546,7 @@ serialized. Defaults to None.</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def write_message_log(self, message: str) -&gt; None:
+<pre><code class="python">def write_message(self, message: str) -&gt; None:
     &#34;&#34;&#34;Write message string to filesystem
 
     Args:
@@ -632,7 +632,7 @@ serialized. Defaults to None.</dd>
 <li><code><a title="ml_logger.logbook.LogBook.write_compute_log" href="#ml_logger.logbook.LogBook.write_compute_log">write_compute_log</a></code></li>
 <li><code><a title="ml_logger.logbook.LogBook.write_config_log" href="#ml_logger.logbook.LogBook.write_config_log">write_config_log</a></code></li>
 <li><code><a title="ml_logger.logbook.LogBook.write_log" href="#ml_logger.logbook.LogBook.write_log">write_log</a></code></li>
-<li><code><a title="ml_logger.logbook.LogBook.write_message_log" href="#ml_logger.logbook.LogBook.write_message_log">write_message_log</a></code></li>
+<li><code><a title="ml_logger.logbook.LogBook.write_message" href="#ml_logger.logbook.LogBook.write_message">write_message</a></code></li>
 <li><code><a title="ml_logger.logbook.LogBook.write_metadata_log" href="#ml_logger.logbook.LogBook.write_metadata_log">write_metadata_log</a></code></li>
 <li><code><a title="ml_logger.logbook.LogBook.write_metric_log" href="#ml_logger.logbook.LogBook.write_metric_log">write_metric_log</a></code></li>
 </ul>
