@@ -1,7 +1,10 @@
 """Implementation of Parser to parse the logs"""
 
+import glob
 import json
 from typing import Callable, Iterator, Optional
+
+import tinydb
 
 from ml_logger.parser import parser as base_parser
 from ml_logger.types import ConfigType, LogType
@@ -85,3 +88,21 @@ class Parser(base_parser.Parser):
 
         configs = list(self.get_logs(log_file_path=log_file_path))
         return configs[-1]
+
+    def load_configs_from_path(self, path_pattern: str) -> tinydb.TinyDB:
+        """Method to glob the given path pattern and load config from
+        all the matching paths
+
+        Args:
+            path_pattern (str): path pattern to glob
+
+        Returns:
+            tinydb.TinyDB: TinyDB database instance over the collection of configs
+        """
+        db = tinydb.TinyDB("config.json")
+        paths = glob.glob(path_pattern)
+        for log_file_path in paths:
+            config = self.get_config(log_file_path=log_file_path)
+            config["path"] = log_file_path
+            db.insert(config)
+        return db
