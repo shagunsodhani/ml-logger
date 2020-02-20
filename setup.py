@@ -16,7 +16,9 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     install_requires=["pandas==0.25.3", "tinydb==3.15.2"],
     url="https://github.com/shagunsodhani/ml-logger",
-    packages=["ml_logger"],
+    packages=setuptools.find_packages(
+        exclude=["*.tests", "*.tests.*", "tests.*", "tests"]
+    ),
     classifiers=[
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
