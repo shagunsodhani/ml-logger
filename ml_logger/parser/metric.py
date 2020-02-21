@@ -5,10 +5,12 @@ from typing import Callable, Dict, Iterator, List, Optional
 
 import pandas as pd
 
-from ml_logger.types import LogType, MetricType, ValueType
+from ml_logger.parser import parser as base_parser
+from ml_logger.parser import utils as parser_utils
+from ml_logger.types import LogType, MetricType
 
 
-def filter_metric_log(log: LogType) -> bool:
+def filter_log(log: LogType) -> bool:
     """Check if the log is a metric log
 
     Args:
@@ -21,51 +23,6 @@ def filter_metric_log(log: LogType) -> bool:
     if key in log and log[key] == "metric":
         return True
     return False
-
-
-def error_handler_when_parsing_log_file(
-    log_line: str, error: json.decoder.JSONDecodeError
-) -> Optional[LogType]:
-    """Function to print the error on the console, when the `log_line` is
-        not a valid json string
-
-    Args:
-        log_line (str): Parsing this line triggered the error
-        error (json.decoder.JSONDecodeError): The error object
-
-    Returns:
-        Optional[LogType]: None. Print the error on the console
-    """
-    print(f"Could not parse: {log_line} because of error: {error}")
-    return None
-
-
-def silent_error_handler_when_parsing_log_file(
-    log_line: str, error: json.decoder.JSONDecodeError
-) -> Optional[LogType]:
-    """Function to silently ignore the error, when the `log_line` is
-        not a valid json string
-
-    Args:
-        log_line (str): Parsing this line triggered the error
-        error (json.decoder.JSONDecodeError): The error object
-
-    Returns:
-        Optional[LogType]: None. Nothing is done
-    """
-    return None
-
-
-def transform_log(log: LogType) -> LogType:
-    """Function to transform the log after parsing
-
-    Args:
-        log (LogType): log to transform
-
-    Returns:
-        LogType: transformed log
-    """
-    return log
 
 
 def fn_to_group_metrics(metrics: List[MetricType]) -> Dict[str, List[MetricType]]:
@@ -94,47 +51,16 @@ def fn_to_aggregate_metrics(metrics: List[MetricType]) -> List[MetricType]:
     return metrics
 
 
-def map_list_of_dicts_to_dict_of_lists(
-    list_of_dicts: List[Dict[str, ValueType]]
-) -> Dict[str, List[Optional[ValueType]]]:
-    """Map a list of dictionary to a dictionary of lists
-
-    Example input: [
-        {"a": 1, "b": 2},
-        {"b": 3, "c": 4},
-    ]
-
-    Example output: {
-        "a": [1],
-        "b": [2, 3],
-        "c": [4]
-    }
-
-    Args:
-        list_of_dicts (List[Dict[str, ValueType]]): List of dictionaries
-
-    Returns:
-        Dict[str, List[Optional[ValueType]]]: Dictionary of lists
-    """
-    if not list_of_dicts:
-        return {}
-    keys = list_of_dicts[0].keys()
-    dict_of_lists = {}
-    for key in keys:
-        dict_of_lists[key] = [_dict.get(key, None) for _dict in list_of_dicts]
-    return dict_of_lists
-
-
-class Parser:
-    """Class to parse the log files
+class Parser(base_parser.Parser):
+    """Class to parse the metrics in the log files
     """
 
     def __init__(
         self,
-        fn_to_transform_log: Callable[[LogType], LogType] = transform_log,
+        fn_to_transform_log: Callable[[LogType], LogType] = base_parser.transform_log,
         fn_to_handle_error_when_parsing_log_file: Callable[
             [str, json.decoder.JSONDecodeError], Optional[LogType]
-        ] = error_handler_when_parsing_log_file,
+        ] = base_parser.error_handler_when_parsing_log_file,
     ):
         """Class to parse the log files
 
@@ -147,39 +73,14 @@ class Parser:
                 Function to handle the error when the parser reads an
                 invalid json string
 
-                [description]. Defaults to error_handler_when_parsing_log_file.
         """
 
-        self.fn_to_transform_log = fn_to_transform_log
-        self.fn_to_handle_error_when_parsing_log_file = (
-            fn_to_handle_error_when_parsing_log_file
+        super().__init__(
+            fn_to_transform_log=fn_to_transform_log,
+            fn_to_handle_error_when_parsing_log_file=fn_to_handle_error_when_parsing_log_file,
         )
 
-    def parse_log_file(self, log_file_path: str) -> Iterator[LogType]:
-        """Method to open a log file and parse the logs
-
-        Args:
-            log_file_path (str): Log file to read from
-
-        Returns:
-            Iterator[LogType]: Iterator over the logs
-
-        Yields:
-            Iterator[LogType]: Iterator over the logs
-        """
-        with open(log_file_path) as f:
-            for line in f:
-                try:
-                    yield json.loads(line)
-                except json.decoder.JSONDecodeError as e:
-                    # This could be the scase where a new line was missing
-                    error_handler_response = self.fn_to_handle_error_when_parsing_log_file(
-                        line, e
-                    )
-                    if error_handler_response is not None:
-                        yield error_handler_response
-
-    def get_metric_logs(self, log_file_path: str) -> Iterator[MetricType]:
+    def get_logs(self, log_file_path: str) -> Iterator[MetricType]:
         """Method to open a log file, parse the logs and return metric logs
 
         Args:
@@ -192,7 +93,7 @@ class Parser:
             Iterator[MetricType]: Iterator over the metrics
         """
         for log in self.parse_log_file(log_file_path=log_file_path):
-            if filter_metric_log(log):
+            if filter_log(log):
                 yield self.fn_to_transform_log(log)
 
     def get_metrics_as_df(
@@ -225,7 +126,7 @@ class Parser:
             Dict[str, pd.DataFrame]: [description]
 
         """
-        metric_logs = list(self.get_metric_logs(log_file_path=log_file_path))
+        metric_logs = list(self.get_logs(log_file_path=log_file_path))
         grouped_metrics: Dict[str, List[LogType]] = fn_to_group_metrics(metric_logs)
         merged_metrics = {
             key: fn_to_aggregate_metrics(metrics)
@@ -234,7 +135,7 @@ class Parser:
 
         metric_dfs = {
             key: pd.DataFrame.from_dict(
-                data=map_list_of_dicts_to_dict_of_lists(metrics)
+                data=parser_utils.map_list_of_dicts_to_dict_of_lists(metrics)
             )
             for key, metrics in merged_metrics.items()
         }
