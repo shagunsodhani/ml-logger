@@ -70,7 +70,7 @@ class Parser(base_parser.Parser):
             if filter_log(log):
                 yield self.fn_to_transform_log(log)
 
-    def get_config(self, log_file_path: str) -> ConfigType:
+    def get_config(self, log_file_path: str) -> Optional[ConfigType]:
         """Method to get the config from the log file.
 
         The different between `get_config` and `get_logs` function is that
@@ -87,7 +87,9 @@ class Parser(base_parser.Parser):
         """
 
         configs = list(self.get_logs(log_file_path=log_file_path))
-        return configs[-1]
+        if configs:
+            return configs[-1]
+        return None
 
     def load_configs_from_path(self, path_pattern: str) -> tinydb.TinyDB:
         """Method to glob the given path pattern and load config from
@@ -103,6 +105,7 @@ class Parser(base_parser.Parser):
         paths = glob.glob(path_pattern)
         for log_file_path in paths:
             config = self.get_config(log_file_path=log_file_path)
-            config["path"] = log_file_path
-            db.insert(config)
+            if config is not None:
+                config["path"] = log_file_path
+                db.insert(config)
         return db
