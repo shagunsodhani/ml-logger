@@ -22,6 +22,7 @@ class Logger(BaseLogger):
                 configure wandb. This also means that config should not
                 have any parameters that wandb.init() would not accept.
         """
+        super().__init__(config=config)
         self.keys_to_skip = ["logbook_id", "logbook_type", "logbook_timestamp"]
         self._run = wandb.init(**config)
 
@@ -35,6 +36,9 @@ class Logger(BaseLogger):
         log = self._prepare_log_to_write(log=log)
         if logbook_type == "config":
             self.write_config(config=log)
+        elif logbook_type == "message":
+            pass
+            # Message can not be written to wandb
         else:
             assert "step" in log
             step = log.pop("step")
