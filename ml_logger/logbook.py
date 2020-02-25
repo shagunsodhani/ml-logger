@@ -43,7 +43,7 @@ class LogBook:
         self.loggers: List[LoggerType] = []
         for logger_name, logger_config in config["loggers"].items():
             logger_module = importlib.import_module(f"ml_logger.logger.{logger_name}")
-            logger_cls = getattr(logger_module, "Loggger")
+            logger_cls = getattr(logger_module, "Logger")
             logger = logger_cls(config=logger_config)
             self.loggers.append(logger)
 
