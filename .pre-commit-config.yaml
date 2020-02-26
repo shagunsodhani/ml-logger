@@ -17,5 +17,5 @@ repos:
     hooks:
       - id: mypy
         args: [--strict]
+        exclude: noxfile.py
         exclude: setup.py
-
