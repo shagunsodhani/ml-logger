@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.7.4" />
-<title>ml_logger API documentation</title>
+<title>ml_logger.parser.utils API documentation</title>
 <meta name="description" content="" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
@@ -17,56 +17,116 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>ml_logger</code></h1>
+<h1 class="title">Module <code>ml_logger.parser.utils</code></h1>
 </header>
 <section id="section-intro">
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">__version__ = &#34;0.3rc1&#34;
+<pre><code class="python">from typing import Dict, List, Optional
 
-__all__ = [
-    &#34;__version__&#34;,
-]</code></pre>
+from ml_logger.types import ValueType
+
+
+def map_list_of_dicts_to_dict_of_lists(
+    list_of_dicts: List[Dict[str, ValueType]]
+) -&gt; Dict[str, List[Optional[ValueType]]]:
+    &#34;&#34;&#34;Map a list of dictionary to a dictionary of lists
+
+    Example input: [
+        {&#34;a&#34;: 1, &#34;b&#34;: 2},
+        {&#34;b&#34;: 3, &#34;c&#34;: 4},
+    ]
+
+    Example output: {
+        &#34;a&#34;: [1],
+        &#34;b&#34;: [2, 3],
+        &#34;c&#34;: [4]
+    }
+
+    Args:
+        list_of_dicts (List[Dict[str, ValueType]]): List of dictionaries
+
+    Returns:
+        Dict[str, List[Optional[ValueType]]]: Dictionary of lists
+    &#34;&#34;&#34;
+    if not list_of_dicts:
+        return {}
+    keys = list_of_dicts[0].keys()
+    dict_of_lists = {}
+    for key in keys:
+        dict_of_lists[key] = [_dict.get(key, None) for _dict in list_of_dicts]
+    return dict_of_lists</code></pre>
 </details>
 </section>
 <section>
-<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt><code class="name"><a title="ml_logger.filesystem_logger" href="filesystem_logger.html">ml_logger.filesystem_logger</a></code></dt>
+<dt id="ml_logger.parser.utils.map_list_of_dicts_to_dict_of_lists"><code class="name flex">
+<span>def <span class="ident">map_list_of_dicts_to_dict_of_lists</span></span>(<span>list_of_dicts)</span>
+</code></dt>
 <dd>
-<section class="desc"><p>Functions to interface with the filesystem</p></section>
-</dd>
-<dt><code class="name"><a title="ml_logger.logbook" href="logbook.html">ml_logger.logbook</a></code></dt>
-<dd>
-<section class="desc"><p>Implementation of the LogBook class …</p></section>
-</dd>
-<dt><code class="name"><a title="ml_logger.logger" href="logger/index.html">ml_logger.logger</a></code></dt>
-<dd>
-<section class="desc"></section>
-</dd>
-<dt><code class="name"><a title="ml_logger.metrics" href="metrics.html">ml_logger.metrics</a></code></dt>
-<dd>
-<section class="desc"><p>Implementation of different type of metrics</p></section>
-</dd>
-<dt><code class="name"><a title="ml_logger.parser" href="parser/index.html">ml_logger.parser</a></code></dt>
-<dd>
-<section class="desc"></section>
-</dd>
-<dt><code class="name"><a title="ml_logger.types" href="types.html">ml_logger.types</a></code></dt>
-<dd>
-<section class="desc"></section>
-</dd>
-<dt><code class="name"><a title="ml_logger.utils" href="utils.html">ml_logger.utils</a></code></dt>
-<dd>
-<section class="desc"></section>
+<section class="desc"><p>Map a list of dictionary to a dictionary of lists</p>
+<p>Example input: [
+{"a": 1, "b": 2},
+{"b": 3, "c": 4},
+]</p>
+<p>Example output: {
+"a": [1],
+"b": [2, 3],
+"c": [4]
+}</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>list_of_dicts</code></strong> :&ensp;<code>List</code>[<code>Dict</code>[<code>str</code>, <code>ValueType</code>]]</dt>
+<dd>List of dictionaries</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Dict</code>[<code>str</code>, <code>List</code>[<code>Optional</code>[<code>ValueType</code>]]]: <code>Dictionary</code> of <code>lists</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def map_list_of_dicts_to_dict_of_lists(
+    list_of_dicts: List[Dict[str, ValueType]]
+) -&gt; Dict[str, List[Optional[ValueType]]]:
+    &#34;&#34;&#34;Map a list of dictionary to a dictionary of lists
+
+    Example input: [
+        {&#34;a&#34;: 1, &#34;b&#34;: 2},
+        {&#34;b&#34;: 3, &#34;c&#34;: 4},
+    ]
+
+    Example output: {
+        &#34;a&#34;: [1],
+        &#34;b&#34;: [2, 3],
+        &#34;c&#34;: [4]
+    }
+
+    Args:
+        list_of_dicts (List[Dict[str, ValueType]]): List of dictionaries
+
+    Returns:
+        Dict[str, List[Optional[ValueType]]]: Dictionary of lists
+    &#34;&#34;&#34;
+    if not list_of_dicts:
+        return {}
+    keys = list_of_dicts[0].keys()
+    dict_of_lists = {}
+    for key in keys:
+        dict_of_lists[key] = [_dict.get(key, None) for _dict in list_of_dicts]
+    return dict_of_lists</code></pre>
+</details>
 </dd>
 </dl>
-</section>
-<section>
-</section>
-<section>
 </section>
 <section>
 </section>
@@ -77,15 +137,14 @@ __all__ = [
 <ul></ul>
 </div>
 <ul id="index">
-<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<li><h3>Super-module</h3>
 <ul>
-<li><code><a title="ml_logger.filesystem_logger" href="filesystem_logger.html">ml_logger.filesystem_logger</a></code></li>
-<li><code><a title="ml_logger.logbook" href="logbook.html">ml_logger.logbook</a></code></li>
-<li><code><a title="ml_logger.logger" href="logger/index.html">ml_logger.logger</a></code></li>
-<li><code><a title="ml_logger.metrics" href="metrics.html">ml_logger.metrics</a></code></li>
-<li><code><a title="ml_logger.parser" href="parser/index.html">ml_logger.parser</a></code></li>
-<li><code><a title="ml_logger.types" href="types.html">ml_logger.types</a></code></li>
-<li><code><a title="ml_logger.utils" href="utils.html">ml_logger.utils</a></code></li>
+<li><code><a title="ml_logger.parser" href="index.html">ml_logger.parser</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="ml_logger.parser.utils.map_list_of_dicts_to_dict_of_lists" href="#ml_logger.parser.utils.map_list_of_dicts_to_dict_of_lists">map_list_of_dicts_to_dict_of_lists</a></code></li>
 </ul>
 </li>
 </ul>

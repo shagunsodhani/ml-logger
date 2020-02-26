@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.7.4" />
+<title>ml_logger.parser.config API documentation</title>
+<meta name="description" content="Implementation of Parser to parse the logs" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>ml_logger.parser.config</code></h1>
+</header>
+<section id="section-intro">
+<p>Implementation of Parser to parse the logs</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Implementation of Parser to parse the logs&#34;&#34;&#34;
+
+import glob
+import json
+from typing import Callable, Iterator, Optional
+
+import tinydb
+
+from ml_logger.parser import parser as base_parser
+from ml_logger.types import ConfigType, LogType
+
+
+def filter_log(log: LogType) -&gt; bool:
+    &#34;&#34;&#34;Check if the log is a config log
+
+    Args:
+        log (LogType): log to check
+
+    Returns:
+        bool: True if the log is a config log
+    &#34;&#34;&#34;
+    key = &#34;type&#34;
+    if key in log and log[key] == &#34;config&#34;:
+        return True
+    return False
+
+
+class Parser(base_parser.Parser):
+    &#34;&#34;&#34;Class to parse the config in the log files
+    &#34;&#34;&#34;
+
+    def __init__(
+        self,
+        fn_to_transform_log: Callable[[LogType], LogType] = base_parser.transform_log,
+        fn_to_handle_error_when_parsing_log_file: Callable[
+            [str, json.decoder.JSONDecodeError], Optional[LogType]
+        ] = base_parser.error_handler_when_parsing_log_file,
+    ):
+        &#34;&#34;&#34;Class to parse the log files
+
+        Args:
+            fn_to_transform_log (Callable[[LogType], LogType], optional):
+                Function to transform the logs after reading them from
+                the filesystem. Defaults to transform_log.
+            fn_to_handle_error_when_parsing_log_file (Callable[[str,
+                json.decoder.JSONDecodeError], Optional[LogType]], optional):
+                Function to handle the error when the parser reads an
+                invalid json string
+
+        &#34;&#34;&#34;
+
+        super().__init__(
+            fn_to_transform_log=fn_to_transform_log,
+            fn_to_handle_error_when_parsing_log_file=fn_to_handle_error_when_parsing_log_file,
+        )
+
+    def get_logs(self, log_file_path: str) -&gt; Iterator[ConfigType]:
+        &#34;&#34;&#34;Method to open a log file, parse the logs and return config logs
+
+        Args:
+            log_file_path (str): Log file to read from
+
+        Returns:
+            Iterator[ConfigType]: Iterator over the configs
+
+        Yields:
+            Iterator[ConfigType]: Iterator over the configs
+        &#34;&#34;&#34;
+        for log in self.parse_log_file(log_file_path=log_file_path):
+            if filter_log(log):
+                yield self.fn_to_transform_log(log)
+
+    def get_config(self, log_file_path: str) -&gt; Optional[ConfigType]:
+        &#34;&#34;&#34;Method to get the config from the log file.
+
+        The different between `get_config` and `get_logs` function is that
+        `get_logs` returns an iterator over all the configs that are found
+        in a log file while `get_config` only returns the last config. The same
+        config file may be written multiple times in a log file. Hence
+        `get_config` should be the default method for getting the config
+
+        Args:
+            log_file_path (str): Log file to read from
+
+        Returns:
+            ConfigType: Config object
+        &#34;&#34;&#34;
+
+        configs = list(self.get_logs(log_file_path=log_file_path))
+        if configs:
+            return configs[-1]
+        return None
+
+    def load_configs_from_path(self, path_pattern: str) -&gt; tinydb.TinyDB:
+        &#34;&#34;&#34;Method to glob the given path pattern and load config from
+        all the matching paths
+
+        Args:
+            path_pattern (str): path pattern to glob
+
+        Returns:
+            tinydb.TinyDB: TinyDB database instance over the collection of configs
+        &#34;&#34;&#34;
+        db = tinydb.TinyDB(&#34;config.json&#34;)
+        paths = glob.glob(path_pattern)
+        for log_file_path in paths:
+            config = self.get_config(log_file_path=log_file_path)
+            if config is not None:
+                config[&#34;path&#34;] = log_file_path
+                db.insert(config)
+        return db</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="ml_logger.parser.config.filter_log"><code class="name flex">
+<span>def <span class="ident">filter_log</span></span>(<span>log)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Check if the log is a config log</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>log</code></strong> :&ensp;<code>LogType</code></dt>
+<dd>log to check</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>bool</code></strong></dt>
+<dd>True if the log is a config log</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def filter_log(log: LogType) -&gt; bool:
+    &#34;&#34;&#34;Check if the log is a config log
+
+    Args:
+        log (LogType): log to check
+
+    Returns:
+        bool: True if the log is a config log
+    &#34;&#34;&#34;
+    key = &#34;type&#34;
+    if key in log and log[key] == &#34;config&#34;:
+        return True
+    return False</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="ml_logger.parser.config.Parser"><code class="flex name class">
+<span>class <span class="ident">Parser</span></span>
+<span>(</span><span>fn_to_transform_log=&lt;function transform_log&gt;, fn_to_handle_error_when_parsing_log_file=&lt;function error_handler_when_parsing_log_file&gt;)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Class to parse the config in the log files</p>
+<p>Class to parse the log files</p>
+<h2 id="args">Args</h2>
+<p>fn_to_transform_log (Callable[[LogType], LogType], optional):
+Function to transform the logs after reading them from
+the filesystem. Defaults to transform_log.
+fn_to_handle_error_when_parsing_log_file (Callable[[str,
+json.decoder.JSONDecodeError], Optional[LogType]], optional):
+Function to handle the error when the parser reads an
+invalid json string</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Parser(base_parser.Parser):
+    &#34;&#34;&#34;Class to parse the config in the log files
+    &#34;&#34;&#34;
+
+    def __init__(
+        self,
+        fn_to_transform_log: Callable[[LogType], LogType] = base_parser.transform_log,
+        fn_to_handle_error_when_parsing_log_file: Callable[
+            [str, json.decoder.JSONDecodeError], Optional[LogType]
+        ] = base_parser.error_handler_when_parsing_log_file,
+    ):
+        &#34;&#34;&#34;Class to parse the log files
+
+        Args:
+            fn_to_transform_log (Callable[[LogType], LogType], optional):
+                Function to transform the logs after reading them from
+                the filesystem. Defaults to transform_log.
+            fn_to_handle_error_when_parsing_log_file (Callable[[str,
+                json.decoder.JSONDecodeError], Optional[LogType]], optional):
+                Function to handle the error when the parser reads an
+                invalid json string
+
+        &#34;&#34;&#34;
+
+        super().__init__(
+            fn_to_transform_log=fn_to_transform_log,
+            fn_to_handle_error_when_parsing_log_file=fn_to_handle_error_when_parsing_log_file,
+        )
+
+    def get_logs(self, log_file_path: str) -&gt; Iterator[ConfigType]:
+        &#34;&#34;&#34;Method to open a log file, parse the logs and return config logs
+
+        Args:
+            log_file_path (str): Log file to read from
+
+        Returns:
+            Iterator[ConfigType]: Iterator over the configs
+
+        Yields:
+            Iterator[ConfigType]: Iterator over the configs
+        &#34;&#34;&#34;
+        for log in self.parse_log_file(log_file_path=log_file_path):
+            if filter_log(log):
+                yield self.fn_to_transform_log(log)
+
+    def get_config(self, log_file_path: str) -&gt; Optional[ConfigType]:
+        &#34;&#34;&#34;Method to get the config from the log file.
+
+        The different between `get_config` and `get_logs` function is that
+        `get_logs` returns an iterator over all the configs that are found
+        in a log file while `get_config` only returns the last config. The same
+        config file may be written multiple times in a log file. Hence
+        `get_config` should be the default method for getting the config
+
+        Args:
+            log_file_path (str): Log file to read from
+
+        Returns:
+            ConfigType: Config object
+        &#34;&#34;&#34;
+
+        configs = list(self.get_logs(log_file_path=log_file_path))
+        if configs:
+            return configs[-1]
+        return None
+
+    def load_configs_from_path(self, path_pattern: str) -&gt; tinydb.TinyDB:
+        &#34;&#34;&#34;Method to glob the given path pattern and load config from
+        all the matching paths
+
+        Args:
+            path_pattern (str): path pattern to glob
+
+        Returns:
+            tinydb.TinyDB: TinyDB database instance over the collection of configs
+        &#34;&#34;&#34;
+        db = tinydb.TinyDB(&#34;config.json&#34;)
+        paths = glob.glob(path_pattern)
+        for log_file_path in paths:
+            config = self.get_config(log_file_path=log_file_path)
+            if config is not None:
+                config[&#34;path&#34;] = log_file_path
+                db.insert(config)
+        return db</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="ml_logger.parser.parser.Parser" href="parser.html#ml_logger.parser.parser.Parser">Parser</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="ml_logger.parser.config.Parser.get_config"><code class="name flex">
+<span>def <span class="ident">get_config</span></span>(<span>self, log_file_path)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Method to get the config from the log file.</p>
+<p>The different between <code>get_config</code> and <code>get_logs</code> function is that
+<code>get_logs</code> returns an iterator over all the configs that are found
+in a log file while <code>get_config</code> only returns the last config. The same
+config file may be written multiple times in a log file. Hence
+<code>get_config</code> should be the default method for getting the config</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>log_file_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>Log file to read from</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>ConfigType</code></strong></dt>
+<dd>Config object</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_config(self, log_file_path: str) -&gt; Optional[ConfigType]:
+    &#34;&#34;&#34;Method to get the config from the log file.
+
+    The different between `get_config` and `get_logs` function is that
+    `get_logs` returns an iterator over all the configs that are found
+    in a log file while `get_config` only returns the last config. The same
+    config file may be written multiple times in a log file. Hence
+    `get_config` should be the default method for getting the config
+
+    Args:
+        log_file_path (str): Log file to read from
+
+    Returns:
+        ConfigType: Config object
+    &#34;&#34;&#34;
+
+    configs = list(self.get_logs(log_file_path=log_file_path))
+    if configs:
+        return configs[-1]
+    return None</code></pre>
+</details>
+</dd>
+<dt id="ml_logger.parser.config.Parser.get_logs"><code class="name flex">
+<span>def <span class="ident">get_logs</span></span>(<span>self, log_file_path)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Method to open a log file, parse the logs and return config logs</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>log_file_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>Log file to read from</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Iterator</code>[<code>ConfigType</code>]: <code>Iterator</code> <code>over</code> <code>the</code> <code>configs</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<h2 id="yields">Yields</h2>
+<dl>
+<dt><code>Iterator</code>[<code>ConfigType</code>]: <code>Iterator</code> <code>over</code> <code>the</code> <code>configs</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_logs(self, log_file_path: str) -&gt; Iterator[ConfigType]:
+    &#34;&#34;&#34;Method to open a log file, parse the logs and return config logs
+
+    Args:
+        log_file_path (str): Log file to read from
+
+    Returns:
+        Iterator[ConfigType]: Iterator over the configs
+
+    Yields:
+        Iterator[ConfigType]: Iterator over the configs
+    &#34;&#34;&#34;
+    for log in self.parse_log_file(log_file_path=log_file_path):
+        if filter_log(log):
+            yield self.fn_to_transform_log(log)</code></pre>
+</details>
+</dd>
+<dt id="ml_logger.parser.config.Parser.load_configs_from_path"><code class="name flex">
+<span>def <span class="ident">load_configs_from_path</span></span>(<span>self, path_pattern)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Method to glob the given path pattern and load config from
+all the matching paths</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>path_pattern</code></strong> :&ensp;<code>str</code></dt>
+<dd>path pattern to glob</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>tinydb.TinyDB</code>: <code>TinyDB</code> <code>database</code> <code>instance</code> <code>over</code> <code>the</code> <code>collection</code> of <code>configs</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_configs_from_path(self, path_pattern: str) -&gt; tinydb.TinyDB:
+    &#34;&#34;&#34;Method to glob the given path pattern and load config from
+    all the matching paths
+
+    Args:
+        path_pattern (str): path pattern to glob
+
+    Returns:
+        tinydb.TinyDB: TinyDB database instance over the collection of configs
+    &#34;&#34;&#34;
+    db = tinydb.TinyDB(&#34;config.json&#34;)
+    paths = glob.glob(path_pattern)
+    for log_file_path in paths:
+        config = self.get_config(log_file_path=log_file_path)
+        if config is not None:
+            config[&#34;path&#34;] = log_file_path
+            db.insert(config)
+    return db</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="ml_logger.parser.parser.Parser" href="parser.html#ml_logger.parser.parser.Parser">Parser</a></b></code>:
+<ul class="hlist">
+<li><code><a title="ml_logger.parser.parser.Parser.parse_log_file" href="parser.html#ml_logger.parser.parser.Parser.parse_log_file">parse_log_file</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="ml_logger.parser" href="index.html">ml_logger.parser</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="ml_logger.parser.config.filter_log" href="#ml_logger.parser.config.filter_log">filter_log</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="ml_logger.parser.config.Parser" href="#ml_logger.parser.config.Parser">Parser</a></code></h4>
+<ul class="">
+<li><code><a title="ml_logger.parser.config.Parser.get_config" href="#ml_logger.parser.config.Parser.get_config">get_config</a></code></li>
+<li><code><a title="ml_logger.parser.config.Parser.get_logs" href="#ml_logger.parser.config.Parser.get_logs">get_logs</a></code></li>
+<li><code><a title="ml_logger.parser.config.Parser.load_configs_from_path" href="#ml_logger.parser.config.Parser.load_configs_from_path">load_configs_from_path</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.4</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
