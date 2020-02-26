@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.7.4" />
 <title>ml_logger.logbook API documentation</title>
-<meta name="description" content="Implementation of the `LogBook` class …" />
+<meta name="description" content="Implementation of the LogBook class …" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
@@ -20,183 +20,159 @@
 <h1 class="title">Module <code>ml_logger.logbook</code></h1>
 </header>
 <section id="section-intro">
-<p>Implementation of the <a title="ml_logger.logbook.LogBook" href="#ml_logger.logbook.LogBook"><code>LogBook</code></a> class</p>
-<p>This class provides an interface to persist the logs on the filesystem</p>
+<p>Implementation of the LogBook class.</p>
+<p>LogBook class provides an interface to persist the logs on filesystem,
+tensorboard, remote backends etc.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">&#34;&#34;&#34;Implementation of the `LogBook` class
+<pre><code class="python">&#34;&#34;&#34;
+Implementation of the LogBook class.
 
-This class provides an interface to persist the logs on the filesystem
+LogBook class provides an interface to persist the logs on filesystem,
+tensorboard, remote backends etc.
 
 &#34;&#34;&#34;
+
+import importlib
 import time
 from typing import List, Optional
 
-from ml_logger import filesystem_logger as fs_log
+from ml_logger.logger.base import Logger as LoggerType
 from ml_logger.types import ConfigType, LogType, MetricType
 
 
 class LogBook:
-    &#34;&#34;&#34;This class provides an interface for the experiments to persist
-        logs on the filesystem
+    &#34;&#34;&#34;This class provides an interface to persist the logs on filesystem,
+    tensorboard, remote backends etc.
 
     &#34;&#34;&#34;
 
-    def __init__(self, logbook_config: ConfigType, config: ConfigType):
-        &#34;&#34;&#34;Initialise the `Logbook` class
+    def __init__(self, config: ConfigType):
+        &#34;&#34;&#34;Initialise the Logbook class
 
         Args:
             logbook_config (ConfigType): Config to initialise the
-                `LogBook` class. The logbook config must have the
+                LogBook class. The logbook config must have the
                 following keys:
-                * `id`: Id of the current `LogBook` instance. This
-                    attribute is logged with each `log` and is useful
-                    when multiple `LogBook` instances are needed (for
+                id: Id of the current LogBook instance. This
+                    attribute is logged with each log and is useful
+                    when multiple LogBook instances are needed (for
                     example with multiprocessing)
-                * `logger_file_path`: Path to the file, where the logs
+                logger_file_path: Path to the file, where the logs
                     will be written
-                The logbook config can be created using the `make_config`
-                method defined in `ml_logger/logbook.py`
+                The logbook config can be created using the make_config
+                method defined in ml_logger/logbook.py
             config (ConfigType): config corresponding to the ml experiment
                 creating the logbook
         &#34;&#34;&#34;
-        self.id = logbook_config[&#34;id&#34;]
-        self.logger_name = logbook_config[&#34;name&#34;]
-        fs_log.set_logger(
-            logger_file_path=logbook_config[&#34;logger_file_path&#34;],
-            logger_name=self.logger_name,
-        )
-        self.config = config
+        self.id = config[&#34;id&#34;]
+        self.logger_name = config[&#34;name&#34;]
+        self.loggers: List[LoggerType] = []
+        for logger_name, logger_config in config[&#34;loggers&#34;].items():
+            logger_module = importlib.import_module(f&#34;ml_logger.logger.{logger_name}&#34;)
+            logger_cls = getattr(logger_module, &#34;Logger&#34;)
+            logger = logger_cls(config=logger_config)
+            self.loggers.append(logger)
 
-    def _log_metric_to_remote(self, metric: MetricType, metadata: ConfigType) -&gt; None:
-        &#34;&#34;&#34;Log metric to remote backend
-
-        Args:
-            metric (MetricType): metric to log
-            metadata (ConfigType): metadata that is used to interface
-                with the remote backend
-
-        Raises:
-            NotImplementedError: This method is not implemented for the
-                `LogBook` class but maybe implemented by the classes
-                that subclass it.
-        &#34;&#34;&#34;
-
-        raise NotImplementedError(
-            &#34;_log_metric_to_remote() is not implemented for LogBook&#34;
-        )
-
-    def _process_log(self, log: LogType) -&gt; LogType:
+    def _process_log(self, log: LogType, log_type: str) -&gt; LogType:
         &#34;&#34;&#34;Process the log before writing
 
         Args:
-            log (LogType): `log` to process
+            log (LogType): Log to process
+            log_type (str): Type of the log: config, metric, metadata, etc
 
         Returns:
-            LogType: `log` with the following additional fields:
-                * `id`: `id` of the current `LogBook` instance
-                * `timestamp`: current timestamp
+            LogType: Processed log
         &#34;&#34;&#34;
-        log[&#34;id&#34;] = self.id
-        log[&#34;timestamp&#34;] = time.strftime(&#34;%I:%M%p %Z %b %d, %Y&#34;)
+
+        log[&#34;logbook_id&#34;] = self.id
+        log[&#34;logbook_timestamp&#34;] = time.strftime(&#34;%I:%M%p %Z %b %d, %Y&#34;)
+        log[&#34;logbook_type&#34;] = log_type
         return log
 
-    def write_log(
-        self,
-        log: LogType,
-        keys_to_serialize: Optional[List[str]] = None,
-        log_type: str = &#34;metric&#34;,
-    ) -&gt; None:
-        &#34;&#34;&#34;Write log to filesystem
+    def write_log(self, log: LogType, log_type: str = &#34;metric&#34;,) -&gt; None:
+        &#34;&#34;&#34;Write log to loggers
 
         Args:
-            log (LogType): log to write
-            keys_to_serialize (Optional[List[str]], optional): keys
-                (in log) to serialize. If None is passed, all the keys are
-                serialized. Defaults to None.
-            log_type (str, optional): `type` of this log. Defaults to &#34;metric&#34;
-
+            log (LogType): Log to write
+            log_type (str, optional): Type of this log. Defaults to &#34;metric&#34;.
         &#34;&#34;&#34;
 
-        return fs_log.serialize_and_write_log(
-            log=self._process_log(log=log),
-            keys_to_serialize=keys_to_serialize,
-            log_type=log_type,
-            logger_name=self.logger_name,
-        )
+        log = self._process_log(log, log_type)
+        for logger in self.loggers:
+            logger.write_log(log=log)
 
-    def write_config_log(self, config: Optional[ConfigType] = None) -&gt; None:
-        &#34;&#34;&#34;Write config to filesystem
+    def write_config_log(self, config: ConfigType,) -&gt; None:
+        &#34;&#34;&#34;Write config to loggers
 
         Args:
-            config (Optional[ConfigType], optional): Config to write.
-                Defaults to None.
+            config [ConfigType]: Config to write.
         &#34;&#34;&#34;
-        if config is None:
-            config = self.config
+        return self.write_log(log=config, log_type=&#34;config&#34;)
 
-        return self.write_log(log=config, keys_to_serialize=None, log_type=&#34;config&#34;)
-
-    def write_metric_log(self, metric: MetricType) -&gt; None:
-        &#34;&#34;&#34;Write metric to filesystem
+    def write_metric_log(self, metric: MetricType,) -&gt; None:
+        &#34;&#34;&#34;Write metric to loggers
 
         Args:
             metric (MetricType): Metric to write
         &#34;&#34;&#34;
-        return self.write_log(log=metric, keys_to_serialize=None, log_type=&#34;metric&#34;)
-
-    def write_compute_log(self, metric: MetricType) -&gt; None:
-        &#34;&#34;&#34;Write compute log to filesystem
-
-        Args:
-            metric (MetricType): Compute metric to write
-
-        &#34;&#34;&#34;
-        return self.write_log(log=metric, keys_to_serialize=None, log_type=&#34;compute&#34;)
+        return self.write_log(log=metric, log_type=&#34;metric&#34;)
 
     def write_message(self, message: str) -&gt; None:
-        &#34;&#34;&#34;Write message string to filesystem
+        &#34;&#34;&#34;Write message string to loggers
 
         Args:
             message (str): Message string to write
         &#34;&#34;&#34;
-        return self.write_log(
-            log={&#34;messgae&#34;: message}, keys_to_serialize=None, log_type=&#34;message&#34;
-        )
+        return self.write_log(log={&#34;messgae&#34;: message}, log_type=&#34;message&#34;)
 
-    def write_metadata_log(self, metadata: LogType) -&gt; None:
-        &#34;&#34;&#34;Write metadata log to filesystem
+    def write_metadata_log(self, metadata: LogType,) -&gt; None:
+        &#34;&#34;&#34;Write metadata to loggers
 
         Args:
             metadata (LogType): Metadata to wite
         &#34;&#34;&#34;
-        return self.write_log(log=metadata, keys_to_serialize=None, log_type=&#34;metadata&#34;)
+        return self.write_log(log=metadata, log_type=&#34;metadata&#34;)
 
 
 def make_config(
-    logger_file_path: str, id: str = &#34;0&#34;, logger_name: str = &#34;default_logger&#34;,
+    id: str = &#34;0&#34;,
+    name: str = &#34;default_logger&#34;,
+    logger_file_path: Optional[str] = None,
+    wandb_config: Optional[ConfigType] = None,
 ) -&gt; ConfigType:
-    &#34;&#34;&#34;Make a config that can be passed to the `LogBook` constructor
+    &#34;&#34;&#34;Make the config that can be passed to the LogBook constructor
 
     Args:
-        logger_file_path (str): Path to the file, where the logs
-            will be written
-        id (str, optional): Id of the current `LogBook` instance. Defaults
-            to &#34;0&#34;
-        logger_name (str, optional): Name of the logger. Defaults to
-            &#34;default_logger&#34;
+        id (str, optional): Id of the current LogBook instance. Defaults to &#34;0&#34;.
+        name (str, optional): Name of the logger. Defaults to &#34;default_logger&#34;.
+        logger_file_path (str, optional):  Path where the logs will be
+            written. If None is pass, logs are not written to the filesystem.
+            Defaults to None.
+        wandb_config (Optional[ConfigType], optional): Config for the wandb
+            logger. If None, wandb logger is not created. The config can
+            have any parameters that wandb.init() methods accepts
+            (https://docs.wandb.com/library/init). Note that the wandb_config
+            is passed as keyword arguments to the wandb.init() method.
+            This provides a lot of flexibility to the users to configure
+            wandb. This also means that config should not have any
+            parameters that wandb.init() would not accept.Defaults to None.
 
     Returns:
-        ConfigType: `config` to construct the `LogBook`
+        ConfigType: config to construct the LogBook
     &#34;&#34;&#34;
+    loggers = {}
+    if logger_file_path is not None:
+        loggers[&#34;filesystem&#34;] = {
+            &#34;logger_file_path&#34;: logger_file_path,
+            &#34;logger_name&#34;: name,
+        }
+    if wandb_config is not None:
+        loggers[&#34;wandb&#34;] = wandb_config
 
-    config = {
-        &#34;id&#34;: id,
-        &#34;logger_file_path&#34;: logger_file_path,
-        &#34;name&#34;: logger_name,
-    }
+    config = {&#34;id&#34;: id, &#34;name&#34;: name, &#34;loggers&#34;: loggers}
     return config</code></pre>
 </details>
 </section>
@@ -208,53 +184,75 @@ def make_config(
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="ml_logger.logbook.make_config"><code class="name flex">
-<span>def <span class="ident">make_config</span></span>(<span>logger_file_path, id='0', logger_name='default_logger')</span>
+<span>def <span class="ident">make_config</span></span>(<span>id='0', name='default_logger', logger_file_path=None, wandb_config=None)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Make a config that can be passed to the <a title="ml_logger.logbook.LogBook" href="#ml_logger.logbook.LogBook"><code>LogBook</code></a> constructor</p>
+<section class="desc"><p>Make the config that can be passed to the LogBook constructor</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>logger_file_path</code></strong> :&ensp;<code>str</code></dt>
-<dd>Path to the file, where the logs
-will be written</dd>
 <dt><strong><code>id</code></strong> :&ensp;<code>str</code>, optional</dt>
-<dd>Id of the current <a title="ml_logger.logbook.LogBook" href="#ml_logger.logbook.LogBook"><code>LogBook</code></a> instance. Defaults
-to "0"</dd>
-<dt><strong><code>logger_name</code></strong> :&ensp;<code>str</code>, optional</dt>
-<dd>Name of the logger. Defaults to
-"default_logger"</dd>
+<dd>Id of the current LogBook instance. Defaults to "0".</dd>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Name of the logger. Defaults to "default_logger".</dd>
+<dt><strong><code>logger_file_path</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Path where the logs will be
+written. If None is pass, logs are not written to the filesystem.
+Defaults to None.</dd>
+<dt><strong><code>wandb_config</code></strong> :&ensp;<code>Optional</code>[<code>ConfigType</code>], optional</dt>
+<dd>Config for the wandb
+logger. If None, wandb logger is not created. The config can
+have any parameters that wandb.init() methods accepts
+(<a href="https://docs.wandb.com/library/init">https://docs.wandb.com/library/init</a>). Note that the wandb_config
+is passed as keyword arguments to the wandb.init() method.
+This provides a lot of flexibility to the users to configure
+wandb. This also means that config should not have any
+parameters that wandb.init() would not accept.Defaults to None.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>ConfigType</code></strong></dt>
-<dd><code>config</code> to construct the <a title="ml_logger.logbook.LogBook" href="#ml_logger.logbook.LogBook"><code>LogBook</code></a></dd>
+<dd>config to construct the LogBook</dd>
 </dl></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def make_config(
-    logger_file_path: str, id: str = &#34;0&#34;, logger_name: str = &#34;default_logger&#34;,
+    id: str = &#34;0&#34;,
+    name: str = &#34;default_logger&#34;,
+    logger_file_path: Optional[str] = None,
+    wandb_config: Optional[ConfigType] = None,
 ) -&gt; ConfigType:
-    &#34;&#34;&#34;Make a config that can be passed to the `LogBook` constructor
+    &#34;&#34;&#34;Make the config that can be passed to the LogBook constructor
 
     Args:
-        logger_file_path (str): Path to the file, where the logs
-            will be written
-        id (str, optional): Id of the current `LogBook` instance. Defaults
-            to &#34;0&#34;
-        logger_name (str, optional): Name of the logger. Defaults to
-            &#34;default_logger&#34;
+        id (str, optional): Id of the current LogBook instance. Defaults to &#34;0&#34;.
+        name (str, optional): Name of the logger. Defaults to &#34;default_logger&#34;.
+        logger_file_path (str, optional):  Path where the logs will be
+            written. If None is pass, logs are not written to the filesystem.
+            Defaults to None.
+        wandb_config (Optional[ConfigType], optional): Config for the wandb
+            logger. If None, wandb logger is not created. The config can
+            have any parameters that wandb.init() methods accepts
+            (https://docs.wandb.com/library/init). Note that the wandb_config
+            is passed as keyword arguments to the wandb.init() method.
+            This provides a lot of flexibility to the users to configure
+            wandb. This also means that config should not have any
+            parameters that wandb.init() would not accept.Defaults to None.
 
     Returns:
-        ConfigType: `config` to construct the `LogBook`
+        ConfigType: config to construct the LogBook
     &#34;&#34;&#34;
+    loggers = {}
+    if logger_file_path is not None:
+        loggers[&#34;filesystem&#34;] = {
+            &#34;logger_file_path&#34;: logger_file_path,
+            &#34;logger_name&#34;: name,
+        }
+    if wandb_config is not None:
+        loggers[&#34;wandb&#34;] = wandb_config
 
-    config = {
-        &#34;id&#34;: id,
-        &#34;logger_file_path&#34;: logger_file_path,
-        &#34;name&#34;: logger_name,
-    }
+    config = {&#34;id&#34;: id, &#34;name&#34;: name, &#34;loggers&#34;: loggers}
     return config</code></pre>
 </details>
 </dd>
@@ -265,26 +263,26 @@ to "0"</dd>
 <dl>
 <dt id="ml_logger.logbook.LogBook"><code class="flex name class">
 <span>class <span class="ident">LogBook</span></span>
-<span>(</span><span>logbook_config, config)</span>
+<span>(</span><span>config)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>This class provides an interface for the experiments to persist
-logs on the filesystem</p>
-<p>Initialise the <code>Logbook</code> class</p>
+<section class="desc"><p>This class provides an interface to persist the logs on filesystem,
+tensorboard, remote backends etc.</p>
+<p>Initialise the Logbook class</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>logbook_config</code></strong> :&ensp;<code>ConfigType</code></dt>
 <dd>Config to initialise the
-<a title="ml_logger.logbook.LogBook" href="#ml_logger.logbook.LogBook"><code>LogBook</code></a> class. The logbook config must have the
+LogBook class. The logbook config must have the
 following keys:
-* <code>id</code>: Id of the current <a title="ml_logger.logbook.LogBook" href="#ml_logger.logbook.LogBook"><code>LogBook</code></a> instance. This
-attribute is logged with each <code>log</code> and is useful
-when multiple <a title="ml_logger.logbook.LogBook" href="#ml_logger.logbook.LogBook"><code>LogBook</code></a> instances are needed (for
+id: Id of the current LogBook instance. This
+attribute is logged with each log and is useful
+when multiple LogBook instances are needed (for
 example with multiprocessing)
-* <code>logger_file_path</code>: Path to the file, where the logs
+logger_file_path: Path to the file, where the logs
 will be written
-The logbook config can be created using the <a title="ml_logger.logbook.make_config" href="#ml_logger.logbook.make_config"><code>make_config()</code></a>
-method defined in <code>ml_logger/logbook.py</code></dd>
+The logbook config can be created using the make_config
+method defined in ml_logger/logbook.py</dd>
 <dt><strong><code>config</code></strong> :&ensp;<code>ConfigType</code></dt>
 <dd>config corresponding to the ml experiment
 creating the logbook</dd>
@@ -294,249 +292,154 @@ creating the logbook</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class LogBook:
-    &#34;&#34;&#34;This class provides an interface for the experiments to persist
-        logs on the filesystem
+    &#34;&#34;&#34;This class provides an interface to persist the logs on filesystem,
+    tensorboard, remote backends etc.
 
     &#34;&#34;&#34;
 
-    def __init__(self, logbook_config: ConfigType, config: ConfigType):
-        &#34;&#34;&#34;Initialise the `Logbook` class
+    def __init__(self, config: ConfigType):
+        &#34;&#34;&#34;Initialise the Logbook class
 
         Args:
             logbook_config (ConfigType): Config to initialise the
-                `LogBook` class. The logbook config must have the
+                LogBook class. The logbook config must have the
                 following keys:
-                * `id`: Id of the current `LogBook` instance. This
-                    attribute is logged with each `log` and is useful
-                    when multiple `LogBook` instances are needed (for
+                id: Id of the current LogBook instance. This
+                    attribute is logged with each log and is useful
+                    when multiple LogBook instances are needed (for
                     example with multiprocessing)
-                * `logger_file_path`: Path to the file, where the logs
+                logger_file_path: Path to the file, where the logs
                     will be written
-                The logbook config can be created using the `make_config`
-                method defined in `ml_logger/logbook.py`
+                The logbook config can be created using the make_config
+                method defined in ml_logger/logbook.py
             config (ConfigType): config corresponding to the ml experiment
                 creating the logbook
         &#34;&#34;&#34;
-        self.id = logbook_config[&#34;id&#34;]
-        self.logger_name = logbook_config[&#34;name&#34;]
-        fs_log.set_logger(
-            logger_file_path=logbook_config[&#34;logger_file_path&#34;],
-            logger_name=self.logger_name,
-        )
-        self.config = config
+        self.id = config[&#34;id&#34;]
+        self.logger_name = config[&#34;name&#34;]
+        self.loggers: List[LoggerType] = []
+        for logger_name, logger_config in config[&#34;loggers&#34;].items():
+            logger_module = importlib.import_module(f&#34;ml_logger.logger.{logger_name}&#34;)
+            logger_cls = getattr(logger_module, &#34;Logger&#34;)
+            logger = logger_cls(config=logger_config)
+            self.loggers.append(logger)
 
-    def _log_metric_to_remote(self, metric: MetricType, metadata: ConfigType) -&gt; None:
-        &#34;&#34;&#34;Log metric to remote backend
-
-        Args:
-            metric (MetricType): metric to log
-            metadata (ConfigType): metadata that is used to interface
-                with the remote backend
-
-        Raises:
-            NotImplementedError: This method is not implemented for the
-                `LogBook` class but maybe implemented by the classes
-                that subclass it.
-        &#34;&#34;&#34;
-
-        raise NotImplementedError(
-            &#34;_log_metric_to_remote() is not implemented for LogBook&#34;
-        )
-
-    def _process_log(self, log: LogType) -&gt; LogType:
+    def _process_log(self, log: LogType, log_type: str) -&gt; LogType:
         &#34;&#34;&#34;Process the log before writing
 
         Args:
-            log (LogType): `log` to process
+            log (LogType): Log to process
+            log_type (str): Type of the log: config, metric, metadata, etc
 
         Returns:
-            LogType: `log` with the following additional fields:
-                * `id`: `id` of the current `LogBook` instance
-                * `timestamp`: current timestamp
+            LogType: Processed log
         &#34;&#34;&#34;
-        log[&#34;id&#34;] = self.id
-        log[&#34;timestamp&#34;] = time.strftime(&#34;%I:%M%p %Z %b %d, %Y&#34;)
+
+        log[&#34;logbook_id&#34;] = self.id
+        log[&#34;logbook_timestamp&#34;] = time.strftime(&#34;%I:%M%p %Z %b %d, %Y&#34;)
+        log[&#34;logbook_type&#34;] = log_type
         return log
 
-    def write_log(
-        self,
-        log: LogType,
-        keys_to_serialize: Optional[List[str]] = None,
-        log_type: str = &#34;metric&#34;,
-    ) -&gt; None:
-        &#34;&#34;&#34;Write log to filesystem
+    def write_log(self, log: LogType, log_type: str = &#34;metric&#34;,) -&gt; None:
+        &#34;&#34;&#34;Write log to loggers
 
         Args:
-            log (LogType): log to write
-            keys_to_serialize (Optional[List[str]], optional): keys
-                (in log) to serialize. If None is passed, all the keys are
-                serialized. Defaults to None.
-            log_type (str, optional): `type` of this log. Defaults to &#34;metric&#34;
-
+            log (LogType): Log to write
+            log_type (str, optional): Type of this log. Defaults to &#34;metric&#34;.
         &#34;&#34;&#34;
 
-        return fs_log.serialize_and_write_log(
-            log=self._process_log(log=log),
-            keys_to_serialize=keys_to_serialize,
-            log_type=log_type,
-            logger_name=self.logger_name,
-        )
+        log = self._process_log(log, log_type)
+        for logger in self.loggers:
+            logger.write_log(log=log)
 
-    def write_config_log(self, config: Optional[ConfigType] = None) -&gt; None:
-        &#34;&#34;&#34;Write config to filesystem
+    def write_config_log(self, config: ConfigType,) -&gt; None:
+        &#34;&#34;&#34;Write config to loggers
 
         Args:
-            config (Optional[ConfigType], optional): Config to write.
-                Defaults to None.
+            config [ConfigType]: Config to write.
         &#34;&#34;&#34;
-        if config is None:
-            config = self.config
+        return self.write_log(log=config, log_type=&#34;config&#34;)
 
-        return self.write_log(log=config, keys_to_serialize=None, log_type=&#34;config&#34;)
-
-    def write_metric_log(self, metric: MetricType) -&gt; None:
-        &#34;&#34;&#34;Write metric to filesystem
+    def write_metric_log(self, metric: MetricType,) -&gt; None:
+        &#34;&#34;&#34;Write metric to loggers
 
         Args:
             metric (MetricType): Metric to write
         &#34;&#34;&#34;
-        return self.write_log(log=metric, keys_to_serialize=None, log_type=&#34;metric&#34;)
-
-    def write_compute_log(self, metric: MetricType) -&gt; None:
-        &#34;&#34;&#34;Write compute log to filesystem
-
-        Args:
-            metric (MetricType): Compute metric to write
-
-        &#34;&#34;&#34;
-        return self.write_log(log=metric, keys_to_serialize=None, log_type=&#34;compute&#34;)
+        return self.write_log(log=metric, log_type=&#34;metric&#34;)
 
     def write_message(self, message: str) -&gt; None:
-        &#34;&#34;&#34;Write message string to filesystem
+        &#34;&#34;&#34;Write message string to loggers
 
         Args:
             message (str): Message string to write
         &#34;&#34;&#34;
-        return self.write_log(
-            log={&#34;messgae&#34;: message}, keys_to_serialize=None, log_type=&#34;message&#34;
-        )
+        return self.write_log(log={&#34;messgae&#34;: message}, log_type=&#34;message&#34;)
 
-    def write_metadata_log(self, metadata: LogType) -&gt; None:
-        &#34;&#34;&#34;Write metadata log to filesystem
+    def write_metadata_log(self, metadata: LogType,) -&gt; None:
+        &#34;&#34;&#34;Write metadata to loggers
 
         Args:
             metadata (LogType): Metadata to wite
         &#34;&#34;&#34;
-        return self.write_log(log=metadata, keys_to_serialize=None, log_type=&#34;metadata&#34;)</code></pre>
+        return self.write_log(log=metadata, log_type=&#34;metadata&#34;)</code></pre>
 </details>
-<h3>Subclasses</h3>
-<ul class="hlist">
-<li><a title="ml_logger.wandb.WandbLogBook" href="wandb.html#ml_logger.wandb.WandbLogBook">WandbLogBook</a></li>
-</ul>
 <h3>Methods</h3>
 <dl>
-<dt id="ml_logger.logbook.LogBook.write_compute_log"><code class="name flex">
-<span>def <span class="ident">write_compute_log</span></span>(<span>self, metric)</span>
-</code></dt>
-<dd>
-<section class="desc"><p>Write compute log to filesystem</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>metric</code></strong> :&ensp;<code>MetricType</code></dt>
-<dd>Compute metric to write</dd>
-</dl></section>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def write_compute_log(self, metric: MetricType) -&gt; None:
-    &#34;&#34;&#34;Write compute log to filesystem
-
-    Args:
-        metric (MetricType): Compute metric to write
-
-    &#34;&#34;&#34;
-    return self.write_log(log=metric, keys_to_serialize=None, log_type=&#34;compute&#34;)</code></pre>
-</details>
-</dd>
 <dt id="ml_logger.logbook.LogBook.write_config_log"><code class="name flex">
-<span>def <span class="ident">write_config_log</span></span>(<span>self, config=None)</span>
+<span>def <span class="ident">write_config_log</span></span>(<span>self, config)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Write config to filesystem</p>
+<section class="desc"><p>Write config to loggers</p>
 <h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>config</code></strong> :&ensp;<code>Optional</code>[<code>ConfigType</code>], optional</dt>
-<dd>Config to write.
-Defaults to None.</dd>
-</dl></section>
+<p>config [ConfigType]: Config to write.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def write_config_log(self, config: Optional[ConfigType] = None) -&gt; None:
-    &#34;&#34;&#34;Write config to filesystem
+<pre><code class="python">def write_config_log(self, config: ConfigType,) -&gt; None:
+    &#34;&#34;&#34;Write config to loggers
 
     Args:
-        config (Optional[ConfigType], optional): Config to write.
-            Defaults to None.
+        config [ConfigType]: Config to write.
     &#34;&#34;&#34;
-    if config is None:
-        config = self.config
-
-    return self.write_log(log=config, keys_to_serialize=None, log_type=&#34;config&#34;)</code></pre>
+    return self.write_log(log=config, log_type=&#34;config&#34;)</code></pre>
 </details>
 </dd>
 <dt id="ml_logger.logbook.LogBook.write_log"><code class="name flex">
-<span>def <span class="ident">write_log</span></span>(<span>self, log, keys_to_serialize=None, log_type='metric')</span>
+<span>def <span class="ident">write_log</span></span>(<span>self, log, log_type='metric')</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Write log to filesystem</p>
+<section class="desc"><p>Write log to loggers</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>log</code></strong> :&ensp;<code>LogType</code></dt>
-<dd>log to write</dd>
-<dt><strong><code>keys_to_serialize</code></strong> :&ensp;<code>Optional</code>[<code>List</code>[<code>str</code>]], optional</dt>
-<dd>keys
-(in log) to serialize. If None is passed, all the keys are
-serialized. Defaults to None.</dd>
+<dd>Log to write</dd>
 <dt><strong><code>log_type</code></strong> :&ensp;<code>str</code>, optional</dt>
-<dd><code>type</code> of this log. Defaults to "metric"</dd>
+<dd>Type of this log. Defaults to "metric".</dd>
 </dl></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def write_log(
-    self,
-    log: LogType,
-    keys_to_serialize: Optional[List[str]] = None,
-    log_type: str = &#34;metric&#34;,
-) -&gt; None:
-    &#34;&#34;&#34;Write log to filesystem
+<pre><code class="python">def write_log(self, log: LogType, log_type: str = &#34;metric&#34;,) -&gt; None:
+    &#34;&#34;&#34;Write log to loggers
 
     Args:
-        log (LogType): log to write
-        keys_to_serialize (Optional[List[str]], optional): keys
-            (in log) to serialize. If None is passed, all the keys are
-            serialized. Defaults to None.
-        log_type (str, optional): `type` of this log. Defaults to &#34;metric&#34;
-
+        log (LogType): Log to write
+        log_type (str, optional): Type of this log. Defaults to &#34;metric&#34;.
     &#34;&#34;&#34;
 
-    return fs_log.serialize_and_write_log(
-        log=self._process_log(log=log),
-        keys_to_serialize=keys_to_serialize,
-        log_type=log_type,
-        logger_name=self.logger_name,
-    )</code></pre>
+    log = self._process_log(log, log_type)
+    for logger in self.loggers:
+        logger.write_log(log=log)</code></pre>
 </details>
 </dd>
 <dt id="ml_logger.logbook.LogBook.write_message"><code class="name flex">
 <span>def <span class="ident">write_message</span></span>(<span>self, message)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Write message string to filesystem</p>
+<section class="desc"><p>Write message string to loggers</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>message</code></strong> :&ensp;<code>str</code></dt>
@@ -547,21 +450,19 @@ serialized. Defaults to None.</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def write_message(self, message: str) -&gt; None:
-    &#34;&#34;&#34;Write message string to filesystem
+    &#34;&#34;&#34;Write message string to loggers
 
     Args:
         message (str): Message string to write
     &#34;&#34;&#34;
-    return self.write_log(
-        log={&#34;messgae&#34;: message}, keys_to_serialize=None, log_type=&#34;message&#34;
-    )</code></pre>
+    return self.write_log(log={&#34;messgae&#34;: message}, log_type=&#34;message&#34;)</code></pre>
 </details>
 </dd>
 <dt id="ml_logger.logbook.LogBook.write_metadata_log"><code class="name flex">
 <span>def <span class="ident">write_metadata_log</span></span>(<span>self, metadata)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Write metadata log to filesystem</p>
+<section class="desc"><p>Write metadata to loggers</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>metadata</code></strong> :&ensp;<code>LogType</code></dt>
@@ -571,20 +472,20 @@ serialized. Defaults to None.</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def write_metadata_log(self, metadata: LogType) -&gt; None:
-    &#34;&#34;&#34;Write metadata log to filesystem
+<pre><code class="python">def write_metadata_log(self, metadata: LogType,) -&gt; None:
+    &#34;&#34;&#34;Write metadata to loggers
 
     Args:
         metadata (LogType): Metadata to wite
     &#34;&#34;&#34;
-    return self.write_log(log=metadata, keys_to_serialize=None, log_type=&#34;metadata&#34;)</code></pre>
+    return self.write_log(log=metadata, log_type=&#34;metadata&#34;)</code></pre>
 </details>
 </dd>
 <dt id="ml_logger.logbook.LogBook.write_metric_log"><code class="name flex">
 <span>def <span class="ident">write_metric_log</span></span>(<span>self, metric)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Write metric to filesystem</p>
+<section class="desc"><p>Write metric to loggers</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>metric</code></strong> :&ensp;<code>MetricType</code></dt>
@@ -594,13 +495,13 @@ serialized. Defaults to None.</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def write_metric_log(self, metric: MetricType) -&gt; None:
-    &#34;&#34;&#34;Write metric to filesystem
+<pre><code class="python">def write_metric_log(self, metric: MetricType,) -&gt; None:
+    &#34;&#34;&#34;Write metric to loggers
 
     Args:
         metric (MetricType): Metric to write
     &#34;&#34;&#34;
-    return self.write_log(log=metric, keys_to_serialize=None, log_type=&#34;metric&#34;)</code></pre>
+    return self.write_log(log=metric, log_type=&#34;metric&#34;)</code></pre>
 </details>
 </dd>
 </dl>
@@ -628,8 +529,7 @@ serialized. Defaults to None.</dd>
 <ul>
 <li>
 <h4><code><a title="ml_logger.logbook.LogBook" href="#ml_logger.logbook.LogBook">LogBook</a></code></h4>
-<ul class="two-column">
-<li><code><a title="ml_logger.logbook.LogBook.write_compute_log" href="#ml_logger.logbook.LogBook.write_compute_log">write_compute_log</a></code></li>
+<ul class="">
 <li><code><a title="ml_logger.logbook.LogBook.write_config_log" href="#ml_logger.logbook.LogBook.write_config_log">write_config_log</a></code></li>
 <li><code><a title="ml_logger.logbook.LogBook.write_log" href="#ml_logger.logbook.LogBook.write_log">write_log</a></code></li>
 <li><code><a title="ml_logger.logbook.LogBook.write_message" href="#ml_logger.logbook.LogBook.write_message">write_message</a></code></li>
