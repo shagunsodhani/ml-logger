@@ -1,8 +1,8 @@
 """Logger class that writes to wandb"""
 
-import tensorboardX
 from ml_logger.logger.base import Logger as BaseLogger
 from ml_logger.types import ConfigType, LogType
+from tensorboardX import SummaryWriter
 
 
 class Logger(BaseLogger):
@@ -24,7 +24,7 @@ class Logger(BaseLogger):
                 tensorboardX.SummaryWriter() would not accept.
         """
         super().__init__(config=config)
-        self.summary_writer = tensorboardX(**config)
+        self.summary_writer = SummaryWriter(**config)
         self.keys_to_skip = ["logbook_id", "logbook_type", "logbook_timestamp"]
 
     def write_log(self, log: LogType) -> None:
