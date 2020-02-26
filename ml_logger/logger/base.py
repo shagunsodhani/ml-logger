@@ -18,6 +18,7 @@ class Logger(metaclass=ABCMeta):
         """
         self.keys_to_retain: Optional[List[str]] = None
         self.keys_to_skip: Optional[List[str]] = None
+        self.keys_to_check: Optional[List[str]] = None
 
     @abstractmethod
     def write_log(self, log: LogType) -> None:

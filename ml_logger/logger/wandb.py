@@ -15,7 +15,7 @@ class Logger(BaseLogger):
 
         Args:
             config (ConfigType): config to initialise the wandb logger.
-                The config can have any parameters that wandb.init() methods
+                The config can have any parameters that wandb.init() method
                 accepts (https://docs.wandb.com/library/init). Note that
                 the config is passed as keyword arguments to the wandb.init()
                 method. This provides a lot of flexibility to the users to
@@ -24,7 +24,8 @@ class Logger(BaseLogger):
         """
         super().__init__(config=config)
         self.keys_to_skip = ["logbook_id", "logbook_type", "logbook_timestamp"]
-        self._run = wandb.init(**config)
+        self.keys_to_check = ["step"]
+        self.run = wandb.init(**config)
 
     def write_log(self, log: LogType) -> None:
         """Write the log to wandb
@@ -40,7 +41,9 @@ class Logger(BaseLogger):
             pass
             # Message can not be written to wandb
         else:
-            assert "step" in log
+            assert self.keys_to_check is not None
+            for key in self.keys_to_check:
+                assert key in log
             step = log.pop("step")
             wandb.log(log, step)
 
