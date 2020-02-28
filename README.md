@@ -45,7 +45,7 @@ Alternatively, `pip install git+ssh://git#github.com/shagunsodhani/ml-logger.git
 
     If you are writing to wandb, the log must have a key called `step`.
 
-    If you are writing to tensorboard, the log must have a key called `main_tag` or `tag` which acts as the data indentifier (Data Identifier is described in https://tensorboardx.readthedocs.io/en/latest/tensorboard.html#tensorboardX.SummaryWriter.add_scalars)
+    If you are writing to tensorboard, the log must have a key called `main_tag` or `tag` which acts as the data Identifier (described [here](https://tensorboardx.readthedocs.io/en/latest/tensorboard.html#tensorboardX.SummaryWriter.add_scalars))
 
 
 ### Documentation
