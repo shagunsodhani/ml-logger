@@ -1,8 +1,8 @@
 """
 Implementation of the LogBook class.
 
-LogBook class provides an interface to persist the logs on filesystem,
-tensorboard, remote backends etc.
+LogBook class provides an interface to persist the logs on the filesystem,
+tensorboard, remote backends, etc.
 
 """
 
@@ -15,8 +15,8 @@ from ml_logger.types import ConfigType, LogType, MetricType
 
 
 class LogBook:
-    """This class provides an interface to persist the logs on filesystem,
-    tensorboard, remote backends etc.
+    """This class provides an interface to persist the logs on the filesystem,
+    tensorboard, remote backends, etc.
 
     """
 
@@ -131,7 +131,7 @@ def make_config(
             (https://docs.wandb.com/library/init). Note that the wandb_config
             is passed as keyword arguments to the wandb.init() method.
             This provides a lot of flexibility to the users to configure
-            wandb. This also means that config should not have any
+            wandb. This also means that the config should not have any
             parameters that wandb.init() would not accept. Defaults to None.
         tensorboard_config (Optional[ConfigType], optional): config to
             initialise the tensorboardX logger. The config can have
