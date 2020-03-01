@@ -273,7 +273,10 @@ class MetricDict:
         """
         for key, val in metrics_dict.items():
             if key in self._metrics_dict:
-                self._metrics_dict[key].update(val)
+                if isinstance(val, Iterable):
+                    self._metrics_dict[key].update(*val)
+                else:
+                    self._metrics_dict[key].update(val)
 
     def __str__(self) -> str:
         return "\n".join([repr(val) for key, val in self._metrics_dict.items()])
