@@ -63,8 +63,8 @@ def test_metric_dict() -> None:
         [
             metrics.CurrentMetric(name="test_current_metric"),
             metrics.ConstantMetric(name="test_constant_metric", val=constant_val),
-            # metrics.MaxMetric(name="test_max_metric"),
-            # metrics.MinMetric(name="test_min_metric"),
+            metrics.MaxMetric(name="test_max_metric"),
+            metrics.MinMetric(name="test_min_metric"),
             metrics.AverageMetric(name="test_average_metric"),
             metrics.SumMetric(name="test_sum_metric"),
         ]
@@ -78,10 +78,11 @@ def test_metric_dict() -> None:
     expected_metric_dict = {
         "test_current_metric": 100,
         "test_constant_metric": 1000,
+        "test_max_metric": 100,
+        "test_min_metric": 1,
         "test_average_metric": 50.5,
         "test_sum_metric": 5050.0,
     }
-    print(actual_metric_dict)
     assert len(actual_metric_dict) == len(expected_metric_dict)
     for key in expected_metric_dict:
         assert key in actual_metric_dict
