@@ -181,7 +181,7 @@ class MinMetric(ComparisonMetric):
         Args:
             name (str): Name of the metric
         """
-        super().__init__(name=name, default_val=float("inf"), comparison_op=operator.lt)
+        super().__init__(name=name, default_val=float("inf"), comparison_op=operator.gt)
 
 
 class AverageMetric(BaseMetric):
