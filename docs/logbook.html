@@ -21,8 +21,8 @@
 </header>
 <section id="section-intro">
 <p>Implementation of the LogBook class.</p>
-<p>LogBook class provides an interface to persist the logs on filesystem,
-tensorboard, remote backends etc.</p>
+<p>LogBook class provides an interface to persist the logs on the filesystem,
+tensorboard, remote backends, etc.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -30,8 +30,8 @@ tensorboard, remote backends etc.</p>
 <pre><code class="python">&#34;&#34;&#34;
 Implementation of the LogBook class.
 
-LogBook class provides an interface to persist the logs on filesystem,
-tensorboard, remote backends etc.
+LogBook class provides an interface to persist the logs on the filesystem,
+tensorboard, remote backends, etc.
 
 &#34;&#34;&#34;
 
@@ -44,8 +44,8 @@ from ml_logger.types import ConfigType, LogType, MetricType
 
 
 class LogBook:
-    &#34;&#34;&#34;This class provides an interface to persist the logs on filesystem,
-    tensorboard, remote backends etc.
+    &#34;&#34;&#34;This class provides an interface to persist the logs on the filesystem,
+    tensorboard, remote backends, etc.
 
     &#34;&#34;&#34;
 
@@ -92,7 +92,7 @@ class LogBook:
         log[&#34;logbook_type&#34;] = log_type
         return log
 
-    def write_log(self, log: LogType, log_type: str = &#34;metric&#34;,) -&gt; None:
+    def write_log(self, log: LogType, log_type: str = &#34;metric&#34;) -&gt; None:
         &#34;&#34;&#34;Write log to loggers
 
         Args:
@@ -104,7 +104,7 @@ class LogBook:
         for logger in self.loggers:
             logger.write_log(log=log)
 
-    def write_config_log(self, config: ConfigType,) -&gt; None:
+    def write_config_log(self, config: ConfigType) -&gt; None:
         &#34;&#34;&#34;Write config to loggers
 
         Args:
@@ -112,7 +112,7 @@ class LogBook:
         &#34;&#34;&#34;
         return self.write_log(log=config, log_type=&#34;config&#34;)
 
-    def write_metric_log(self, metric: MetricType,) -&gt; None:
+    def write_metric_log(self, metric: MetricType) -&gt; None:
         &#34;&#34;&#34;Write metric to loggers
 
         Args:
@@ -120,15 +120,17 @@ class LogBook:
         &#34;&#34;&#34;
         return self.write_log(log=metric, log_type=&#34;metric&#34;)
 
-    def write_message(self, message: str) -&gt; None:
+    def write_message(self, message: str, log_type: str = &#34;info&#34;) -&gt; None:
         &#34;&#34;&#34;Write message string to loggers
 
         Args:
             message (str): Message string to write
+            log_type (str, optional): Type of this message (log).
+                Defaults to &#34;info&#34;.
         &#34;&#34;&#34;
-        return self.write_log(log={&#34;messgae&#34;: message}, log_type=&#34;message&#34;)
+        return self.write_log(log={&#34;messgae&#34;: message}, log_type=log_type)
 
-    def write_metadata_log(self, metadata: LogType,) -&gt; None:
+    def write_metadata_log(self, metadata: LogType) -&gt; None:
         &#34;&#34;&#34;Write metadata to loggers
 
         Args:
@@ -142,6 +144,7 @@ def make_config(
     name: str = &#34;default_logger&#34;,
     logger_file_path: Optional[str] = None,
     wandb_config: Optional[ConfigType] = None,
+    tensorboard_config: Optional[ConfigType] = None,
 ) -&gt; ConfigType:
     &#34;&#34;&#34;Make the config that can be passed to the LogBook constructor
 
@@ -157,8 +160,17 @@ def make_config(
             (https://docs.wandb.com/library/init). Note that the wandb_config
             is passed as keyword arguments to the wandb.init() method.
             This provides a lot of flexibility to the users to configure
-            wandb. This also means that config should not have any
-            parameters that wandb.init() would not accept.Defaults to None.
+            wandb. This also means that the config should not have any
+            parameters that wandb.init() would not accept. Defaults to None.
+        tensorboard_config (Optional[ConfigType], optional): config to
+            initialise the tensorboardX logger. The config can have
+            any parameters that tensorboardX.SummaryWriter() method accepts
+            (https://tensorboardx.readthedocs.io/en/latest/tensorboard.html#tensorboardX.SummaryWriter).
+            Note that the config is passed as keyword arguments to the
+            tensorboardX.SummaryWriter() method. This provides a lot
+            of flexibility to the users to configure wandb. This also
+            means that config should not have any parameters that
+            tensorboardX.SummaryWriter() would not accept. Defaults to None.
 
     Returns:
         ConfigType: config to construct the LogBook
@@ -172,6 +184,9 @@ def make_config(
     if wandb_config is not None:
         loggers[&#34;wandb&#34;] = wandb_config
 
+    if tensorboard_config is not None:
+        loggers[&#34;tensorboard&#34;] = tensorboard_config
+
     config = {&#34;id&#34;: id, &#34;name&#34;: name, &#34;loggers&#34;: loggers}
     return config</code></pre>
 </details>
@@ -184,7 +199,7 @@ def make_config(
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="ml_logger.logbook.make_config"><code class="name flex">
-<span>def <span class="ident">make_config</span></span>(<span>id='0', name='default_logger', logger_file_path=None, wandb_config=None)</span>
+<span>def <span class="ident">make_config</span></span>(<span>id='0', name='default_logger', logger_file_path=None, wandb_config=None, tensorboard_config=None)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Make the config that can be passed to the LogBook constructor</p>
@@ -205,8 +220,18 @@ have any parameters that wandb.init() methods accepts
 (<a href="https://docs.wandb.com/library/init">https://docs.wandb.com/library/init</a>). Note that the wandb_config
 is passed as keyword arguments to the wandb.init() method.
 This provides a lot of flexibility to the users to configure
-wandb. This also means that config should not have any
-parameters that wandb.init() would not accept.Defaults to None.</dd>
+wandb. This also means that the config should not have any
+parameters that wandb.init() would not accept. Defaults to None.</dd>
+<dt><strong><code>tensorboard_config</code></strong> :&ensp;<code>Optional</code>[<code>ConfigType</code>], optional</dt>
+<dd>config to
+initialise the tensorboardX logger. The config can have
+any parameters that tensorboardX.SummaryWriter() method accepts
+(<a href="https://tensorboardx.readthedocs.io/en/latest/tensorboard.html#tensorboardX.SummaryWriter">https://tensorboardx.readthedocs.io/en/latest/tensorboard.html#tensorboardX.SummaryWriter</a>).
+Note that the config is passed as keyword arguments to the
+tensorboardX.SummaryWriter() method. This provides a lot
+of flexibility to the users to configure wandb. This also
+means that config should not have any parameters that
+tensorboardX.SummaryWriter() would not accept. Defaults to None.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -222,6 +247,7 @@ parameters that wandb.init() would not accept.Defaults to None.</dd>
     name: str = &#34;default_logger&#34;,
     logger_file_path: Optional[str] = None,
     wandb_config: Optional[ConfigType] = None,
+    tensorboard_config: Optional[ConfigType] = None,
 ) -&gt; ConfigType:
     &#34;&#34;&#34;Make the config that can be passed to the LogBook constructor
 
@@ -237,8 +263,17 @@ parameters that wandb.init() would not accept.Defaults to None.</dd>
             (https://docs.wandb.com/library/init). Note that the wandb_config
             is passed as keyword arguments to the wandb.init() method.
             This provides a lot of flexibility to the users to configure
-            wandb. This also means that config should not have any
-            parameters that wandb.init() would not accept.Defaults to None.
+            wandb. This also means that the config should not have any
+            parameters that wandb.init() would not accept. Defaults to None.
+        tensorboard_config (Optional[ConfigType], optional): config to
+            initialise the tensorboardX logger. The config can have
+            any parameters that tensorboardX.SummaryWriter() method accepts
+            (https://tensorboardx.readthedocs.io/en/latest/tensorboard.html#tensorboardX.SummaryWriter).
+            Note that the config is passed as keyword arguments to the
+            tensorboardX.SummaryWriter() method. This provides a lot
+            of flexibility to the users to configure wandb. This also
+            means that config should not have any parameters that
+            tensorboardX.SummaryWriter() would not accept. Defaults to None.
 
     Returns:
         ConfigType: config to construct the LogBook
@@ -251,6 +286,9 @@ parameters that wandb.init() would not accept.Defaults to None.</dd>
         }
     if wandb_config is not None:
         loggers[&#34;wandb&#34;] = wandb_config
+
+    if tensorboard_config is not None:
+        loggers[&#34;tensorboard&#34;] = tensorboard_config
 
     config = {&#34;id&#34;: id, &#34;name&#34;: name, &#34;loggers&#34;: loggers}
     return config</code></pre>
@@ -266,8 +304,8 @@ parameters that wandb.init() would not accept.Defaults to None.</dd>
 <span>(</span><span>config)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>This class provides an interface to persist the logs on filesystem,
-tensorboard, remote backends etc.</p>
+<section class="desc"><p>This class provides an interface to persist the logs on the filesystem,
+tensorboard, remote backends, etc.</p>
 <p>Initialise the Logbook class</p>
 <h2 id="args">Args</h2>
 <dl>
@@ -292,8 +330,8 @@ creating the logbook</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class LogBook:
-    &#34;&#34;&#34;This class provides an interface to persist the logs on filesystem,
-    tensorboard, remote backends etc.
+    &#34;&#34;&#34;This class provides an interface to persist the logs on the filesystem,
+    tensorboard, remote backends, etc.
 
     &#34;&#34;&#34;
 
@@ -340,7 +378,7 @@ creating the logbook</dd>
         log[&#34;logbook_type&#34;] = log_type
         return log
 
-    def write_log(self, log: LogType, log_type: str = &#34;metric&#34;,) -&gt; None:
+    def write_log(self, log: LogType, log_type: str = &#34;metric&#34;) -&gt; None:
         &#34;&#34;&#34;Write log to loggers
 
         Args:
@@ -352,7 +390,7 @@ creating the logbook</dd>
         for logger in self.loggers:
             logger.write_log(log=log)
 
-    def write_config_log(self, config: ConfigType,) -&gt; None:
+    def write_config_log(self, config: ConfigType) -&gt; None:
         &#34;&#34;&#34;Write config to loggers
 
         Args:
@@ -360,7 +398,7 @@ creating the logbook</dd>
         &#34;&#34;&#34;
         return self.write_log(log=config, log_type=&#34;config&#34;)
 
-    def write_metric_log(self, metric: MetricType,) -&gt; None:
+    def write_metric_log(self, metric: MetricType) -&gt; None:
         &#34;&#34;&#34;Write metric to loggers
 
         Args:
@@ -368,15 +406,17 @@ creating the logbook</dd>
         &#34;&#34;&#34;
         return self.write_log(log=metric, log_type=&#34;metric&#34;)
 
-    def write_message(self, message: str) -&gt; None:
+    def write_message(self, message: str, log_type: str = &#34;info&#34;) -&gt; None:
         &#34;&#34;&#34;Write message string to loggers
 
         Args:
             message (str): Message string to write
+            log_type (str, optional): Type of this message (log).
+                Defaults to &#34;info&#34;.
         &#34;&#34;&#34;
-        return self.write_log(log={&#34;messgae&#34;: message}, log_type=&#34;message&#34;)
+        return self.write_log(log={&#34;messgae&#34;: message}, log_type=log_type)
 
-    def write_metadata_log(self, metadata: LogType,) -&gt; None:
+    def write_metadata_log(self, metadata: LogType) -&gt; None:
         &#34;&#34;&#34;Write metadata to loggers
 
         Args:
@@ -397,7 +437,7 @@ creating the logbook</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def write_config_log(self, config: ConfigType,) -&gt; None:
+<pre><code class="python">def write_config_log(self, config: ConfigType) -&gt; None:
     &#34;&#34;&#34;Write config to loggers
 
     Args:
@@ -422,7 +462,7 @@ creating the logbook</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def write_log(self, log: LogType, log_type: str = &#34;metric&#34;,) -&gt; None:
+<pre><code class="python">def write_log(self, log: LogType, log_type: str = &#34;metric&#34;) -&gt; None:
     &#34;&#34;&#34;Write log to loggers
 
     Args:
@@ -436,7 +476,7 @@ creating the logbook</dd>
 </details>
 </dd>
 <dt id="ml_logger.logbook.LogBook.write_message"><code class="name flex">
-<span>def <span class="ident">write_message</span></span>(<span>self, message)</span>
+<span>def <span class="ident">write_message</span></span>(<span>self, message, log_type='info')</span>
 </code></dt>
 <dd>
 <section class="desc"><p>Write message string to loggers</p>
@@ -444,18 +484,23 @@ creating the logbook</dd>
 <dl>
 <dt><strong><code>message</code></strong> :&ensp;<code>str</code></dt>
 <dd>Message string to write</dd>
+<dt><strong><code>log_type</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Type of this message (log).
+Defaults to "info".</dd>
 </dl></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def write_message(self, message: str) -&gt; None:
+<pre><code class="python">def write_message(self, message: str, log_type: str = &#34;info&#34;) -&gt; None:
     &#34;&#34;&#34;Write message string to loggers
 
     Args:
         message (str): Message string to write
+        log_type (str, optional): Type of this message (log).
+            Defaults to &#34;info&#34;.
     &#34;&#34;&#34;
-    return self.write_log(log={&#34;messgae&#34;: message}, log_type=&#34;message&#34;)</code></pre>
+    return self.write_log(log={&#34;messgae&#34;: message}, log_type=log_type)</code></pre>
 </details>
 </dd>
 <dt id="ml_logger.logbook.LogBook.write_metadata_log"><code class="name flex">
@@ -472,7 +517,7 @@ creating the logbook</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def write_metadata_log(self, metadata: LogType,) -&gt; None:
+<pre><code class="python">def write_metadata_log(self, metadata: LogType) -&gt; None:
     &#34;&#34;&#34;Write metadata to loggers
 
     Args:
@@ -495,7 +540,7 @@ creating the logbook</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def write_metric_log(self, metric: MetricType,) -&gt; None:
+<pre><code class="python">def write_metric_log(self, metric: MetricType) -&gt; None:
     &#34;&#34;&#34;Write metric to loggers
 
     Args:

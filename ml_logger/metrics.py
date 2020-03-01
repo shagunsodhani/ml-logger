@@ -1,8 +1,9 @@
 """Implementation of different type of metrics"""
 
+import operator
 from typing import Any, Iterable, Optional
 
-from ml_logger.types import LogType, NumType, ValueType
+from ml_logger.types import ComparisonOpType, LogType, NumType, ValueType
 
 
 class BaseMetric:
@@ -92,6 +93,95 @@ class ConstantMetric(BaseMetric):
             val (Any): This value is ignored
         """
         return None
+
+
+class ComparisonMetric(BaseMetric):
+    """Metric to track the min/max value
+
+    This is generally used for logging best accuracy, least loss, etc.
+
+    Args:
+        BaseMetric: Base metric class
+    """
+
+    def __init__(
+        self, name: str, default_val: ValueType, comparison_op: ComparisonOpType
+    ):
+        """Metric to track the min/max value
+
+        This is generally used for logging best accuracy, least loss, etc.
+
+        Args:
+            name (str): Name of the metric
+            default_val (ValueType): Default value to initialise the metric
+            comparison_op (ComparisonOpType): Operator to compare the current
+                value with the incoming value.
+                If comparison_op(current_val, new_val) is true, we update
+                the current value.
+        """
+        self.name = name
+        self._default_val = default_val
+        self.comparison_op = comparison_op
+        self.val = default_val
+
+    def reset(self) -> None:
+        """Reset the metric to the default value"""
+        self.val = self._default_val
+
+    def update(self, val: ValueType) -> None:
+        """Use the comparison operator to decide which value to keep
+
+        If the output of self.comparison_op(val, self)
+
+        Args:
+            val (ValueType): Value to compare the current value with.
+                If comparison_op(current_val, new_val) is true, we update
+                the current value.
+        """
+        if self.comparison_op(self.val, val):
+            self.val = val
+
+
+class MaxMetric(ComparisonMetric):
+    """Metric to track the max value
+
+    This is generally used for logging best accuracy, etc.
+
+    Args:
+        ComparisonMetric: Comparison metric class
+    """
+
+    def __init__(self, name: str):
+        """Metric to track the max value
+
+        This is generally used for logging best accuracy, etc.
+
+        Args:
+            name (str): Name of the metric
+        """
+        super().__init__(
+            name=name, default_val=float("-inf"), comparison_op=operator.lt
+        )
+
+
+class MinMetric(ComparisonMetric):
+    """Metric to track the min value
+
+    This is generally used for logging least loss, etc.
+
+    Args:
+        ComparisonMetric: Comparison metric class
+    """
+
+    def __init__(self, name: str):
+        """Metric to track the min value
+
+        This is generally used for logging least loss, etc.
+
+        Args:
+            name (str): Name of the metric
+        """
+        super().__init__(name=name, default_val=float("inf"), comparison_op=operator.gt)
 
 
 class AverageMetric(BaseMetric):

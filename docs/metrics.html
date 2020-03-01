@@ -27,9 +27,10 @@
 </summary>
 <pre><code class="python">&#34;&#34;&#34;Implementation of different type of metrics&#34;&#34;&#34;
 
+import operator
 from typing import Any, Iterable, Optional
 
-from ml_logger.types import LogType, NumType, ValueType
+from ml_logger.types import ComparisonOpType, LogType, NumType, ValueType
 
 
 class BaseMetric:
@@ -119,6 +120,95 @@ class ConstantMetric(BaseMetric):
             val (Any): This value is ignored
         &#34;&#34;&#34;
         return None
+
+
+class ComparisonMetric(BaseMetric):
+    &#34;&#34;&#34;Metric to track the min/max value
+
+    This is generally used for logging best accuracy, least loss, etc.
+
+    Args:
+        BaseMetric: Base metric class
+    &#34;&#34;&#34;
+
+    def __init__(
+        self, name: str, default_val: ValueType, comparison_op: ComparisonOpType
+    ):
+        &#34;&#34;&#34;Metric to track the min/max value
+
+        This is generally used for logging best accuracy, least loss, etc.
+
+        Args:
+            name (str): Name of the metric
+            default_val (ValueType): Default value to initialise the metric
+            comparison_op (ComparisonOpType): Operator to compare the current
+                value with the incoming value.
+                If comparison_op(current_val, new_val) is true, we update
+                the current value.
+        &#34;&#34;&#34;
+        self.name = name
+        self._default_val = default_val
+        self.comparison_op = comparison_op
+        self.val = default_val
+
+    def reset(self) -&gt; None:
+        &#34;&#34;&#34;Reset the metric to the default value&#34;&#34;&#34;
+        self.val = self._default_val
+
+    def update(self, val: ValueType) -&gt; None:
+        &#34;&#34;&#34;Use the comparison operator to decide which value to keep
+
+        If the output of self.comparison_op(val, self)
+
+        Args:
+            val (ValueType): Value to compare the current value with.
+                If comparison_op(current_val, new_val) is true, we update
+                the current value.
+        &#34;&#34;&#34;
+        if self.comparison_op(self.val, val):
+            self.val = val
+
+
+class MaxMetric(ComparisonMetric):
+    &#34;&#34;&#34;Metric to track the max value
+
+    This is generally used for logging best accuracy, etc.
+
+    Args:
+        ComparisonMetric: Comparison metric class
+    &#34;&#34;&#34;
+
+    def __init__(self, name: str):
+        &#34;&#34;&#34;Metric to track the max value
+
+        This is generally used for logging best accuracy, etc.
+
+        Args:
+            name (str): Name of the metric
+        &#34;&#34;&#34;
+        super().__init__(
+            name=name, default_val=float(&#34;-inf&#34;), comparison_op=operator.lt
+        )
+
+
+class MinMetric(ComparisonMetric):
+    &#34;&#34;&#34;Metric to track the min value
+
+    This is generally used for logging least loss, etc.
+
+    Args:
+        ComparisonMetric: Comparison metric class
+    &#34;&#34;&#34;
+
+    def __init__(self, name: str):
+        &#34;&#34;&#34;Metric to track the min value
+
+        This is generally used for logging least loss, etc.
+
+        Args:
+            name (str): Name of the metric
+        &#34;&#34;&#34;
+        super().__init__(name=name, default_val=float(&#34;inf&#34;), comparison_op=operator.gt)
 
 
 class AverageMetric(BaseMetric):
@@ -432,6 +522,7 @@ average. Defaults to 1</dd>
 <h3>Subclasses</h3>
 <ul class="hlist">
 <li><a title="ml_logger.metrics.AverageMetric" href="#ml_logger.metrics.AverageMetric">AverageMetric</a></li>
+<li><a title="ml_logger.metrics.ComparisonMetric" href="#ml_logger.metrics.ComparisonMetric">ComparisonMetric</a></li>
 <li><a title="ml_logger.metrics.ConstantMetric" href="#ml_logger.metrics.ConstantMetric">ConstantMetric</a></li>
 <li><a title="ml_logger.metrics.CurrentMetric" href="#ml_logger.metrics.CurrentMetric">CurrentMetric</a></li>
 </ul>
@@ -494,6 +585,135 @@ metric</dd>
 </details>
 </dd>
 </dl>
+</dd>
+<dt id="ml_logger.metrics.ComparisonMetric"><code class="flex name class">
+<span>class <span class="ident">ComparisonMetric</span></span>
+<span>(</span><span>name, default_val, comparison_op)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Metric to track the min/max value</p>
+<p>This is generally used for logging best accuracy, least loss, etc.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><a title="ml_logger.metrics.BaseMetric" href="#ml_logger.metrics.BaseMetric"><code>BaseMetric</code></a></strong></dt>
+<dd>Base metric class</dd>
+</dl>
+<p>Metric to track the min/max value</p>
+<p>This is generally used for logging best accuracy, least loss, etc.</p>
+<h2 id="args_1">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the metric</dd>
+<dt><strong><code>default_val</code></strong> :&ensp;<code>ValueType</code></dt>
+<dd>Default value to initialise the metric</dd>
+<dt><strong><code>comparison_op</code></strong> :&ensp;<code>ComparisonOpType</code></dt>
+<dd>Operator to compare the current
+value with the incoming value.
+If comparison_op(current_val, new_val) is true, we update
+the current value.</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ComparisonMetric(BaseMetric):
+    &#34;&#34;&#34;Metric to track the min/max value
+
+    This is generally used for logging best accuracy, least loss, etc.
+
+    Args:
+        BaseMetric: Base metric class
+    &#34;&#34;&#34;
+
+    def __init__(
+        self, name: str, default_val: ValueType, comparison_op: ComparisonOpType
+    ):
+        &#34;&#34;&#34;Metric to track the min/max value
+
+        This is generally used for logging best accuracy, least loss, etc.
+
+        Args:
+            name (str): Name of the metric
+            default_val (ValueType): Default value to initialise the metric
+            comparison_op (ComparisonOpType): Operator to compare the current
+                value with the incoming value.
+                If comparison_op(current_val, new_val) is true, we update
+                the current value.
+        &#34;&#34;&#34;
+        self.name = name
+        self._default_val = default_val
+        self.comparison_op = comparison_op
+        self.val = default_val
+
+    def reset(self) -&gt; None:
+        &#34;&#34;&#34;Reset the metric to the default value&#34;&#34;&#34;
+        self.val = self._default_val
+
+    def update(self, val: ValueType) -&gt; None:
+        &#34;&#34;&#34;Use the comparison operator to decide which value to keep
+
+        If the output of self.comparison_op(val, self)
+
+        Args:
+            val (ValueType): Value to compare the current value with.
+                If comparison_op(current_val, new_val) is true, we update
+                the current value.
+        &#34;&#34;&#34;
+        if self.comparison_op(self.val, val):
+            self.val = val</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="ml_logger.metrics.BaseMetric" href="#ml_logger.metrics.BaseMetric">BaseMetric</a></li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="ml_logger.metrics.MaxMetric" href="#ml_logger.metrics.MaxMetric">MaxMetric</a></li>
+<li><a title="ml_logger.metrics.MinMetric" href="#ml_logger.metrics.MinMetric">MinMetric</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="ml_logger.metrics.ComparisonMetric.update"><code class="name flex">
+<span>def <span class="ident">update</span></span>(<span>self, val)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Use the comparison operator to decide which value to keep</p>
+<p>If the output of self.comparison_op(val, self)</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>val</code></strong> :&ensp;<code>ValueType</code></dt>
+<dd>Value to compare the current value with.
+If comparison_op(current_val, new_val) is true, we update
+the current value.</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update(self, val: ValueType) -&gt; None:
+    &#34;&#34;&#34;Use the comparison operator to decide which value to keep
+
+    If the output of self.comparison_op(val, self)
+
+    Args:
+        val (ValueType): Value to compare the current value with.
+            If comparison_op(current_val, new_val) is true, we update
+            the current value.
+    &#34;&#34;&#34;
+    if self.comparison_op(self.val, val):
+        self.val = val</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="ml_logger.metrics.BaseMetric" href="#ml_logger.metrics.BaseMetric">BaseMetric</a></b></code>:
+<ul class="hlist">
+<li><code><a title="ml_logger.metrics.BaseMetric.get_val" href="#ml_logger.metrics.BaseMetric.get_val">get_val</a></code></li>
+<li><code><a title="ml_logger.metrics.BaseMetric.reset" href="#ml_logger.metrics.BaseMetric.reset">reset</a></code></li>
+</ul>
+</li>
+</ul>
 </dd>
 <dt id="ml_logger.metrics.ConstantMetric"><code class="flex name class">
 <span>class <span class="ident">ConstantMetric</span></span>
@@ -676,6 +896,66 @@ metric</dd>
 </li>
 </ul>
 </dd>
+<dt id="ml_logger.metrics.MaxMetric"><code class="flex name class">
+<span>class <span class="ident">MaxMetric</span></span>
+<span>(</span><span>name)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Metric to track the max value</p>
+<p>This is generally used for logging best accuracy, etc.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><a title="ml_logger.metrics.ComparisonMetric" href="#ml_logger.metrics.ComparisonMetric"><code>ComparisonMetric</code></a></strong></dt>
+<dd>Comparison metric class</dd>
+</dl>
+<p>Metric to track the max value</p>
+<p>This is generally used for logging best accuracy, etc.</p>
+<h2 id="args_1">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the metric</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class MaxMetric(ComparisonMetric):
+    &#34;&#34;&#34;Metric to track the max value
+
+    This is generally used for logging best accuracy, etc.
+
+    Args:
+        ComparisonMetric: Comparison metric class
+    &#34;&#34;&#34;
+
+    def __init__(self, name: str):
+        &#34;&#34;&#34;Metric to track the max value
+
+        This is generally used for logging best accuracy, etc.
+
+        Args:
+            name (str): Name of the metric
+        &#34;&#34;&#34;
+        super().__init__(
+            name=name, default_val=float(&#34;-inf&#34;), comparison_op=operator.lt
+        )</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="ml_logger.metrics.ComparisonMetric" href="#ml_logger.metrics.ComparisonMetric">ComparisonMetric</a></li>
+<li><a title="ml_logger.metrics.BaseMetric" href="#ml_logger.metrics.BaseMetric">BaseMetric</a></li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="ml_logger.metrics.ComparisonMetric" href="#ml_logger.metrics.ComparisonMetric">ComparisonMetric</a></b></code>:
+<ul class="hlist">
+<li><code><a title="ml_logger.metrics.ComparisonMetric.get_val" href="#ml_logger.metrics.BaseMetric.get_val">get_val</a></code></li>
+<li><code><a title="ml_logger.metrics.ComparisonMetric.reset" href="#ml_logger.metrics.BaseMetric.reset">reset</a></code></li>
+<li><code><a title="ml_logger.metrics.ComparisonMetric.update" href="#ml_logger.metrics.ComparisonMetric.update">update</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
 <dt id="ml_logger.metrics.MetricDict"><code class="flex name class">
 <span>class <span class="ident">MetricDict</span></span>
 <span>(</span><span>metric_list)</span>
@@ -805,6 +1085,64 @@ logged using the <code>LogBook</code></p>
 </dd>
 </dl>
 </dd>
+<dt id="ml_logger.metrics.MinMetric"><code class="flex name class">
+<span>class <span class="ident">MinMetric</span></span>
+<span>(</span><span>name)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Metric to track the min value</p>
+<p>This is generally used for logging least loss, etc.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><a title="ml_logger.metrics.ComparisonMetric" href="#ml_logger.metrics.ComparisonMetric"><code>ComparisonMetric</code></a></strong></dt>
+<dd>Comparison metric class</dd>
+</dl>
+<p>Metric to track the min value</p>
+<p>This is generally used for logging least loss, etc.</p>
+<h2 id="args_1">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the metric</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class MinMetric(ComparisonMetric):
+    &#34;&#34;&#34;Metric to track the min value
+
+    This is generally used for logging least loss, etc.
+
+    Args:
+        ComparisonMetric: Comparison metric class
+    &#34;&#34;&#34;
+
+    def __init__(self, name: str):
+        &#34;&#34;&#34;Metric to track the min value
+
+        This is generally used for logging least loss, etc.
+
+        Args:
+            name (str): Name of the metric
+        &#34;&#34;&#34;
+        super().__init__(name=name, default_val=float(&#34;inf&#34;), comparison_op=operator.gt)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="ml_logger.metrics.ComparisonMetric" href="#ml_logger.metrics.ComparisonMetric">ComparisonMetric</a></li>
+<li><a title="ml_logger.metrics.BaseMetric" href="#ml_logger.metrics.BaseMetric">BaseMetric</a></li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="ml_logger.metrics.ComparisonMetric" href="#ml_logger.metrics.ComparisonMetric">ComparisonMetric</a></b></code>:
+<ul class="hlist">
+<li><code><a title="ml_logger.metrics.ComparisonMetric.get_val" href="#ml_logger.metrics.BaseMetric.get_val">get_val</a></code></li>
+<li><code><a title="ml_logger.metrics.ComparisonMetric.reset" href="#ml_logger.metrics.BaseMetric.reset">reset</a></code></li>
+<li><code><a title="ml_logger.metrics.ComparisonMetric.update" href="#ml_logger.metrics.ComparisonMetric.update">update</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
 <dt id="ml_logger.metrics.SumMetric"><code class="flex name class">
 <span>class <span class="ident">SumMetric</span></span>
 <span>(</span><span>name)</span>
@@ -909,6 +1247,12 @@ logged using the <code>LogBook</code></p>
 </ul>
 </li>
 <li>
+<h4><code><a title="ml_logger.metrics.ComparisonMetric" href="#ml_logger.metrics.ComparisonMetric">ComparisonMetric</a></code></h4>
+<ul class="">
+<li><code><a title="ml_logger.metrics.ComparisonMetric.update" href="#ml_logger.metrics.ComparisonMetric.update">update</a></code></li>
+</ul>
+</li>
+<li>
 <h4><code><a title="ml_logger.metrics.ConstantMetric" href="#ml_logger.metrics.ConstantMetric">ConstantMetric</a></code></h4>
 <ul class="">
 <li><code><a title="ml_logger.metrics.ConstantMetric.reset" href="#ml_logger.metrics.ConstantMetric.reset">reset</a></code></li>
@@ -922,12 +1266,18 @@ logged using the <code>LogBook</code></p>
 </ul>
 </li>
 <li>
+<h4><code><a title="ml_logger.metrics.MaxMetric" href="#ml_logger.metrics.MaxMetric">MaxMetric</a></code></h4>
+</li>
+<li>
 <h4><code><a title="ml_logger.metrics.MetricDict" href="#ml_logger.metrics.MetricDict">MetricDict</a></code></h4>
 <ul class="">
 <li><code><a title="ml_logger.metrics.MetricDict.reset" href="#ml_logger.metrics.MetricDict.reset">reset</a></code></li>
 <li><code><a title="ml_logger.metrics.MetricDict.to_dict" href="#ml_logger.metrics.MetricDict.to_dict">to_dict</a></code></li>
 <li><code><a title="ml_logger.metrics.MetricDict.update" href="#ml_logger.metrics.MetricDict.update">update</a></code></li>
 </ul>
+</li>
+<li>
+<h4><code><a title="ml_logger.metrics.MinMetric" href="#ml_logger.metrics.MinMetric">MinMetric</a></code></h4>
 </li>
 <li>
 <h4><code><a title="ml_logger.metrics.SumMetric" href="#ml_logger.metrics.SumMetric">SumMetric</a></code></h4>

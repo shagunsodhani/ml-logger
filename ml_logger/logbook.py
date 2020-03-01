@@ -1,8 +1,8 @@
 """
 Implementation of the LogBook class.
 
-LogBook class provides an interface to persist the logs on filesystem,
-tensorboard, remote backends etc.
+LogBook class provides an interface to persist the logs on the filesystem,
+tensorboard, remote backends, etc.
 
 """
 
@@ -15,8 +15,8 @@ from ml_logger.types import ConfigType, LogType, MetricType
 
 
 class LogBook:
-    """This class provides an interface to persist the logs on filesystem,
-    tensorboard, remote backends etc.
+    """This class provides an interface to persist the logs on the filesystem,
+    tensorboard, remote backends, etc.
 
     """
 
@@ -63,7 +63,7 @@ class LogBook:
         log["logbook_type"] = log_type
         return log
 
-    def write_log(self, log: LogType, log_type: str = "metric",) -> None:
+    def write_log(self, log: LogType, log_type: str = "metric") -> None:
         """Write log to loggers
 
         Args:
@@ -75,7 +75,7 @@ class LogBook:
         for logger in self.loggers:
             logger.write_log(log=log)
 
-    def write_config_log(self, config: ConfigType,) -> None:
+    def write_config_log(self, config: ConfigType) -> None:
         """Write config to loggers
 
         Args:
@@ -83,7 +83,7 @@ class LogBook:
         """
         return self.write_log(log=config, log_type="config")
 
-    def write_metric_log(self, metric: MetricType,) -> None:
+    def write_metric_log(self, metric: MetricType) -> None:
         """Write metric to loggers
 
         Args:
@@ -91,15 +91,17 @@ class LogBook:
         """
         return self.write_log(log=metric, log_type="metric")
 
-    def write_message(self, message: str) -> None:
+    def write_message(self, message: str, log_type: str = "info") -> None:
         """Write message string to loggers
 
         Args:
             message (str): Message string to write
+            log_type (str, optional): Type of this message (log).
+                Defaults to "info".
         """
-        return self.write_log(log={"messgae": message}, log_type="message")
+        return self.write_log(log={"messgae": message}, log_type=log_type)
 
-    def write_metadata_log(self, metadata: LogType,) -> None:
+    def write_metadata_log(self, metadata: LogType) -> None:
         """Write metadata to loggers
 
         Args:
@@ -129,7 +131,7 @@ def make_config(
             (https://docs.wandb.com/library/init). Note that the wandb_config
             is passed as keyword arguments to the wandb.init() method.
             This provides a lot of flexibility to the users to configure
-            wandb. This also means that config should not have any
+            wandb. This also means that the config should not have any
             parameters that wandb.init() would not accept. Defaults to None.
         tensorboard_config (Optional[ConfigType], optional): config to
             initialise the tensorboardX logger. The config can have
