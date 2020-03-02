@@ -9,7 +9,7 @@ Logging utility for ML experiments
 * `cd ml-logger`
 * `pip install .`
 
-Alternatively, `pip install git+ssh://git#github.com/shagunsodhani/ml-logger.git@master#egg=ml_logger`
+Alternatively, `pip install git+ssh://git@github.com/shagunsodhani/ml-logger.git@master#egg=ml_logger`
 
 ### Use
 

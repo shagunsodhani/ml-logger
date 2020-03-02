@@ -28,7 +28,7 @@
 <pre><code class="python">&#34;&#34;&#34;Implementation of different type of metrics&#34;&#34;&#34;
 
 import operator
-from typing import Any, Iterable, Optional
+from typing import Any, Iterable, Optional, Union
 
 from ml_logger.types import ComparisonOpType, LogType, NumType, ValueType
 
@@ -292,15 +292,24 @@ class MetricDict:
         for key in self._metrics_dict:
             self._metrics_dict[key].reset()
 
-    def update(self, metrics_dict: LogType) -&gt; None:
+    def update(self, metrics_dict: Union[LogType, &#34;MetricDict&#34;]) -&gt; None:
         &#34;&#34;&#34;Update all the metrics using the current values
 
         Args:
-            metrics_dict (LogType): Current value of mrtrics
+            metrics_dict (Union[LogType, MetricDict]): Current value of metrics
         &#34;&#34;&#34;
+        if isinstance(metrics_dict, MetricDict):
+            metrics_dict = metrics_dict.to_dict()
         for key, val in metrics_dict.items():
             if key in self._metrics_dict:
-                self._metrics_dict[key].update(val)
+                if (
+                    isinstance(val, str)
+                    or isinstance(val, int)
+                    or isinstance(val, float)
+                ):
+                    self._metrics_dict[key].update(val)
+                else:
+                    self._metrics_dict[key].update(*val)
 
     def __str__(self) -&gt; str:
         return &#34;\n&#34;.join([repr(val) for key, val in self._metrics_dict.items()])
@@ -993,15 +1002,24 @@ over</dd>
         for key in self._metrics_dict:
             self._metrics_dict[key].reset()
 
-    def update(self, metrics_dict: LogType) -&gt; None:
+    def update(self, metrics_dict: Union[LogType, &#34;MetricDict&#34;]) -&gt; None:
         &#34;&#34;&#34;Update all the metrics using the current values
 
         Args:
-            metrics_dict (LogType): Current value of mrtrics
+            metrics_dict (Union[LogType, MetricDict]): Current value of metrics
         &#34;&#34;&#34;
+        if isinstance(metrics_dict, MetricDict):
+            metrics_dict = metrics_dict.to_dict()
         for key, val in metrics_dict.items():
             if key in self._metrics_dict:
-                self._metrics_dict[key].update(val)
+                if (
+                    isinstance(val, str)
+                    or isinstance(val, int)
+                    or isinstance(val, float)
+                ):
+                    self._metrics_dict[key].update(val)
+                else:
+                    self._metrics_dict[key].update(*val)
 
     def __str__(self) -&gt; str:
         return &#34;\n&#34;.join([repr(val) for key, val in self._metrics_dict.items()])
@@ -1065,22 +1083,31 @@ logged using the <code>LogBook</code></p>
 <section class="desc"><p>Update all the metrics using the current values</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>metrics_dict</code></strong> :&ensp;<code>LogType</code></dt>
-<dd>Current value of mrtrics</dd>
+<dt><strong><code>metrics_dict</code></strong> :&ensp;<code>Union</code>[<code>LogType</code>, <code>MetricDict</code>]</dt>
+<dd>Current value of metrics</dd>
 </dl></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def update(self, metrics_dict: LogType) -&gt; None:
+<pre><code class="python">def update(self, metrics_dict: Union[LogType, &#34;MetricDict&#34;]) -&gt; None:
     &#34;&#34;&#34;Update all the metrics using the current values
 
     Args:
-        metrics_dict (LogType): Current value of mrtrics
+        metrics_dict (Union[LogType, MetricDict]): Current value of metrics
     &#34;&#34;&#34;
+    if isinstance(metrics_dict, MetricDict):
+        metrics_dict = metrics_dict.to_dict()
     for key, val in metrics_dict.items():
         if key in self._metrics_dict:
-            self._metrics_dict[key].update(val)</code></pre>
+            if (
+                isinstance(val, str)
+                or isinstance(val, int)
+                or isinstance(val, float)
+            ):
+                self._metrics_dict[key].update(val)
+            else:
+                self._metrics_dict[key].update(*val)</code></pre>
 </details>
 </dd>
 </dl>

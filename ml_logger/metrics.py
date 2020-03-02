@@ -1,7 +1,7 @@
 """Implementation of different type of metrics"""
 
 import operator
-from typing import Any, Iterable, Optional
+from typing import Any, Iterable, Optional, Union
 
 from ml_logger.types import ComparisonOpType, LogType, NumType, ValueType
 
@@ -265,15 +265,24 @@ class MetricDict:
         for key in self._metrics_dict:
             self._metrics_dict[key].reset()
 
-    def update(self, metrics_dict: LogType) -> None:
+    def update(self, metrics_dict: Union[LogType, "MetricDict"]) -> None:
         """Update all the metrics using the current values
 
         Args:
-            metrics_dict (LogType): Current value of mrtrics
+            metrics_dict (Union[LogType, MetricDict]): Current value of metrics
         """
+        if isinstance(metrics_dict, MetricDict):
+            metrics_dict = metrics_dict.to_dict()
         for key, val in metrics_dict.items():
             if key in self._metrics_dict:
-                self._metrics_dict[key].update(val)
+                if (
+                    isinstance(val, str)
+                    or isinstance(val, int)
+                    or isinstance(val, float)
+                ):
+                    self._metrics_dict[key].update(val)
+                else:
+                    self._metrics_dict[key].update(*val)
 
     def __str__(self) -> str:
         return "\n".join([repr(val) for key, val in self._metrics_dict.items()])
