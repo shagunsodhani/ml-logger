@@ -1,8 +1,9 @@
 """Logger class that writes to wandb"""
 
+from tensorboardX import SummaryWriter
+
 from ml_logger.logger.base import Logger as BaseLogger
 from ml_logger.types import ConfigType, LogType
-from tensorboardX import SummaryWriter
 
 
 class Logger(BaseLogger):
@@ -49,6 +50,12 @@ class Logger(BaseLogger):
             main_tag = log.pop("tag")
         elif "main_tag" in log:
             main_tag = log.pop("main_tag")
+
+        log = {
+            key: value
+            for key, value in log.items()
+            if isinstance(value, int) or isinstance(value, float)
+        }
 
         if logbook_type == "metric":
             self.summary_writer.add_scalars(
