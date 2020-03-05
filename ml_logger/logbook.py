@@ -8,6 +8,7 @@ tensorboard, remote backends, etc.
 
 import importlib
 import time
+from copy import deepcopy
 from typing import List, Optional
 
 from ml_logger.logger.base import Logger as LoggerType
@@ -74,7 +75,7 @@ class LogBook:
 
         log = self._process_log(log, log_type)
         for logger in self.loggers:
-            logger.write_log(log=log)
+            logger.write_log(log=deepcopy(log))
 
     def write_config_log(self, config: ConfigType) -> None:
         """Write config to loggers
