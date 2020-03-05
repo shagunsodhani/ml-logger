@@ -9,7 +9,9 @@ Logging utility for ML experiments
 * `cd ml-logger`
 * `pip install .`
 
-Alternatively, `pip install git+ssh://git@github.com/shagunsodhani/ml-logger.git@master#egg=ml_logger`
+Alternatively, `pip install git://git@github.com/shagunsodhani/ml-logger.git@master#egg=ml_logger`
+
+If you want to use tensorboardX or Wandb logger, use `pip install .[all]` or `pip install git://git@github.com/shagunsodhani/ml-logger.git@master#egg=ml_logger[all]`
 
 ### Use
 
@@ -54,7 +56,7 @@ Alternatively, `pip install git+ssh://git@github.com/shagunsodhani/ml-logger.git
 
 ### Dev Setup
 
-* `pip install -e .[dev] -e .`
+* `pip install -e .[dev]`
 * Install pre-commit hooks `pre-commit install`
 * The code is linted using:
     * `black`

@@ -11,7 +11,8 @@ setuptools.setup(
     description="Logging Utility for ML Experiments",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    install_requires=open("requirements/all.txt").read().splitlines(),
+    # Install the basic setup (without wandb and tensorboardX) with
+    install_requires=open("requirements/filesystem.txt").read().splitlines(),
     url="https://github.com/shagunsodhani/ml-logger",
     packages=setuptools.find_packages(
         exclude=["*.tests", "*.tests.*", "tests.*", "tests", "docs"]
@@ -28,8 +29,8 @@ setuptools.setup(
         # Install development dependencies with
         # pip install -e .[dev]
         "dev": open("requirements/dev.txt").read().splitlines(),
-        # Install the basic setup (without wandb and tensorboardX) with
-        # pip install .[base]
-        "base": open("requirements/base.txt").read().splitlines(),
+        # Install the complete setup (wandb and tensorboardX)
+        # pip install .[all]
+        "all": open("requirements/all.txt").read().splitlines(),
     },
 )
