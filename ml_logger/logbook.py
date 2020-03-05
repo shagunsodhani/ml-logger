@@ -40,6 +40,7 @@ class LogBook:
         """
         self.id = config["id"]
         self.logger_name = config["name"]
+        self.time_format = "%I:%M:%S%p %Z %b %d, %Y" # 10:21:14PM EST Mar 04, 2020
         self.loggers: List[LoggerType] = []
         for logger_name, logger_config in config["loggers"].items():
             logger_module = importlib.import_module(f"ml_logger.logger.{logger_name}")
@@ -59,7 +60,7 @@ class LogBook:
         """
 
         log["logbook_id"] = self.id
-        log["logbook_timestamp"] = time.strftime("%I:%M%p %Z %b %d, %Y")
+        log["logbook_timestamp"] = time.strftime(self.time_format)
         log["logbook_type"] = log_type
         return log
 
