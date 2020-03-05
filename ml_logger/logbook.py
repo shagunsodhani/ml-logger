@@ -117,6 +117,7 @@ def make_config(
     logger_file_path: Optional[str] = None,
     wandb_config: Optional[ConfigType] = None,
     tensorboard_config: Optional[ConfigType] = None,
+    mlflow_config: Optional[ConfigType] = None,
 ) -> ConfigType:
     """Make the config that can be passed to the LogBook constructor
 
@@ -140,10 +141,18 @@ def make_config(
             (https://tensorboardx.readthedocs.io/en/latest/tensorboard.html#tensorboardX.SummaryWriter).
             Note that the config is passed as keyword arguments to the
             tensorboardX.SummaryWriter() method. This provides a lot
-            of flexibility to the users to configure wandb. This also
+            of flexibility to the users to configure tensorboard. This also
             means that config should not have any parameters that
             tensorboardX.SummaryWriter() would not accept. Defaults to None.
-
+        mlflow_config (Optional[ConfigType], optional): config to
+            initialise an mlflow experiment. The config can have
+            any parameters that mlflow.create_experiment() method accepts
+            (https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.create_experiment).
+            Note that the config is passed as keyword arguments to the
+            mlflow.create_experiment() method. This provides a lot
+            of flexibility to the users to configure mlflow. This also
+            means that config should not have any parameters that
+            mlflow.create_experiment would not accept. Defaults to None.
     Returns:
         ConfigType: config to construct the LogBook
     """
@@ -158,6 +167,9 @@ def make_config(
 
     if tensorboard_config is not None:
         loggers["tensorboard"] = tensorboard_config
+
+    if mlflow_config is not None:
+        loggers["mlflow"] = mlflow_config
 
     config = {"id": id, "name": name, "loggers": loggers}
     return config
