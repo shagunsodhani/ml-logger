@@ -64,6 +64,20 @@ class Logger(BaseLogger):
                 global_step=global_step,
                 walltime=walltime,
             )
+        elif logbook_type == "config":
+            name = None
+            if "name" in log:
+                name = log.pop("name")
+
+            metric_dict = None
+            if "metric_dict" in log:
+                metric_dict = log.pop("metric_dict")
+            self.summary_writer.add_hparams(
+                hparam_dict=log,
+                metric_dict=metric_dict,
+                name=name,
+                global_step=global_step,
+            )
         else:
             pass
             # Only metric logs can be written to tensorboardX
