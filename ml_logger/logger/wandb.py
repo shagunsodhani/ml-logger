@@ -37,15 +37,15 @@ class Logger(BaseLogger):
         log = self._prepare_log_to_write(log=log)
         if logbook_type == "config":
             self.write_config(config=log)
-        elif logbook_type == "message":
-            pass
-            # Message can not be written to wandb
-        else:
+        elif logbook_type == "metric":
             assert self.keys_to_check is not None
             for key in self.keys_to_check:
                 assert key in log
             step = log.pop("step")
             wandb.log(log, step)
+        else:
+            pass
+            # Message can not be written to wandb
 
     def write_config(self, config: ConfigType) -> None:
         """Write the config to wandb
