@@ -9,7 +9,9 @@ Logging utility for ML experiments
 * `cd ml-logger`
 * `pip install .`
 
-Alternatively, `pip install git+ssh://git@github.com/shagunsodhani/ml-logger.git@master#egg=ml_logger`
+Alternatively, `pip install git://git@github.com/shagunsodhani/ml-logger.git@master#egg=ml_logger`
+
+If you want to use tensorboardX or Wandb logger, use `pip install .[all]` or `pip install git://git@github.com/shagunsodhani/ml-logger.git@master#egg=ml_logger[all]`
 
 ### Use
 
@@ -39,13 +41,19 @@ Alternatively, `pip install git+ssh://git@github.com/shagunsodhani/ml-logger.git
         "loss": 0.1,
         "accuracy": 0.2
     }
-    logbook.write_log(log)
+    logbook.write_metric_log(log)
     ```
-    The API for `write_log` can be accessed [here](https://shagunsodhani.com/ml-logger/logbook.html#ml_logger.logbook.LogBook.write_metric_log).
+    The API for `write_metric_log` can be accessed [here](https://shagunsodhani.com/ml-logger/logbook.html#ml_logger.logbook.LogBook.write_metric_log).
 
-    If you are writing to wandb, the log must have a key called `step`.
+### Note
 
-    If you are writing to tensorboard, the log must have a key called `main_tag` or `tag` which acts as the data Identifier (described [here](https://tensorboardx.readthedocs.io/en/latest/tensorboard.html#tensorboardX.SummaryWriter.add_scalars))
+* If you are writing to wandb, the `log` must have a key called `step`.
+
+* If you are writing to tensorboard, the `log` must have a key called `main_tag` or `tag` which acts as the data Identifier and another key called `global_step`. These keys are described [here](https://tensorboardx.readthedocs.io/en/latest/tensorboard.html#tensorboardX.SummaryWriter.add_scalars).
+
+* TensorboardX sometimes throws an error when logging metrics whose value is of type string. Currently, such metrics are not logged.
+
+
 
 
 ### Documentation
@@ -54,7 +62,7 @@ Alternatively, `pip install git+ssh://git@github.com/shagunsodhani/ml-logger.git
 
 ### Dev Setup
 
-* `pip install -e .[dev] -e .`
+* `pip install -e .[dev]`
 * Install pre-commit hooks `pre-commit install`
 * The code is linted using:
     * `black`
