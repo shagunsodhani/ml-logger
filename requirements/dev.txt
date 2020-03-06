@@ -1,11 +1,15 @@
 black==19.10b
-flake8==3.7.9
 flake8-bugbear==20.1.4
 flake8-comprehensions==3.2.2
+flake8==3.7.9
 mypy==0.740
 nox==2019.11.9
 pandas==0.25.3
 pre-commit==2.0.1
 pytest==5.3.5
+sphinx-autodoc-annotation==1.0-1
+sphinx-rtd-theme==0.4.3
+sphinx==2.4.3
+sphinxcontrib-napoleon==0.7
 tinydb==3.15.2
 typing-extensions==3.7.4.1
