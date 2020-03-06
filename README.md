@@ -13,6 +13,8 @@ Alternatively, `pip install git+https://git@github.com/shagunsodhani/ml-logger.g
 
 If you want to use tensorboardX or Wandb logger, use `pip install .[all]` or `pip install git+https://git@github.com/shagunsodhani/ml-logger.git@master#egg=ml_logger[all]`
 
+If you are installing on zsh, make sure to escape "[all]" ie `pip install "git+https://git@github.com/shagunsodhani/ml-logger.git@master#egg=ml_logger[all]"`.
+
 ### Use
 
 * Make a `logbook_config`:
