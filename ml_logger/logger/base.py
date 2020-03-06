@@ -2,7 +2,7 @@
 from abc import ABCMeta, abstractmethod
 from typing import List, Optional
 
-from ml_logger.types import ConfigType, LogType
+from ml_logger.types import ConfigType, KeyMapType, LogType
 
 
 class Logger(metaclass=ABCMeta):
@@ -19,6 +19,8 @@ class Logger(metaclass=ABCMeta):
         self.keys_to_retain: Optional[List[str]] = None
         self.keys_to_skip: Optional[List[str]] = None
         self.keys_to_check: Optional[List[str]] = None
+        self.key_map: Optional[KeyMapType] = config.pop("logbook_key_map")
+        self.key_prefix: Optional[str] = config.pop("logbook_key_prefix")
 
     @abstractmethod
     def write_log(self, log: LogType) -> None:
@@ -48,6 +50,10 @@ class Logger(metaclass=ABCMeta):
             LogType: Log with certain keys removed
         """
         processed_log: LogType = {}
+
+        if self.key_map is not None:
+            for key, mapped_key in self.key_map.items():
+                processed_log[mapped_key] = log.pop(key)
 
         if self.keys_to_retain is None:
             # Retain all the keys, other than the ones to skip

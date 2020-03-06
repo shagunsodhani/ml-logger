@@ -3,7 +3,7 @@
 from tensorboardX import SummaryWriter
 
 from ml_logger.logger.base import Logger as BaseLogger
-from ml_logger.types import ConfigType, LogType
+from ml_logger.types import ConfigType, LogType, MetricType
 
 
 class Logger(BaseLogger):
@@ -38,46 +38,67 @@ class Logger(BaseLogger):
         logbook_type = log["logbook_type"]
         log = self._prepare_log_to_write(log=log)
 
+        if logbook_type == "metric":
+            self.write_metric_log(metric=log)
+
+        elif logbook_type == "config":
+            self.write_config(config=log)
+        else:
+            pass
+            # Only metric logs and configs can be written to tensorboardX
+
+    def write_metric_log(self, metric: MetricType) -> None:
+        """Write metric to tensorboard
+
+        Args:
+            metric (MetricType): Metric to write
+        """
         global_step = None
-        if "global_step" in log:
-            global_step = log.pop("global_step")
+        if "global_step" in metric:
+            global_step = metric.pop("global_step")
         walltime = None
-        if "walltime" in log:
-            walltime = log.pop("walltime")
+        if "walltime" in metric:
+            walltime = metric.pop("walltime")
 
         main_tag = None
-        if "tag" in log:
-            main_tag = log.pop("tag")
-        elif "main_tag" in log:
-            main_tag = log.pop("main_tag")
+        if "tag" in metric:
+            main_tag = metric.pop("tag")
+        elif "main_tag" in metric:
+            main_tag = metric.pop("main_tag")
 
-        log = {
-            key: value
-            for key, value in log.items()
-            if isinstance(value, int) or isinstance(value, float)
-        }
+        if self.key_prefix:
+            prefix = {metric.pop(self.key_prefix)}
+            metric = {f"{prefix}_{key}": value for key, value in metric.items()}
 
-        if logbook_type == "metric":
-            self.summary_writer.add_scalars(
-                main_tag=main_tag,
-                tag_scalar_dict=log,
+        for key, value in metric:
+            self.summary_writer.add_scalar(
+                tag=f"{main_tag}/key",
+                value=value,
                 global_step=global_step,
                 walltime=walltime,
             )
-        elif logbook_type == "config":
-            name = None
-            if "name" in log:
-                name = log.pop("name")
 
-            metric_dict = None
-            if "metric_dict" in log:
-                metric_dict = log.pop("metric_dict")
-            self.summary_writer.add_hparams(
-                hparam_dict=log,
-                metric_dict=metric_dict,
-                name=name,
-                global_step=global_step,
-            )
-        else:
-            pass
-            # Only metric logs can be written to tensorboardX
+    def write_config(self, config: ConfigType) -> None:
+        """Write the config to tensorboard
+
+        Args:
+            config (ConfigType): Config to write
+        """
+        name = None
+        if "name" in config:
+            name = config.pop("name")
+
+        metric_dict = None
+        if "metric_dict" in config:
+            metric_dict = config.pop("metric_dict")
+
+        global_step = None
+        if "global_step" in config:
+            global_step = config.pop("global_step")
+
+        self.summary_writer.add_hparams(
+            hparam_dict=config,
+            metric_dict=metric_dict,
+            name=name,
+            global_step=global_step,
+        )

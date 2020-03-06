@@ -3,7 +3,7 @@
 import mlflow
 
 from ml_logger.logger.base import Logger as BaseLogger
-from ml_logger.types import ConfigType, LogType
+from ml_logger.types import ConfigType, LogType, MetricType
 
 
 class Logger(BaseLogger):
@@ -39,14 +39,24 @@ class Logger(BaseLogger):
         if logbook_type == "config":
             self.write_config(config=log)
         elif logbook_type == "metric":
-            assert self.keys_to_check is not None
-            for key in self.keys_to_check:
-                assert key in log
-            step = log.pop("step")
-            mlflow.log_metrics(log, step)
+            self.write_metric_log(metric=log)
         else:
             pass
             # Message can not be written to mlflow
+
+    def write_metric_log(self, metric: MetricType) -> None:
+        """Write metric to mlflow
+
+        Args:
+            metric (MetricType): Metric to write
+        """
+        for key in self.keys_to_check:  # type: ignore
+            assert key in metric
+        step = metric.pop("step")
+        if self.key_prefix:
+            prefix = {metric.pop(self.key_prefix)}
+            metric = {f"{prefix}_{key}": value for key, value in metric.items()}
+        mlflow.log_metrics(metric, step)
 
     def write_config(self, config: ConfigType) -> None:
         """Write the config to mlflow

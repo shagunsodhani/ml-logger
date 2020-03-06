@@ -12,7 +12,7 @@ from copy import deepcopy
 from typing import List, Optional
 
 from ml_logger.logger.base import Logger as LoggerType
-from ml_logger.types import ConfigType, LogType, MetricType
+from ml_logger.types import ConfigType, KeyMapType, LogType, MetricType
 
 
 class LogBook:
@@ -117,9 +117,16 @@ def make_config(
     name: str = "default_logger",
     logger_file_path: Optional[str] = None,
     wandb_config: Optional[ConfigType] = None,
+    wandb_key_map: Optional[KeyMapType] = None,
+    wandb_prefix_key: Optional[str] = None,
     tensorboard_config: Optional[ConfigType] = None,
+    tensorboard_key_map: Optional[KeyMapType] = None,
+    tensorboard_prefix_key: Optional[str] = None,
     mlflow_config: Optional[ConfigType] = None,
+    mlflow_key_map: Optional[KeyMapType] = None,
+    mlflow_prefix_key: Optional[str] = None,
 ) -> ConfigType:
+
     """Make the config that can be passed to the LogBook constructor
 
     Args:
@@ -136,6 +143,18 @@ def make_config(
             This provides a lot of flexibility to the users to configure
             wandb. This also means that the config should not have any
             parameters that wandb.init() would not accept. Defaults to None.
+        wandb_key_map (Optional[KeyMapType], optional): When using wandb
+            logger, certain keys are required. This dictionary provides an
+            easy way to map the keys in the `log` (to be written) with the
+            keys that wandb logger needs. For instance, wandb logger needs
+            a `step` key in all the metric logs. If your logs have a key
+            called `epoch` that you want to use as `step`, set `wandb_key_map`
+            as `{epoch: step}`. This argument is ignored if set to None.
+            Defaults to None.
+        wandb_prefix_key (Optional[str], optional): When a metric is logged
+            to wandb, prefix the value (corresponding to the key) to all
+            the remaining keys before values are logged in the wandb logger.
+            This argument is ignored if set to None. Defaults to None.
         tensorboard_config (Optional[ConfigType], optional): config to
             initialise the tensorboardX logger. The config can have
             any parameters that tensorboardX.SummaryWriter() method accepts
@@ -145,6 +164,21 @@ def make_config(
             of flexibility to the users to configure tensorboard. This also
             means that config should not have any parameters that
             tensorboardX.SummaryWriter() would not accept. Defaults to None.
+        tensorboard_key_map (Optional[KeyMapType], optional): When using
+            tensorboard logger, certain keys are required. This dictionary
+            provides an easy way to map the keys in the `log` (to be written)
+            with the keys that tensorboard logger needs. For instance,
+            tensorboard logger needs a `main_tag` key and a `global_step`
+            in all the metric logs. If your logs have a key called `epoch`
+            that you want to use as `step`, and a key called `mode` that
+            you want to use as `main_tag`, set `wandb_key_map` as
+            `{epoch: global_step, mode: main_tag}`. This argument is
+            ignored if set to None. Defaults to None.
+        tensorboard_prefix_key (Optional[str], optional): When a metric is
+            logged to tensorboard, prefix the value (corresponding to the key)
+            to all the remaining keys before values are logged in the
+            tensorboard logger. This argument is ignored if set to None.
+            Defaults to None.
         mlflow_config (Optional[ConfigType], optional): config to
             initialise an mlflow experiment. The config can have
             any parameters that mlflow.create_experiment() method accepts
@@ -154,10 +188,23 @@ def make_config(
             of flexibility to the users to configure mlflow. This also
             means that config should not have any parameters that
             mlflow.create_experiment would not accept. Defaults to None.
+        mlflow_key_map (Optional[KeyMapType], optional): When using mlflow
+            logger, certain keys are required. This dictionary provides an
+            easy way to map the keys in the `log` (to be written) with the
+            keys that mlflow logger needs. For instance, mlflow logger needs
+            a `step` key in all the metric logs. If your logs have a key
+            called `epoch` that you want to use as `step`, set `mlflow_key_map`
+            as `{epoch: step}`. This argument is ignored if set to None.
+            Defaults to None.
+        mlflow_prefix_key (Optional[str], optional): When a metric is logged
+            to mlflow, prefix the value (corresponding to the key) to all
+            the remaining keys before values are logged in the mlflow logger.
+            This argument is ignored if set to None. Defaults to None.
     Returns:
         ConfigType: config to construct the LogBook
     """
-    loggers = {}
+
+    loggers: ConfigType = {}
     if logger_file_path is not None:
         loggers["filesystem"] = {
             "logger_file_path": logger_file_path,
@@ -165,12 +212,18 @@ def make_config(
         }
     if wandb_config is not None:
         loggers["wandb"] = wandb_config
+        loggers["wandb"]["logbook_key_map"] = wandb_key_map
+        loggers["wandb"]["logbook_key_prefix"] = wandb_prefix_key
 
     if tensorboard_config is not None:
         loggers["tensorboard"] = tensorboard_config
+        loggers["tensorboard"]["logbook_key_map"] = tensorboard_key_map
+        loggers["tensorboard"]["logbook_key_prefix"] = tensorboard_prefix_key
 
     if mlflow_config is not None:
         loggers["mlflow"] = mlflow_config
+        loggers["mlflow"]["logbook_key_map"] = mlflow_key_map
+        loggers["mlflow"]["logbook_key_prefix"] = mlflow_prefix_key
 
     config = {"id": id, "name": name, "loggers": loggers}
     return config
