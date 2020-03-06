@@ -171,7 +171,7 @@ def make_config(
             tensorboard logger needs a `main_tag` key and a `global_step`
             in all the metric logs. If your logs have a key called `epoch`
             that you want to use as `step`, and a key called `mode` that
-            you want to use as `main_tag`, set `wandb_key_map` as
+            you want to use as `main_tag`, set `tensorboard_key_map` as
             `{epoch: global_step, mode: main_tag}`. This argument is
             ignored if set to None. Defaults to None.
         tensorboard_prefix_key (Optional[str], optional): When a metric is
