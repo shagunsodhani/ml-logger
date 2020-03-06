@@ -88,7 +88,7 @@ class Logger(BaseLogger):
         if "name" in config:
             name = config.pop("name")
 
-        metric_dict = None
+        metric_dict = {}
         if "metric_dict" in config:
             metric_dict = config.pop("metric_dict")
 
