@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.7.5" />
-<title>ml_logger.logger.wandb API documentation</title>
+<title>ml_logger.logger.mlflow API documentation</title>
 <meta name="description" content="Logger class that writes to wandb" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
@@ -17,7 +17,7 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>ml_logger.logger.wandb</code></h1>
+<h1 class="title">Module <code>ml_logger.logger.mlflow</code></h1>
 </header>
 <section id="section-intro">
 <p>Logger class that writes to wandb</p>
@@ -27,32 +27,33 @@
 </summary>
 <pre><code class="python">&#34;&#34;&#34;Logger class that writes to wandb&#34;&#34;&#34;
 
-import wandb
+import mlflow
 
 from ml_logger.logger.base import Logger as BaseLogger
 from ml_logger.types import ConfigType, LogType, MetricType
 
 
 class Logger(BaseLogger):
-    &#34;&#34;&#34;Logger class that writes to wandb
+    &#34;&#34;&#34;Logger class that writes to mlflow
     &#34;&#34;&#34;
 
     def __init__(self, config: ConfigType):
-        &#34;&#34;&#34;Initialise the Wandb Logger
+        &#34;&#34;&#34;Initialise the mlflow Logger
 
         Args:
-            config (ConfigType): config to initialise the wandb logger.
-                The config can have any parameters that wandb.init() method
-                accepts (https://docs.wandb.com/library/init). Note that
-                the config is passed as keyword arguments to the wandb.init()
-                method. This provides a lot of flexibility to the users to
-                configure wandb. This also means that config should not
-                have any parameters that wandb.init() would not accept.
+            config (ConfigType): config to initialise the mlflow logger.
+                The config can have any parameters that mlflow.create_experiment() method
+                accepts (https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.create_experiment).
+                Note that the config is passed as keyword arguments to
+                the mlflow.create_experiment() method. This provides a
+                lot of flexibility to the users to configure mlflow.
+                This also means that config should not have any parameters
+                that mlflow.create_experiment() would not accept.
         &#34;&#34;&#34;
         super().__init__(config=config)
         self.keys_to_skip = [&#34;logbook_id&#34;, &#34;logbook_type&#34;, &#34;logbook_timestamp&#34;]
         self.keys_to_check = [&#34;step&#34;]
-        self.run = wandb.init(**config)
+        mlflow.create_experiment(**config)
 
     def write_log(self, log: LogType) -&gt; None:
         &#34;&#34;&#34;Write the log to wandb
@@ -68,10 +69,10 @@ class Logger(BaseLogger):
             self.write_metric_log(metric=log)
         else:
             pass
-            # Message can not be written to wandb
+            # Message can not be written to mlflow
 
     def write_metric_log(self, metric: MetricType) -&gt; None:
-        &#34;&#34;&#34;Write metric to wandb
+        &#34;&#34;&#34;Write metric to mlflow
 
         Args:
             metric (MetricType): Metric to write
@@ -82,15 +83,15 @@ class Logger(BaseLogger):
         if self.key_prefix:
             prefix = {metric.pop(self.key_prefix)}
             metric = {f&#34;{prefix}_{key}&#34;: value for key, value in metric.items()}
-        wandb.log_metrics(metric, step)
+        mlflow.log_metrics(metric, step)
 
     def write_config(self, config: ConfigType) -&gt; None:
-        &#34;&#34;&#34;Write the config to wandb
+        &#34;&#34;&#34;Write the config to mlflow
 
         Args:
             config (ConfigType): Config to write
         &#34;&#34;&#34;
-        wandb.config.update(config)</code></pre>
+        mlflow.log_params(config)</code></pre>
 </details>
 </section>
 <section>
@@ -102,48 +103,50 @@ class Logger(BaseLogger):
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="ml_logger.logger.wandb.Logger"><code class="flex name class">
+<dt id="ml_logger.logger.mlflow.Logger"><code class="flex name class">
 <span>class <span class="ident">Logger</span></span>
 <span>(</span><span>config)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Logger class that writes to wandb</p>
-<p>Initialise the Wandb Logger</p>
+<section class="desc"><p>Logger class that writes to mlflow</p>
+<p>Initialise the mlflow Logger</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>config</code></strong> :&ensp;<code>ConfigType</code></dt>
-<dd>config to initialise the wandb logger.
-The config can have any parameters that wandb.init() method
-accepts (<a href="https://docs.wandb.com/library/init">https://docs.wandb.com/library/init</a>). Note that
-the config is passed as keyword arguments to the wandb.init()
-method. This provides a lot of flexibility to the users to
-configure wandb. This also means that config should not
-have any parameters that wandb.init() would not accept.</dd>
+<dd>config to initialise the mlflow logger.
+The config can have any parameters that mlflow.create_experiment() method
+accepts (<a href="https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.create_experiment">https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.create_experiment</a>).
+Note that the config is passed as keyword arguments to
+the mlflow.create_experiment() method. This provides a
+lot of flexibility to the users to configure mlflow.
+This also means that config should not have any parameters
+that mlflow.create_experiment() would not accept.</dd>
 </dl></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Logger(BaseLogger):
-    &#34;&#34;&#34;Logger class that writes to wandb
+    &#34;&#34;&#34;Logger class that writes to mlflow
     &#34;&#34;&#34;
 
     def __init__(self, config: ConfigType):
-        &#34;&#34;&#34;Initialise the Wandb Logger
+        &#34;&#34;&#34;Initialise the mlflow Logger
 
         Args:
-            config (ConfigType): config to initialise the wandb logger.
-                The config can have any parameters that wandb.init() method
-                accepts (https://docs.wandb.com/library/init). Note that
-                the config is passed as keyword arguments to the wandb.init()
-                method. This provides a lot of flexibility to the users to
-                configure wandb. This also means that config should not
-                have any parameters that wandb.init() would not accept.
+            config (ConfigType): config to initialise the mlflow logger.
+                The config can have any parameters that mlflow.create_experiment() method
+                accepts (https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.create_experiment).
+                Note that the config is passed as keyword arguments to
+                the mlflow.create_experiment() method. This provides a
+                lot of flexibility to the users to configure mlflow.
+                This also means that config should not have any parameters
+                that mlflow.create_experiment() would not accept.
         &#34;&#34;&#34;
         super().__init__(config=config)
         self.keys_to_skip = [&#34;logbook_id&#34;, &#34;logbook_type&#34;, &#34;logbook_timestamp&#34;]
         self.keys_to_check = [&#34;step&#34;]
-        self.run = wandb.init(**config)
+        mlflow.create_experiment(**config)
 
     def write_log(self, log: LogType) -&gt; None:
         &#34;&#34;&#34;Write the log to wandb
@@ -159,10 +162,10 @@ have any parameters that wandb.init() would not accept.</dd>
             self.write_metric_log(metric=log)
         else:
             pass
-            # Message can not be written to wandb
+            # Message can not be written to mlflow
 
     def write_metric_log(self, metric: MetricType) -&gt; None:
-        &#34;&#34;&#34;Write metric to wandb
+        &#34;&#34;&#34;Write metric to mlflow
 
         Args:
             metric (MetricType): Metric to write
@@ -173,15 +176,15 @@ have any parameters that wandb.init() would not accept.</dd>
         if self.key_prefix:
             prefix = {metric.pop(self.key_prefix)}
             metric = {f&#34;{prefix}_{key}&#34;: value for key, value in metric.items()}
-        wandb.log_metrics(metric, step)
+        mlflow.log_metrics(metric, step)
 
     def write_config(self, config: ConfigType) -&gt; None:
-        &#34;&#34;&#34;Write the config to wandb
+        &#34;&#34;&#34;Write the config to mlflow
 
         Args:
             config (ConfigType): Config to write
         &#34;&#34;&#34;
-        wandb.config.update(config)</code></pre>
+        mlflow.log_params(config)</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -189,11 +192,11 @@ have any parameters that wandb.init() would not accept.</dd>
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="ml_logger.logger.wandb.Logger.write_config"><code class="name flex">
+<dt id="ml_logger.logger.mlflow.Logger.write_config"><code class="name flex">
 <span>def <span class="ident">write_config</span></span>(<span>self, config)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Write the config to wandb</p>
+<section class="desc"><p>Write the config to mlflow</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>config</code></strong> :&ensp;<code>ConfigType</code></dt>
@@ -204,15 +207,15 @@ have any parameters that wandb.init() would not accept.</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def write_config(self, config: ConfigType) -&gt; None:
-    &#34;&#34;&#34;Write the config to wandb
+    &#34;&#34;&#34;Write the config to mlflow
 
     Args:
         config (ConfigType): Config to write
     &#34;&#34;&#34;
-    wandb.config.update(config)</code></pre>
+    mlflow.log_params(config)</code></pre>
 </details>
 </dd>
-<dt id="ml_logger.logger.wandb.Logger.write_log"><code class="name flex">
+<dt id="ml_logger.logger.mlflow.Logger.write_log"><code class="name flex">
 <span>def <span class="ident">write_log</span></span>(<span>self, log)</span>
 </code></dt>
 <dd>
@@ -242,11 +245,11 @@ have any parameters that wandb.init() would not accept.</dd>
         pass</code></pre>
 </details>
 </dd>
-<dt id="ml_logger.logger.wandb.Logger.write_metric_log"><code class="name flex">
+<dt id="ml_logger.logger.mlflow.Logger.write_metric_log"><code class="name flex">
 <span>def <span class="ident">write_metric_log</span></span>(<span>self, metric)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Write metric to wandb</p>
+<section class="desc"><p>Write metric to mlflow</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>metric</code></strong> :&ensp;<code>MetricType</code></dt>
@@ -257,7 +260,7 @@ have any parameters that wandb.init() would not accept.</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def write_metric_log(self, metric: MetricType) -&gt; None:
-    &#34;&#34;&#34;Write metric to wandb
+    &#34;&#34;&#34;Write metric to mlflow
 
     Args:
         metric (MetricType): Metric to write
@@ -268,7 +271,7 @@ have any parameters that wandb.init() would not accept.</dd>
     if self.key_prefix:
         prefix = {metric.pop(self.key_prefix)}
         metric = {f&#34;{prefix}_{key}&#34;: value for key, value in metric.items()}
-    wandb.log_metrics(metric, step)</code></pre>
+    mlflow.log_metrics(metric, step)</code></pre>
 </details>
 </dd>
 </dl>
@@ -290,11 +293,11 @@ have any parameters that wandb.init() would not accept.</dd>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="ml_logger.logger.wandb.Logger" href="#ml_logger.logger.wandb.Logger">Logger</a></code></h4>
+<h4><code><a title="ml_logger.logger.mlflow.Logger" href="#ml_logger.logger.mlflow.Logger">Logger</a></code></h4>
 <ul class="">
-<li><code><a title="ml_logger.logger.wandb.Logger.write_config" href="#ml_logger.logger.wandb.Logger.write_config">write_config</a></code></li>
-<li><code><a title="ml_logger.logger.wandb.Logger.write_log" href="#ml_logger.logger.wandb.Logger.write_log">write_log</a></code></li>
-<li><code><a title="ml_logger.logger.wandb.Logger.write_metric_log" href="#ml_logger.logger.wandb.Logger.write_metric_log">write_metric_log</a></code></li>
+<li><code><a title="ml_logger.logger.mlflow.Logger.write_config" href="#ml_logger.logger.mlflow.Logger.write_config">write_config</a></code></li>
+<li><code><a title="ml_logger.logger.mlflow.Logger.write_log" href="#ml_logger.logger.mlflow.Logger.write_log">write_log</a></code></li>
+<li><code><a title="ml_logger.logger.mlflow.Logger.write_metric_log" href="#ml_logger.logger.mlflow.Logger.write_metric_log">write_metric_log</a></code></li>
 </ul>
 </li>
 </ul>
