@@ -7,3 +7,4 @@ ConfigType = LogType
 MetricType = Dict[str, ValueType]
 ModelType = Any
 ComparisonOpType = Callable[[ValueType, ValueType], bool]
+KeyMapType = Dict[str, str]
