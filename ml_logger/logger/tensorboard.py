@@ -1,9 +1,11 @@
 """Logger class that writes to wandb"""
 
+from typing import Dict
+
 from tensorboardX import SummaryWriter
 
 from ml_logger.logger.base import Logger as BaseLogger
-from ml_logger.types import ConfigType, LogType, MetricType
+from ml_logger.types import ConfigType, LogType, MetricType, NumType
 
 
 class Logger(BaseLogger):
@@ -88,7 +90,7 @@ class Logger(BaseLogger):
         if "name" in config:
             name = config.pop("name")
 
-        metric_dict = None
+        metric_dict: Dict[str, NumType] = {}
         if "metric_dict" in config:
             metric_dict = config.pop("metric_dict")
 
