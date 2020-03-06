@@ -1,0 +1,784 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.7.5" />
+<title>ml_logger.logbook API documentation</title>
+<meta name="description" content="Implementation of the LogBook class …" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>ml_logger.logbook</code></h1>
+</header>
+<section id="section-intro">
+<p>Implementation of the LogBook class.</p>
+<p>LogBook class provides an interface to persist the logs on the filesystem,
+tensorboard, remote backends, etc.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+Implementation of the LogBook class.
+
+LogBook class provides an interface to persist the logs on the filesystem,
+tensorboard, remote backends, etc.
+
+&#34;&#34;&#34;
+
+import importlib
+import time
+from copy import deepcopy
+from typing import List, Optional
+
+from ml_logger.logger.base import Logger as LoggerType
+from ml_logger.types import ConfigType, KeyMapType, LogType, MetricType
+
+
+class LogBook:
+    &#34;&#34;&#34;This class provides an interface to persist the logs on the filesystem,
+    tensorboard, remote backends, etc.
+
+    &#34;&#34;&#34;
+
+    def __init__(self, config: ConfigType):
+        &#34;&#34;&#34;Initialise the Logbook class
+
+        Args:
+            logbook_config (ConfigType): Config to initialise the
+                LogBook class. The logbook config must have the
+                following keys:
+                id: Id of the current LogBook instance. This
+                    attribute is logged with each log and is useful
+                    when multiple LogBook instances are needed (for
+                    example with multiprocessing)
+                logger_file_path: Path to the file, where the logs
+                    will be written
+                The logbook config can be created using the make_config
+                method defined in ml_logger/logbook.py
+            config (ConfigType): config corresponding to the ml experiment
+                creating the logbook
+        &#34;&#34;&#34;
+        self.id = config[&#34;id&#34;]
+        self.logger_name = config[&#34;name&#34;]
+        self.time_format = &#34;%I:%M:%S%p %Z %b %d, %Y&#34;  # 10:21:14PM EST Mar 04, 2020
+        self.loggers: List[LoggerType] = []
+        for logger_name, logger_config in config[&#34;loggers&#34;].items():
+            logger_module = importlib.import_module(f&#34;ml_logger.logger.{logger_name}&#34;)
+            logger_cls = getattr(logger_module, &#34;Logger&#34;)
+            logger = logger_cls(config=logger_config)
+            self.loggers.append(logger)
+
+    def _process_log(self, log: LogType, log_type: str) -&gt; LogType:
+        &#34;&#34;&#34;Process the log before writing
+
+        Args:
+            log (LogType): Log to process
+            log_type (str): Type of the log: config, metric, metadata, etc
+
+        Returns:
+            LogType: Processed log
+        &#34;&#34;&#34;
+
+        log[&#34;logbook_id&#34;] = self.id
+        log[&#34;logbook_timestamp&#34;] = time.strftime(self.time_format)
+        log[&#34;logbook_type&#34;] = log_type
+        return log
+
+    def write_log(self, log: LogType, log_type: str = &#34;metric&#34;) -&gt; None:
+        &#34;&#34;&#34;Write log to loggers
+
+        Args:
+            log (LogType): Log to write
+            log_type (str, optional): Type of this log. Defaults to &#34;metric&#34;.
+        &#34;&#34;&#34;
+
+        log = self._process_log(log, log_type)
+        for logger in self.loggers:
+            logger.write_log(log=deepcopy(log))
+
+    def write_config_log(self, config: ConfigType) -&gt; None:
+        &#34;&#34;&#34;Write config to loggers
+
+        Args:
+            config [ConfigType]: Config to write.
+        &#34;&#34;&#34;
+        return self.write_log(log=config, log_type=&#34;config&#34;)
+
+    def write_metric_log(self, metric: MetricType) -&gt; None:
+        &#34;&#34;&#34;Write metric to loggers
+
+        Args:
+            metric (MetricType): Metric to write
+        &#34;&#34;&#34;
+        return self.write_log(log=metric, log_type=&#34;metric&#34;)
+
+    def write_message(self, message: str, log_type: str = &#34;info&#34;) -&gt; None:
+        &#34;&#34;&#34;Write message string to loggers
+
+        Args:
+            message (str): Message string to write
+            log_type (str, optional): Type of this message (log).
+                Defaults to &#34;info&#34;.
+        &#34;&#34;&#34;
+        return self.write_log(log={&#34;messgae&#34;: message}, log_type=log_type)
+
+    def write_metadata_log(self, metadata: LogType) -&gt; None:
+        &#34;&#34;&#34;Write metadata to loggers
+
+        Args:
+            metadata (LogType): Metadata to wite
+        &#34;&#34;&#34;
+        return self.write_log(log=metadata, log_type=&#34;metadata&#34;)
+
+
+def make_config(
+    id: str = &#34;0&#34;,
+    name: str = &#34;default_logger&#34;,
+    logger_file_path: Optional[str] = None,
+    wandb_config: Optional[ConfigType] = None,
+    wandb_key_map: Optional[KeyMapType] = None,
+    wandb_prefix_key: Optional[str] = None,
+    tensorboard_config: Optional[ConfigType] = None,
+    tensorboard_key_map: Optional[KeyMapType] = None,
+    tensorboard_prefix_key: Optional[str] = None,
+    mlflow_config: Optional[ConfigType] = None,
+    mlflow_key_map: Optional[KeyMapType] = None,
+    mlflow_prefix_key: Optional[str] = None,
+) -&gt; ConfigType:
+
+    &#34;&#34;&#34;Make the config that can be passed to the LogBook constructor
+
+    Args:
+        id (str, optional): Id of the current LogBook instance. Defaults to &#34;0&#34;.
+        name (str, optional): Name of the logger. Defaults to &#34;default_logger&#34;.
+        logger_file_path (str, optional):  Path where the logs will be
+            written. If None is pass, logs are not written to the filesystem.
+            Defaults to None.
+        wandb_config (Optional[ConfigType], optional): Config for the wandb
+            logger. If None, wandb logger is not created. The config can
+            have any parameters that wandb.init() methods accepts
+            (https://docs.wandb.com/library/init). Note that the wandb_config
+            is passed as keyword arguments to the wandb.init() method.
+            This provides a lot of flexibility to the users to configure
+            wandb. This also means that the config should not have any
+            parameters that wandb.init() would not accept. Defaults to None.
+        wandb_key_map (Optional[KeyMapType], optional): When using wandb
+            logger, certain keys are required. This dictionary provides an
+            easy way to map the keys in the `log` (to be written) with the
+            keys that wandb logger needs. For instance, wandb logger needs
+            a `step` key in all the metric logs. If your logs have a key
+            called `epoch` that you want to use as `step`, set `wandb_key_map`
+            as `{epoch: step}`. This argument is ignored if set to None.
+            Defaults to None.
+        wandb_prefix_key (Optional[str], optional): When a metric is logged
+            to wandb, prefix the value (corresponding to the key) to all
+            the remaining keys before values are logged in the wandb logger.
+            This argument is ignored if set to None. Defaults to None.
+        tensorboard_config (Optional[ConfigType], optional): config to
+            initialise the tensorboardX logger. The config can have
+            any parameters that tensorboardX.SummaryWriter() method accepts
+            (https://tensorboardx.readthedocs.io/en/latest/tensorboard.html#tensorboardX.SummaryWriter).
+            Note that the config is passed as keyword arguments to the
+            tensorboardX.SummaryWriter() method. This provides a lot
+            of flexibility to the users to configure tensorboard. This also
+            means that config should not have any parameters that
+            tensorboardX.SummaryWriter() would not accept. Defaults to None.
+        tensorboard_key_map (Optional[KeyMapType], optional): When using
+            tensorboard logger, certain keys are required. This dictionary
+            provides an easy way to map the keys in the `log` (to be written)
+            with the keys that tensorboard logger needs. For instance,
+            tensorboard logger needs a `main_tag` key and a `global_step`
+            in all the metric logs. If your logs have a key called `epoch`
+            that you want to use as `step`, and a key called `mode` that
+            you want to use as `main_tag`, set `tensorboard_key_map` as
+            `{epoch: global_step, mode: main_tag}`. This argument is
+            ignored if set to None. Defaults to None.
+        tensorboard_prefix_key (Optional[str], optional): When a metric is
+            logged to tensorboard, prefix the value (corresponding to the key)
+            to all the remaining keys before values are logged in the
+            tensorboard logger. This argument is ignored if set to None.
+            Defaults to None.
+        mlflow_config (Optional[ConfigType], optional): config to
+            initialise an mlflow experiment. The config can have
+            any parameters that mlflow.create_experiment() method accepts
+            (https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.create_experiment).
+            Note that the config is passed as keyword arguments to the
+            mlflow.create_experiment() method. This provides a lot
+            of flexibility to the users to configure mlflow. This also
+            means that config should not have any parameters that
+            mlflow.create_experiment would not accept. Defaults to None.
+        mlflow_key_map (Optional[KeyMapType], optional): When using mlflow
+            logger, certain keys are required. This dictionary provides an
+            easy way to map the keys in the `log` (to be written) with the
+            keys that mlflow logger needs. For instance, mlflow logger needs
+            a `step` key in all the metric logs. If your logs have a key
+            called `epoch` that you want to use as `step`, set `mlflow_key_map`
+            as `{epoch: step}`. This argument is ignored if set to None.
+            Defaults to None.
+        mlflow_prefix_key (Optional[str], optional): When a metric is logged
+            to mlflow, prefix the value (corresponding to the key) to all
+            the remaining keys before values are logged in the mlflow logger.
+            This argument is ignored if set to None. Defaults to None.
+    Returns:
+        ConfigType: config to construct the LogBook
+    &#34;&#34;&#34;
+
+    loggers: ConfigType = {}
+    if logger_file_path is not None:
+        loggers[&#34;filesystem&#34;] = {
+            &#34;logger_file_path&#34;: logger_file_path,
+            &#34;logger_name&#34;: name,
+        }
+    if wandb_config is not None:
+        loggers[&#34;wandb&#34;] = wandb_config
+        loggers[&#34;wandb&#34;][&#34;logbook_key_map&#34;] = wandb_key_map
+        loggers[&#34;wandb&#34;][&#34;logbook_key_prefix&#34;] = wandb_prefix_key
+
+    if tensorboard_config is not None:
+        loggers[&#34;tensorboard&#34;] = tensorboard_config
+        loggers[&#34;tensorboard&#34;][&#34;logbook_key_map&#34;] = tensorboard_key_map
+        loggers[&#34;tensorboard&#34;][&#34;logbook_key_prefix&#34;] = tensorboard_prefix_key
+
+    if mlflow_config is not None:
+        loggers[&#34;mlflow&#34;] = mlflow_config
+        loggers[&#34;mlflow&#34;][&#34;logbook_key_map&#34;] = mlflow_key_map
+        loggers[&#34;mlflow&#34;][&#34;logbook_key_prefix&#34;] = mlflow_prefix_key
+
+    config = {&#34;id&#34;: id, &#34;name&#34;: name, &#34;loggers&#34;: loggers}
+    return config</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="ml_logger.logbook.make_config"><code class="name flex">
+<span>def <span class="ident">make_config</span></span>(<span>id='0', name='default_logger', logger_file_path=None, wandb_config=None, wandb_key_map=None, wandb_prefix_key=None, tensorboard_config=None, tensorboard_key_map=None, tensorboard_prefix_key=None, mlflow_config=None, mlflow_key_map=None, mlflow_prefix_key=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Make the config that can be passed to the LogBook constructor</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>id</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Id of the current LogBook instance. Defaults to "0".</dd>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Name of the logger. Defaults to "default_logger".</dd>
+<dt><strong><code>logger_file_path</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Path where the logs will be
+written. If None is pass, logs are not written to the filesystem.
+Defaults to None.</dd>
+<dt><strong><code>wandb_config</code></strong> :&ensp;<code>Optional</code>[<code>ConfigType</code>], optional</dt>
+<dd>Config for the wandb
+logger. If None, wandb logger is not created. The config can
+have any parameters that wandb.init() methods accepts
+(<a href="https://docs.wandb.com/library/init">https://docs.wandb.com/library/init</a>). Note that the wandb_config
+is passed as keyword arguments to the wandb.init() method.
+This provides a lot of flexibility to the users to configure
+wandb. This also means that the config should not have any
+parameters that wandb.init() would not accept. Defaults to None.</dd>
+<dt><strong><code>wandb_key_map</code></strong> :&ensp;<code>Optional</code>[<code>KeyMapType</code>], optional</dt>
+<dd>When using wandb
+logger, certain keys are required. This dictionary provides an
+easy way to map the keys in the <code>log</code> (to be written) with the
+keys that wandb logger needs. For instance, wandb logger needs
+a <code>step</code> key in all the metric logs. If your logs have a key
+called <code>epoch</code> that you want to use as <code>step</code>, set <code>wandb_key_map</code>
+as <code>{epoch: step}</code>. This argument is ignored if set to None.
+Defaults to None.</dd>
+<dt><strong><code>wandb_prefix_key</code></strong> :&ensp;<code>Optional</code>[<code>str</code>], optional</dt>
+<dd>When a metric is logged
+to wandb, prefix the value (corresponding to the key) to all
+the remaining keys before values are logged in the wandb logger.
+This argument is ignored if set to None. Defaults to None.</dd>
+<dt><strong><code>tensorboard_config</code></strong> :&ensp;<code>Optional</code>[<code>ConfigType</code>], optional</dt>
+<dd>config to
+initialise the tensorboardX logger. The config can have
+any parameters that tensorboardX.SummaryWriter() method accepts
+(<a href="https://tensorboardx.readthedocs.io/en/latest/tensorboard.html#tensorboardX.SummaryWriter">https://tensorboardx.readthedocs.io/en/latest/tensorboard.html#tensorboardX.SummaryWriter</a>).
+Note that the config is passed as keyword arguments to the
+tensorboardX.SummaryWriter() method. This provides a lot
+of flexibility to the users to configure tensorboard. This also
+means that config should not have any parameters that
+tensorboardX.SummaryWriter() would not accept. Defaults to None.</dd>
+<dt><strong><code>tensorboard_key_map</code></strong> :&ensp;<code>Optional</code>[<code>KeyMapType</code>], optional</dt>
+<dd>When using
+tensorboard logger, certain keys are required. This dictionary
+provides an easy way to map the keys in the <code>log</code> (to be written)
+with the keys that tensorboard logger needs. For instance,
+tensorboard logger needs a <code>main_tag</code> key and a <code>global_step</code>
+in all the metric logs. If your logs have a key called <code>epoch</code>
+that you want to use as <code>step</code>, and a key called <code>mode</code> that
+you want to use as <code>main_tag</code>, set <code>tensorboard_key_map</code> as
+<code>{epoch: global_step, mode: main_tag}</code>. This argument is
+ignored if set to None. Defaults to None.</dd>
+<dt><strong><code>tensorboard_prefix_key</code></strong> :&ensp;<code>Optional</code>[<code>str</code>], optional</dt>
+<dd>When a metric is
+logged to tensorboard, prefix the value (corresponding to the key)
+to all the remaining keys before values are logged in the
+tensorboard logger. This argument is ignored if set to None.
+Defaults to None.</dd>
+<dt><strong><code>mlflow_config</code></strong> :&ensp;<code>Optional</code>[<code>ConfigType</code>], optional</dt>
+<dd>config to
+initialise an mlflow experiment. The config can have
+any parameters that mlflow.create_experiment() method accepts
+(<a href="https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.create_experiment">https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.create_experiment</a>).
+Note that the config is passed as keyword arguments to the
+mlflow.create_experiment() method. This provides a lot
+of flexibility to the users to configure mlflow. This also
+means that config should not have any parameters that
+mlflow.create_experiment would not accept. Defaults to None.</dd>
+<dt><strong><code>mlflow_key_map</code></strong> :&ensp;<code>Optional</code>[<code>KeyMapType</code>], optional</dt>
+<dd>When using mlflow
+logger, certain keys are required. This dictionary provides an
+easy way to map the keys in the <code>log</code> (to be written) with the
+keys that mlflow logger needs. For instance, mlflow logger needs
+a <code>step</code> key in all the metric logs. If your logs have a key
+called <code>epoch</code> that you want to use as <code>step</code>, set <code>mlflow_key_map</code>
+as <code>{epoch: step}</code>. This argument is ignored if set to None.
+Defaults to None.</dd>
+<dt><strong><code>mlflow_prefix_key</code></strong> :&ensp;<code>Optional</code>[<code>str</code>], optional</dt>
+<dd>When a metric is logged
+to mlflow, prefix the value (corresponding to the key) to all
+the remaining keys before values are logged in the mlflow logger.
+This argument is ignored if set to None. Defaults to None.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>ConfigType</code></strong></dt>
+<dd>config to construct the LogBook</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def make_config(
+    id: str = &#34;0&#34;,
+    name: str = &#34;default_logger&#34;,
+    logger_file_path: Optional[str] = None,
+    wandb_config: Optional[ConfigType] = None,
+    wandb_key_map: Optional[KeyMapType] = None,
+    wandb_prefix_key: Optional[str] = None,
+    tensorboard_config: Optional[ConfigType] = None,
+    tensorboard_key_map: Optional[KeyMapType] = None,
+    tensorboard_prefix_key: Optional[str] = None,
+    mlflow_config: Optional[ConfigType] = None,
+    mlflow_key_map: Optional[KeyMapType] = None,
+    mlflow_prefix_key: Optional[str] = None,
+) -&gt; ConfigType:
+
+    &#34;&#34;&#34;Make the config that can be passed to the LogBook constructor
+
+    Args:
+        id (str, optional): Id of the current LogBook instance. Defaults to &#34;0&#34;.
+        name (str, optional): Name of the logger. Defaults to &#34;default_logger&#34;.
+        logger_file_path (str, optional):  Path where the logs will be
+            written. If None is pass, logs are not written to the filesystem.
+            Defaults to None.
+        wandb_config (Optional[ConfigType], optional): Config for the wandb
+            logger. If None, wandb logger is not created. The config can
+            have any parameters that wandb.init() methods accepts
+            (https://docs.wandb.com/library/init). Note that the wandb_config
+            is passed as keyword arguments to the wandb.init() method.
+            This provides a lot of flexibility to the users to configure
+            wandb. This also means that the config should not have any
+            parameters that wandb.init() would not accept. Defaults to None.
+        wandb_key_map (Optional[KeyMapType], optional): When using wandb
+            logger, certain keys are required. This dictionary provides an
+            easy way to map the keys in the `log` (to be written) with the
+            keys that wandb logger needs. For instance, wandb logger needs
+            a `step` key in all the metric logs. If your logs have a key
+            called `epoch` that you want to use as `step`, set `wandb_key_map`
+            as `{epoch: step}`. This argument is ignored if set to None.
+            Defaults to None.
+        wandb_prefix_key (Optional[str], optional): When a metric is logged
+            to wandb, prefix the value (corresponding to the key) to all
+            the remaining keys before values are logged in the wandb logger.
+            This argument is ignored if set to None. Defaults to None.
+        tensorboard_config (Optional[ConfigType], optional): config to
+            initialise the tensorboardX logger. The config can have
+            any parameters that tensorboardX.SummaryWriter() method accepts
+            (https://tensorboardx.readthedocs.io/en/latest/tensorboard.html#tensorboardX.SummaryWriter).
+            Note that the config is passed as keyword arguments to the
+            tensorboardX.SummaryWriter() method. This provides a lot
+            of flexibility to the users to configure tensorboard. This also
+            means that config should not have any parameters that
+            tensorboardX.SummaryWriter() would not accept. Defaults to None.
+        tensorboard_key_map (Optional[KeyMapType], optional): When using
+            tensorboard logger, certain keys are required. This dictionary
+            provides an easy way to map the keys in the `log` (to be written)
+            with the keys that tensorboard logger needs. For instance,
+            tensorboard logger needs a `main_tag` key and a `global_step`
+            in all the metric logs. If your logs have a key called `epoch`
+            that you want to use as `step`, and a key called `mode` that
+            you want to use as `main_tag`, set `tensorboard_key_map` as
+            `{epoch: global_step, mode: main_tag}`. This argument is
+            ignored if set to None. Defaults to None.
+        tensorboard_prefix_key (Optional[str], optional): When a metric is
+            logged to tensorboard, prefix the value (corresponding to the key)
+            to all the remaining keys before values are logged in the
+            tensorboard logger. This argument is ignored if set to None.
+            Defaults to None.
+        mlflow_config (Optional[ConfigType], optional): config to
+            initialise an mlflow experiment. The config can have
+            any parameters that mlflow.create_experiment() method accepts
+            (https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.create_experiment).
+            Note that the config is passed as keyword arguments to the
+            mlflow.create_experiment() method. This provides a lot
+            of flexibility to the users to configure mlflow. This also
+            means that config should not have any parameters that
+            mlflow.create_experiment would not accept. Defaults to None.
+        mlflow_key_map (Optional[KeyMapType], optional): When using mlflow
+            logger, certain keys are required. This dictionary provides an
+            easy way to map the keys in the `log` (to be written) with the
+            keys that mlflow logger needs. For instance, mlflow logger needs
+            a `step` key in all the metric logs. If your logs have a key
+            called `epoch` that you want to use as `step`, set `mlflow_key_map`
+            as `{epoch: step}`. This argument is ignored if set to None.
+            Defaults to None.
+        mlflow_prefix_key (Optional[str], optional): When a metric is logged
+            to mlflow, prefix the value (corresponding to the key) to all
+            the remaining keys before values are logged in the mlflow logger.
+            This argument is ignored if set to None. Defaults to None.
+    Returns:
+        ConfigType: config to construct the LogBook
+    &#34;&#34;&#34;
+
+    loggers: ConfigType = {}
+    if logger_file_path is not None:
+        loggers[&#34;filesystem&#34;] = {
+            &#34;logger_file_path&#34;: logger_file_path,
+            &#34;logger_name&#34;: name,
+        }
+    if wandb_config is not None:
+        loggers[&#34;wandb&#34;] = wandb_config
+        loggers[&#34;wandb&#34;][&#34;logbook_key_map&#34;] = wandb_key_map
+        loggers[&#34;wandb&#34;][&#34;logbook_key_prefix&#34;] = wandb_prefix_key
+
+    if tensorboard_config is not None:
+        loggers[&#34;tensorboard&#34;] = tensorboard_config
+        loggers[&#34;tensorboard&#34;][&#34;logbook_key_map&#34;] = tensorboard_key_map
+        loggers[&#34;tensorboard&#34;][&#34;logbook_key_prefix&#34;] = tensorboard_prefix_key
+
+    if mlflow_config is not None:
+        loggers[&#34;mlflow&#34;] = mlflow_config
+        loggers[&#34;mlflow&#34;][&#34;logbook_key_map&#34;] = mlflow_key_map
+        loggers[&#34;mlflow&#34;][&#34;logbook_key_prefix&#34;] = mlflow_prefix_key
+
+    config = {&#34;id&#34;: id, &#34;name&#34;: name, &#34;loggers&#34;: loggers}
+    return config</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="ml_logger.logbook.LogBook"><code class="flex name class">
+<span>class <span class="ident">LogBook</span></span>
+<span>(</span><span>config)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This class provides an interface to persist the logs on the filesystem,
+tensorboard, remote backends, etc.</p>
+<p>Initialise the Logbook class</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>logbook_config</code></strong> :&ensp;<code>ConfigType</code></dt>
+<dd>Config to initialise the
+LogBook class. The logbook config must have the
+following keys:
+id: Id of the current LogBook instance. This
+attribute is logged with each log and is useful
+when multiple LogBook instances are needed (for
+example with multiprocessing)
+logger_file_path: Path to the file, where the logs
+will be written
+The logbook config can be created using the make_config
+method defined in ml_logger/logbook.py</dd>
+<dt><strong><code>config</code></strong> :&ensp;<code>ConfigType</code></dt>
+<dd>config corresponding to the ml experiment
+creating the logbook</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class LogBook:
+    &#34;&#34;&#34;This class provides an interface to persist the logs on the filesystem,
+    tensorboard, remote backends, etc.
+
+    &#34;&#34;&#34;
+
+    def __init__(self, config: ConfigType):
+        &#34;&#34;&#34;Initialise the Logbook class
+
+        Args:
+            logbook_config (ConfigType): Config to initialise the
+                LogBook class. The logbook config must have the
+                following keys:
+                id: Id of the current LogBook instance. This
+                    attribute is logged with each log and is useful
+                    when multiple LogBook instances are needed (for
+                    example with multiprocessing)
+                logger_file_path: Path to the file, where the logs
+                    will be written
+                The logbook config can be created using the make_config
+                method defined in ml_logger/logbook.py
+            config (ConfigType): config corresponding to the ml experiment
+                creating the logbook
+        &#34;&#34;&#34;
+        self.id = config[&#34;id&#34;]
+        self.logger_name = config[&#34;name&#34;]
+        self.time_format = &#34;%I:%M:%S%p %Z %b %d, %Y&#34;  # 10:21:14PM EST Mar 04, 2020
+        self.loggers: List[LoggerType] = []
+        for logger_name, logger_config in config[&#34;loggers&#34;].items():
+            logger_module = importlib.import_module(f&#34;ml_logger.logger.{logger_name}&#34;)
+            logger_cls = getattr(logger_module, &#34;Logger&#34;)
+            logger = logger_cls(config=logger_config)
+            self.loggers.append(logger)
+
+    def _process_log(self, log: LogType, log_type: str) -&gt; LogType:
+        &#34;&#34;&#34;Process the log before writing
+
+        Args:
+            log (LogType): Log to process
+            log_type (str): Type of the log: config, metric, metadata, etc
+
+        Returns:
+            LogType: Processed log
+        &#34;&#34;&#34;
+
+        log[&#34;logbook_id&#34;] = self.id
+        log[&#34;logbook_timestamp&#34;] = time.strftime(self.time_format)
+        log[&#34;logbook_type&#34;] = log_type
+        return log
+
+    def write_log(self, log: LogType, log_type: str = &#34;metric&#34;) -&gt; None:
+        &#34;&#34;&#34;Write log to loggers
+
+        Args:
+            log (LogType): Log to write
+            log_type (str, optional): Type of this log. Defaults to &#34;metric&#34;.
+        &#34;&#34;&#34;
+
+        log = self._process_log(log, log_type)
+        for logger in self.loggers:
+            logger.write_log(log=deepcopy(log))
+
+    def write_config_log(self, config: ConfigType) -&gt; None:
+        &#34;&#34;&#34;Write config to loggers
+
+        Args:
+            config [ConfigType]: Config to write.
+        &#34;&#34;&#34;
+        return self.write_log(log=config, log_type=&#34;config&#34;)
+
+    def write_metric_log(self, metric: MetricType) -&gt; None:
+        &#34;&#34;&#34;Write metric to loggers
+
+        Args:
+            metric (MetricType): Metric to write
+        &#34;&#34;&#34;
+        return self.write_log(log=metric, log_type=&#34;metric&#34;)
+
+    def write_message(self, message: str, log_type: str = &#34;info&#34;) -&gt; None:
+        &#34;&#34;&#34;Write message string to loggers
+
+        Args:
+            message (str): Message string to write
+            log_type (str, optional): Type of this message (log).
+                Defaults to &#34;info&#34;.
+        &#34;&#34;&#34;
+        return self.write_log(log={&#34;messgae&#34;: message}, log_type=log_type)
+
+    def write_metadata_log(self, metadata: LogType) -&gt; None:
+        &#34;&#34;&#34;Write metadata to loggers
+
+        Args:
+            metadata (LogType): Metadata to wite
+        &#34;&#34;&#34;
+        return self.write_log(log=metadata, log_type=&#34;metadata&#34;)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="ml_logger.logbook.LogBook.write_config_log"><code class="name flex">
+<span>def <span class="ident">write_config_log</span></span>(<span>self, config)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Write config to loggers</p>
+<h2 id="args">Args</h2>
+<p>config [ConfigType]: Config to write.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def write_config_log(self, config: ConfigType) -&gt; None:
+    &#34;&#34;&#34;Write config to loggers
+
+    Args:
+        config [ConfigType]: Config to write.
+    &#34;&#34;&#34;
+    return self.write_log(log=config, log_type=&#34;config&#34;)</code></pre>
+</details>
+</dd>
+<dt id="ml_logger.logbook.LogBook.write_log"><code class="name flex">
+<span>def <span class="ident">write_log</span></span>(<span>self, log, log_type='metric')</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Write log to loggers</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>log</code></strong> :&ensp;<code>LogType</code></dt>
+<dd>Log to write</dd>
+<dt><strong><code>log_type</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Type of this log. Defaults to "metric".</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def write_log(self, log: LogType, log_type: str = &#34;metric&#34;) -&gt; None:
+    &#34;&#34;&#34;Write log to loggers
+
+    Args:
+        log (LogType): Log to write
+        log_type (str, optional): Type of this log. Defaults to &#34;metric&#34;.
+    &#34;&#34;&#34;
+
+    log = self._process_log(log, log_type)
+    for logger in self.loggers:
+        logger.write_log(log=deepcopy(log))</code></pre>
+</details>
+</dd>
+<dt id="ml_logger.logbook.LogBook.write_message"><code class="name flex">
+<span>def <span class="ident">write_message</span></span>(<span>self, message, log_type='info')</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Write message string to loggers</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>message</code></strong> :&ensp;<code>str</code></dt>
+<dd>Message string to write</dd>
+<dt><strong><code>log_type</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Type of this message (log).
+Defaults to "info".</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def write_message(self, message: str, log_type: str = &#34;info&#34;) -&gt; None:
+    &#34;&#34;&#34;Write message string to loggers
+
+    Args:
+        message (str): Message string to write
+        log_type (str, optional): Type of this message (log).
+            Defaults to &#34;info&#34;.
+    &#34;&#34;&#34;
+    return self.write_log(log={&#34;messgae&#34;: message}, log_type=log_type)</code></pre>
+</details>
+</dd>
+<dt id="ml_logger.logbook.LogBook.write_metadata_log"><code class="name flex">
+<span>def <span class="ident">write_metadata_log</span></span>(<span>self, metadata)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Write metadata to loggers</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>metadata</code></strong> :&ensp;<code>LogType</code></dt>
+<dd>Metadata to wite</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def write_metadata_log(self, metadata: LogType) -&gt; None:
+    &#34;&#34;&#34;Write metadata to loggers
+
+    Args:
+        metadata (LogType): Metadata to wite
+    &#34;&#34;&#34;
+    return self.write_log(log=metadata, log_type=&#34;metadata&#34;)</code></pre>
+</details>
+</dd>
+<dt id="ml_logger.logbook.LogBook.write_metric_log"><code class="name flex">
+<span>def <span class="ident">write_metric_log</span></span>(<span>self, metric)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Write metric to loggers</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>metric</code></strong> :&ensp;<code>MetricType</code></dt>
+<dd>Metric to write</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def write_metric_log(self, metric: MetricType) -&gt; None:
+    &#34;&#34;&#34;Write metric to loggers
+
+    Args:
+        metric (MetricType): Metric to write
+    &#34;&#34;&#34;
+    return self.write_log(log=metric, log_type=&#34;metric&#34;)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="ml_logger" href="index.html">ml_logger</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="ml_logger.logbook.make_config" href="#ml_logger.logbook.make_config">make_config</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="ml_logger.logbook.LogBook" href="#ml_logger.logbook.LogBook">LogBook</a></code></h4>
+<ul class="">
+<li><code><a title="ml_logger.logbook.LogBook.write_config_log" href="#ml_logger.logbook.LogBook.write_config_log">write_config_log</a></code></li>
+<li><code><a title="ml_logger.logbook.LogBook.write_log" href="#ml_logger.logbook.LogBook.write_log">write_log</a></code></li>
+<li><code><a title="ml_logger.logbook.LogBook.write_message" href="#ml_logger.logbook.LogBook.write_message">write_message</a></code></li>
+<li><code><a title="ml_logger.logbook.LogBook.write_metadata_log" href="#ml_logger.logbook.LogBook.write_metadata_log">write_metadata_log</a></code></li>
+<li><code><a title="ml_logger.logbook.LogBook.write_metric_log" href="#ml_logger.logbook.LogBook.write_metric_log">write_metric_log</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.5</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
