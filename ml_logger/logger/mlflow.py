@@ -3,7 +3,7 @@
 import mlflow
 
 from ml_logger.logger.base import Logger as BaseLogger
-from ml_logger.types import ConfigType, LogType
+from ml_logger.types import ConfigType, LogType, MetricType
 
 
 class Logger(BaseLogger):
