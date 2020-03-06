@@ -13,6 +13,8 @@ Alternatively, `pip install git+https://git@github.com/shagunsodhani/ml-logger.g
 
 If you want to use tensorboardX or Wandb logger, use `pip install .[all]` or `pip install git+https://git@github.com/shagunsodhani/ml-logger.git@master#egg=ml_logger[all]`
 
+If you are installing on zsh, make sure to escape "[all]" ie `pip install "git+https://git@github.com/shagunsodhani/ml-logger.git@master#egg=ml_logger[all]"`.
+
 ### Use
 
 * Make a `logbook_config`:
@@ -22,7 +24,8 @@ If you want to use tensorboardX or Wandb logger, use `pip install .[all]` or `pi
     logbook_config = ml_logbook.make_config(
         logger_file_path = <path to write logs>,
         wandb_config = <wandb config or None>,
-        tensorboard_config = <tensorboard config or None>)
+        tensorboard_config = <tensorboard config or None>,
+        mlflow_config = <mlflow config or None>)
     ```
 
     The API for `make_config` can be accessed [here](https://shagunsodhani.com/ml-logger/logbook.html#ml_logger.logbook.make_config).
@@ -47,14 +50,13 @@ If you want to use tensorboardX or Wandb logger, use `pip install .[all]` or `pi
 
 ### Note
 
-* If you are writing to wandb, the `log` must have a key called `step`.
+* If you are writing to wandb, the `log` must have a key called `step`. If your `log` already captures the `step` but as a different key (say `epoch`), you can pass the `wandb_key_map` argument (set as `{epoch: step}`). For more details, refer the documentation [here](https://shagunsodhani.com/ml-logger/logbook.html#ml_logger.logbook.make_config).
 
-* If you are writing to tensorboard, the `log` must have a key called `main_tag` or `tag` which acts as the data Identifier and another key called `global_step`. These keys are described [here](https://tensorboardx.readthedocs.io/en/latest/tensorboard.html#tensorboardX.SummaryWriter.add_scalars).
+* If you are writing to mlflow, the `log` must have a key called `step`. If your `log` already captures the `step` but as a different key (say `epoch`), you can pass the `mlflow_key_map` argument (set as `{epoch: step}`). For more details, refer the documentation [here](https://shagunsodhani.com/ml-logger/logbook.html#ml_logger.logbook.make_config).
+
+* If you are writing to tensorboard, the `log` must have a key called `main_tag` or `tag` which acts as the data Identifier and another key called `global_step`. These keys are described [here](https://tensorboardx.readthedocs.io/en/latest/tensorboard.html#tensorboardX.SummaryWriter.add_scalars). If your `log` already captures these values but as different key (say `mode` for `main_tag` and `epoch` for `global_step`), you can pass the `tensorboard_key_map` argument (set as `{mode: main_tag, epoch: global_step}`). For more details, refer the documentation [here](https://shagunsodhani.com/ml-logger/logbook.html#ml_logger.logbook.make_config).
 
 * TensorboardX sometimes throws an error when logging metrics whose value is of type string. Currently, such metrics are not logged.
-
-
-
 
 ### Documentation
 

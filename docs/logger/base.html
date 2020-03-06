@@ -29,7 +29,7 @@
 from abc import ABCMeta, abstractmethod
 from typing import List, Optional
 
-from ml_logger.types import ConfigType, LogType
+from ml_logger.types import ConfigType, KeyMapType, LogType
 
 
 class Logger(metaclass=ABCMeta):
@@ -46,6 +46,8 @@ class Logger(metaclass=ABCMeta):
         self.keys_to_retain: Optional[List[str]] = None
         self.keys_to_skip: Optional[List[str]] = None
         self.keys_to_check: Optional[List[str]] = None
+        self.key_map: Optional[KeyMapType] = config.pop(&#34;logbook_key_map&#34;)
+        self.key_prefix: Optional[str] = config.pop(&#34;logbook_key_prefix&#34;)
 
     @abstractmethod
     def write_log(self, log: LogType) -&gt; None:
@@ -75,6 +77,10 @@ class Logger(metaclass=ABCMeta):
             LogType: Log with certain keys removed
         &#34;&#34;&#34;
         processed_log: LogType = {}
+
+        if self.key_map is not None:
+            for key, mapped_key in self.key_map.items():
+                processed_log[mapped_key] = log.pop(key)
 
         if self.keys_to_retain is None:
             # Retain all the keys, other than the ones to skip
@@ -130,6 +136,8 @@ class Logger(metaclass=ABCMeta):
         self.keys_to_retain: Optional[List[str]] = None
         self.keys_to_skip: Optional[List[str]] = None
         self.keys_to_check: Optional[List[str]] = None
+        self.key_map: Optional[KeyMapType] = config.pop(&#34;logbook_key_map&#34;)
+        self.key_prefix: Optional[str] = config.pop(&#34;logbook_key_prefix&#34;)
 
     @abstractmethod
     def write_log(self, log: LogType) -&gt; None:
@@ -160,6 +168,10 @@ class Logger(metaclass=ABCMeta):
         &#34;&#34;&#34;
         processed_log: LogType = {}
 
+        if self.key_map is not None:
+            for key, mapped_key in self.key_map.items():
+                processed_log[mapped_key] = log.pop(key)
+
         if self.keys_to_retain is None:
             # Retain all the keys, other than the ones to skip
             processed_log = log
@@ -177,6 +189,7 @@ class Logger(metaclass=ABCMeta):
 <h3>Subclasses</h3>
 <ul class="hlist">
 <li><a title="ml_logger.logger.filesystem.Logger" href="filesystem.html#ml_logger.logger.filesystem.Logger">Logger</a></li>
+<li><a title="ml_logger.logger.mlflow.Logger" href="mlflow.html#ml_logger.logger.mlflow.Logger">Logger</a></li>
 <li><a title="ml_logger.logger.tensorboard.Logger" href="tensorboard.html#ml_logger.logger.tensorboard.Logger">Logger</a></li>
 <li><a title="ml_logger.logger.wandb.Logger" href="wandb.html#ml_logger.logger.wandb.Logger">Logger</a></li>
 </ul>

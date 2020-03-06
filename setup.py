@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="ml_logger",
-    version="0.3rc3",
+    version="0.3rc4",
     author="Shagun Sodhani",
     author_email="sshagunsodhani@gmail.com",
     description="Logging Utility for ML Experiments",
@@ -29,7 +29,7 @@ setuptools.setup(
         # Install development dependencies with
         # pip install -e .[dev]
         "dev": open("requirements/dev.txt").read().splitlines(),
-        # Install the complete setup (wandb and tensorboardX)
+        # Install the complete setup (wandb, mlflow and tensorboardX)
         # pip install .[all]
         "all": open("requirements/all.txt").read().splitlines(),
     },
