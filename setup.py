@@ -5,13 +5,13 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="ml_logger",
-    version="0.3rc4",
+    version="0.3rc5",
     author="Shagun Sodhani",
     author_email="sshagunsodhani@gmail.com",
     description="Logging Utility for ML Experiments",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    # Install the basic setup (without wandb and tensorboardX) with
+    # Install the basic setup (without wandb, tensorboardX and mlflow) with
     install_requires=open("requirements/filesystem.txt").read().splitlines(),
     url="https://github.com/shagunsodhani/ml-logger",
     packages=setuptools.find_packages(
