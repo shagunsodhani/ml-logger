@@ -15,7 +15,7 @@ setuptools.setup(
     install_requires=open("requirements/filesystem.txt").read().splitlines(),
     url="https://github.com/shagunsodhani/ml-logger",
     packages=setuptools.find_packages(
-        exclude=["*.tests", "*.tests.*", "tests.*", "tests", "docs"]
+        exclude=["*.tests", "*.tests.*", "tests.*", "tests", "docs", "docsrc"]
     ),
     classifiers=[
         "Programming Language :: Python :: 3.6",
