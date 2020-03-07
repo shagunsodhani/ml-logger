@@ -210,6 +210,8 @@ def make_config(
             "logger_file_path": logger_file_path,
             "logger_name": name,
         }
+        loggers["filesystem"]["logbook_key_map"] = None
+        loggers["filesystem"]["logbook_key_prefix"] = None
     if wandb_config is not None:
         loggers["wandb"] = wandb_config
         loggers["wandb"]["logbook_key_map"] = wandb_key_map
