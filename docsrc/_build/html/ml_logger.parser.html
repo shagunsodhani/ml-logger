@@ -176,7 +176,7 @@
 <p>Implementation of Parser to parse the logs</p>
 <dl class="class">
 <dt id="ml_logger.parser.config.Parser">
-<em class="property">class </em><code class="sig-prename descclassname">ml_logger.parser.config.</code><code class="sig-name descname">Parser</code><span class="sig-paren">(</span><em class="sig-param">fn_to_transform_log: Callable[[Dict[str, Any]], Dict[str, Any]] = &lt;function transform_log&gt;, fn_to_handle_error_when_parsing_log_file: Callable[[str, json.decoder.JSONDecodeError], Optional[Dict[str, Any]]] = &lt;function error_handler_when_parsing_log_file&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#ml_logger.parser.config.Parser" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ml_logger.parser.config.</code><code class="sig-name descname">Parser</code><span class="sig-paren">(</span><em class="sig-param">fn_to_transform_log: Callable[Dict[str, Any], Dict[str, Any]] = &lt;function transform_log&gt;, fn_to_handle_error_when_parsing_log_file: Callable[[str, json.decoder.JSONDecodeError], Optional[Dict[str, Any]]] = &lt;function error_handler_when_parsing_log_file&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#ml_logger.parser.config.Parser" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#ml_logger.parser.parser.Parser" title="ml_logger.parser.parser.Parser"><code class="xref py py-class docutils literal notranslate"><span class="pre">ml_logger.parser.parser.Parser</span></code></a></p>
 <p>Class to parse the config in the log files</p>
 <dl class="method">
@@ -264,7 +264,7 @@ all the matching paths</p>
 <p>Implementation of Parser to parse the logs</p>
 <dl class="class">
 <dt id="ml_logger.parser.metric.Parser">
-<em class="property">class </em><code class="sig-prename descclassname">ml_logger.parser.metric.</code><code class="sig-name descname">Parser</code><span class="sig-paren">(</span><em class="sig-param">fn_to_transform_log: Callable[[Dict[str, Any]], Dict[str, Any]] = &lt;function transform_log&gt;, fn_to_handle_error_when_parsing_log_file: Callable[[str, json.decoder.JSONDecodeError], Optional[Dict[str, Any]]] = &lt;function error_handler_when_parsing_log_file&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#ml_logger.parser.metric.Parser" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ml_logger.parser.metric.</code><code class="sig-name descname">Parser</code><span class="sig-paren">(</span><em class="sig-param">fn_to_transform_log: Callable[Dict[str, Any], Dict[str, Any]] = &lt;function transform_log&gt;, fn_to_handle_error_when_parsing_log_file: Callable[[str, json.decoder.JSONDecodeError], Optional[Dict[str, Any]]] = &lt;function error_handler_when_parsing_log_file&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#ml_logger.parser.metric.Parser" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#ml_logger.parser.parser.Parser" title="ml_logger.parser.parser.Parser"><code class="xref py py-class docutils literal notranslate"><span class="pre">ml_logger.parser.parser.Parser</span></code></a></p>
 <p>Class to parse the metrics in the log files</p>
 <dl class="method">
@@ -289,7 +289,7 @@ all the matching paths</p>
 
 <dl class="method">
 <dt id="ml_logger.parser.metric.Parser.get_metrics_as_df">
-<code class="sig-name descname">get_metrics_as_df</code><span class="sig-paren">(</span><em class="sig-param">log_file_path: str, fn_to_group_metrics: Callable[[List[Dict[str, Any]]], Dict[str, List[Dict[str, Any]]]] = &lt;function fn_to_group_metrics&gt;, fn_to_aggregate_metrics: Callable[[List[Dict[str, Any]]], List[Dict[str, Any]]] = &lt;function fn_to_aggregate_metrics&gt;</em><span class="sig-paren">)</span> &#x2192; Dict[str, pandas.core.frame.DataFrame]<a class="headerlink" href="#ml_logger.parser.metric.Parser.get_metrics_as_df" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_metrics_as_df</code><span class="sig-paren">(</span><em class="sig-param">log_file_path: str, fn_to_group_metrics: Callable[List[Dict[str, Any]], Dict[str, List[Dict[str, Any]]]] = &lt;function fn_to_group_metrics&gt;, fn_to_aggregate_metrics: Callable[List[Dict[str, Any]], List[Dict[str, Any]]] = &lt;function fn_to_aggregate_metrics&gt;</em><span class="sig-paren">)</span> &#x2192; Dict[str, pandas.core.frame.DataFrame]<a class="headerlink" href="#ml_logger.parser.metric.Parser.get_metrics_as_df" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a dict of (metric_name, dataframe)</p>
 <p>Method that:
 (i) reads the requested metrics (for each specified mode),
@@ -378,7 +378,7 @@ list of grouped metrics)</p>
 <p>Implementation of Parser to parse the logs</p>
 <dl class="class">
 <dt id="ml_logger.parser.parser.Parser">
-<em class="property">class </em><code class="sig-prename descclassname">ml_logger.parser.parser.</code><code class="sig-name descname">Parser</code><span class="sig-paren">(</span><em class="sig-param">fn_to_transform_log: Callable[[Dict[str, Any]], Dict[str, Any]] = &lt;function transform_log&gt;, fn_to_handle_error_when_parsing_log_file: Callable[[str, json.decoder.JSONDecodeError], Optional[Dict[str, Any]]] = &lt;function error_handler_when_parsing_log_file&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#ml_logger.parser.parser.Parser" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ml_logger.parser.parser.</code><code class="sig-name descname">Parser</code><span class="sig-paren">(</span><em class="sig-param">fn_to_transform_log: Callable[Dict[str, Any], Dict[str, Any]] = &lt;function transform_log&gt;, fn_to_handle_error_when_parsing_log_file: Callable[[str, json.decoder.JSONDecodeError], Optional[Dict[str, Any]]] = &lt;function error_handler_when_parsing_log_file&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#ml_logger.parser.parser.Parser" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Class to parse the log files</p>
 <dl class="method">
@@ -456,23 +456,6 @@ list of grouped metrics)</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>True if the log is a valid log</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>bool</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="ml_logger.parser.parser.filter_metric_log">
-<code class="sig-prename descclassname">ml_logger.parser.parser.</code><code class="sig-name descname">filter_metric_log</code><span class="sig-paren">(</span><em class="sig-param">log: Dict[str, Any]</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#ml_logger.parser.parser.filter_metric_log" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if the log is a metric log</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>log</strong> (<em>LogType</em>) – log to check</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>True if the log is a metric log</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>bool</p>

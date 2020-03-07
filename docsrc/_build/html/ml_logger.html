@@ -292,13 +292,13 @@ This provides a lot of flexibility to the users to configure
 wandb. This also means that the config should not have any
 parameters that wandb.init() would not accept. Defaults to None.</p></li>
 <li><p><strong>wandb_key_map</strong> (<em>Optional</em><em>[</em><em>KeyMapType</em><em>]</em><em>, </em><em>optional</em>) – When using wandb
-logger, certain keys are required. This dictionary provides an
-easy way to map the keys in the <cite>log</cite> (to be written) with the
-keys that wandb logger needs. For instance, wandb logger needs
-a <cite>step</cite> key in all the metric logs. If your logs have a key
-called <cite>epoch</cite> that you want to use as <cite>step</cite>, set <cite>wandb_key_map</cite>
-as <cite>{epoch: step}</cite>. This argument is ignored if set to None.
-Defaults to None.</p></li>
+logger for logging metrics, certain keys are required. This
+dictionary provides an easy way to map the keys in the <cite>log</cite>
+to be written) with the keys that wandb logger needs. For
+instance, wandb logger needs a <cite>step</cite> key in all the metric
+logs. If your logs have a key called <cite>epoch</cite> that you want to
+use as <cite>step</cite>, set <cite>wandb_key_map</cite> as <cite>{epoch: step}</cite>. This
+argument is ignored if set to None. Defaults to None.</p></li>
 <li><p><strong>wandb_prefix_key</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – When a metric is logged
 to wandb, prefix the value (corresponding to the key) to all
 the remaining keys before values are logged in the wandb logger.
@@ -312,16 +312,19 @@ tensorboardX.SummaryWriter() method. This provides a lot
 of flexibility to the users to configure tensorboard. This also
 means that config should not have any parameters that
 tensorboardX.SummaryWriter() would not accept. Defaults to None.</p></li>
-<li><p><strong>tensorboard_key_map</strong> (<em>Optional</em><em>[</em><em>KeyMapType</em><em>]</em><em>, </em><em>optional</em>) – When using
-tensorboard logger, certain keys are required. This dictionary
-provides an easy way to map the keys in the <cite>log</cite> (to be written)
-with the keys that tensorboard logger needs. For instance,
-tensorboard logger needs a <cite>main_tag</cite> key and a <cite>global_step</cite>
-in all the metric logs. If your logs have a key called <cite>epoch</cite>
-that you want to use as <cite>step</cite>, and a key called <cite>mode</cite> that
-you want to use as <cite>main_tag</cite>, set <cite>tensorboard_key_map</cite> as
-<cite>{epoch: global_step, mode: main_tag}</cite>. This argument is
-ignored if set to None. Defaults to None.</p></li>
+<li><p><strong>tensorboard_key_map</strong> (<em>Optional</em><em>[</em><em>KeyMapType</em><em>]</em><em>, </em><em>optional</em>) – <p>When using
+tensorboard logger for logging metrics, certain keys are required.
+This dictionary provides an easy way to map the keys in the <cite>log</cite>
+(to be written) with the keys that tensorboard logger needs.
+For instance, tensorboard logger needs a <cite>main_tag</cite> key and a
+<cite>global_step</cite> in all the metric logs. If your logs have a key
+called <cite>epoch</cite> that you want to use as <cite>step</cite>, and a key called
+<cite>mode</cite> that you want to use as <cite>main_tag</cite>, set <cite>tensorboard_key_map</cite>
+as <cite>{epoch: global_step, mode: main_tag}</cite>. This argument is</p>
+<blockquote>
+<div><p>ignored if set to None. Defaults to None.</p>
+</div></blockquote>
+</p></li>
 <li><p><strong>tensorboard_prefix_key</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – When a metric is
 logged to tensorboard, prefix the value (corresponding to the key)
 to all the remaining keys before values are logged in the
@@ -337,13 +340,13 @@ of flexibility to the users to configure mlflow. This also
 means that config should not have any parameters that
 mlflow.create_experiment would not accept. Defaults to None.</p></li>
 <li><p><strong>mlflow_key_map</strong> (<em>Optional</em><em>[</em><em>KeyMapType</em><em>]</em><em>, </em><em>optional</em>) – When using mlflow
-logger, certain keys are required. This dictionary provides an
-easy way to map the keys in the <cite>log</cite> (to be written) with the
-keys that mlflow logger needs. For instance, mlflow logger needs
-a <cite>step</cite> key in all the metric logs. If your logs have a key
-called <cite>epoch</cite> that you want to use as <cite>step</cite>, set <cite>mlflow_key_map</cite>
-as <cite>{epoch: step}</cite>. This argument is ignored if set to None.
-Defaults to None.</p></li>
+logger for logging metrics, certain keys are required. This
+dictionary provides an easy way to map the keys in the <cite>log</cite>
+(to be written) with the keys that mlflow logger needs. For
+instance, mlflow logger needs a <cite>step</cite> key in all the metric
+logs. If your logs have a key called <cite>epoch</cite> that you want to
+use as <cite>step</cite>, set <cite>mlflow_key_map</cite> as <cite>{epoch: step}</cite>. This
+argument is ignored if set to None. Defaults to None.</p></li>
 <li><p><strong>mlflow_prefix_key</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – When a metric is logged
 to mlflow, prefix the value (corresponding to the key) to all
 the remaining keys before values are logged in the mlflow logger.

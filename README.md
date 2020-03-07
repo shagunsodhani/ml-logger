@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/shagunsodhani/ml-logger.svg?style=svg)](https://circleci.com/gh/shagunsodhani/ml-logger) ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
+[![CircleCI](https://circleci.com/gh/shagunsodhani/ml-logger.svg?style=svg)](https://circleci.com/gh/shagunsodhani/ml-logger)
 ![PyPI - License](https://img.shields.io/pypi/l/mllogger)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/mllogger)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
