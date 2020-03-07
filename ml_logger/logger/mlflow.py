@@ -29,20 +29,20 @@ class Logger(BaseLogger):
         mlflow.create_experiment(**config)
 
     def write_log(self, log: LogType) -> None:
-        """Write the log to wandb
+        """Write the log to mlflow
 
         Args:
             log (LogType): Log to write
         """
         logbook_type = log["logbook_type"]
-        log = self._prepare_log_to_write(log=log)
-        if logbook_type == "config":
-            self.write_config(config=log)
-        elif logbook_type == "metric":
+        if logbook_type == "metric":
+            log = self._prepare_metric_log_to_write(log=log)
             self.write_metric_log(metric=log)
         else:
-            pass
-            # Message can not be written to mlflow
+            log = self._prepare_log_to_write(log=log)
+            if logbook_type == "config":
+                self.write_config(config=log)
+            # Only metric logs and message logs are supported right now
 
     def write_metric_log(self, metric: MetricType) -> None:
         """Write metric to mlflow

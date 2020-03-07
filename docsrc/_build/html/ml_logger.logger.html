@@ -238,7 +238,7 @@
 <dl class="method">
 <dt id="ml_logger.logger.mlflow.Logger.write_log">
 <code class="sig-name descname">write_log</code><span class="sig-paren">(</span><em class="sig-param">log: Dict[str, Any]</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#ml_logger.logger.mlflow.Logger.write_log" title="Permalink to this definition">¶</a></dt>
-<dd><p>Write the log to wandb</p>
+<dd><p>Write the log to mlflow</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>log</strong> (<em>LogType</em>) – Log to write</p>
@@ -262,7 +262,7 @@
 </div>
 <div class="section" id="module-ml_logger.logger.tensorboard">
 <span id="ml-logger-logger-tensorboard-module"></span><h2>ml_logger.logger.tensorboard module<a class="headerlink" href="#module-ml_logger.logger.tensorboard" title="Permalink to this headline">¶</a></h2>
-<p>Logger class that writes to wandb</p>
+<p>Logger class that writes to tensorboard</p>
 <dl class="class">
 <dt id="ml_logger.logger.tensorboard.Logger">
 <em class="property">class </em><code class="sig-prename descclassname">ml_logger.logger.tensorboard.</code><code class="sig-name descname">Logger</code><span class="sig-paren">(</span><em class="sig-param">config: Dict[str, Any]</em><span class="sig-paren">)</span><a class="headerlink" href="#ml_logger.logger.tensorboard.Logger" title="Permalink to this definition">¶</a></dt>
@@ -282,7 +282,7 @@
 <dl class="method">
 <dt id="ml_logger.logger.tensorboard.Logger.write_log">
 <code class="sig-name descname">write_log</code><span class="sig-paren">(</span><em class="sig-param">log: Dict[str, Any]</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#ml_logger.logger.tensorboard.Logger.write_log" title="Permalink to this definition">¶</a></dt>
-<dd><p>Write the log to tensorboardX</p>
+<dd><p>Write the log to tensorboard</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>log</strong> (<em>LogType</em>) – Log to write</p>

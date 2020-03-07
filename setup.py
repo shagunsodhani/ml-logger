@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="mllogger",
-    version="0.3rc5",
+    version="0.3",
     author="Shagun Sodhani",
     author_email="sshagunsodhani@gmail.com",
     description="Logging Utility for ML Experiments",
