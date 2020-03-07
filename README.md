@@ -1,17 +1,26 @@
 [![CircleCI](https://circleci.com/gh/shagunsodhani/ml-logger.svg?style=svg)](https://circleci.com/gh/shagunsodhani/ml-logger) ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
+![PyPI - License](https://img.shields.io/pypi/l/mllogger)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/mllogger)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 # ml-logger
 Logging utility for ML experiments
 
 ### Installation
 
+* `pip install "mllogger[all]==0.3rc5"`
+
+If you want to use only the filesystem logger, use `pip install "mllogger==0.3rc5"`
+
+**To install from source**
+
 * `git clone git@github.com:shagunsodhani/ml-logger.git`
 * `cd ml-logger`
-* `pip install .`
+* `pip install ".[all]"`
 
-Alternatively, `pip install "git+https://git@github.com/shagunsodhani/ml-logger.git@master#egg=ml_logger"`
+Alternatively, `pip install "git+https://git@github.com/shagunsodhani/ml-logger.git@master#egg=ml_logger[all]"`
 
-If you want to use tensorboardX or Wandb logger, use `pip install ".[all]"` or `pip install "git+https://git@github.com/shagunsodhani/ml-logger.git@master#egg=ml_logger[all]"`.
+If you want to use only the filesystem logger, use `pip install .` or `pip install "git+https://git@github.com/shagunsodhani/ml-logger.git@master#egg=ml_logger"`.
 
 ### Use
 
@@ -62,7 +71,7 @@ If you want to use tensorboardX or Wandb logger, use `pip install ".[all]"` or `
 
 ### Dev Setup
 
-* `pip install -e .[dev]`
+* `pip install -e ".[dev]"`
 * Install pre-commit hooks `pre-commit install`
 * The code is linted using:
     * `black`

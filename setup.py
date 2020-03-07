@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="ml_logger",
+    name="mllogger",
     version="0.3rc5",
     author="Shagun Sodhani",
     author_email="sshagunsodhani@gmail.com",
@@ -15,7 +15,7 @@ setuptools.setup(
     install_requires=open("requirements/filesystem.txt").read().splitlines(),
     url="https://github.com/shagunsodhani/ml-logger",
     packages=setuptools.find_packages(
-        exclude=["*.tests", "*.tests.*", "tests.*", "tests", "docs"]
+        exclude=["*.tests", "*.tests.*", "tests.*", "tests", "docs", "docsrc"]
     ),
     classifiers=[
         "Programming Language :: Python :: 3.6",

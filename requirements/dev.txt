@@ -12,4 +12,5 @@ sphinx-rtd-theme==0.4.3
 sphinx==2.4.3
 sphinxcontrib-napoleon==0.7
 tinydb==3.15.2
+twine==3.1.1
 typing-extensions==3.7.4.1
