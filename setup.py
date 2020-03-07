@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="ml_logger",
+    name="mllogger",
     version="0.3rc5",
     author="Shagun Sodhani",
     author_email="sshagunsodhani@gmail.com",
