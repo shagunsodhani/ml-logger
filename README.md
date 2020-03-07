@@ -8,9 +8,9 @@ Logging utility for ML experiments
 
 ### Installation
 
-* `pip install "mllogger[all]==0.3rc5"`
+* `pip install "mllogger[all]==0.3"`
 
-If you want to use only the filesystem logger, use `pip install "mllogger==0.3rc5"`
+If you want to use only the filesystem logger, use `pip install "mllogger==0.3"`
 
 **Install from source**
 
