@@ -70,7 +70,7 @@ class Logger(BaseLogger):
 
         for key, value in metric.items():
             self.summary_writer.add_scalar(
-                tag=f"{main_tag}/key",
+                tag=f"{main_tag}{key}",
                 scalar_value=value,
                 global_step=global_step,
                 walltime=walltime,
