@@ -6,21 +6,6 @@ from typing import Callable, Iterator, Optional
 from ml_logger.types import LogType
 
 
-def filter_metric_log(log: LogType) -> bool:
-    """Check if the log is a metric log
-
-    Args:
-        log (LogType): log to check
-
-    Returns:
-        bool: True if the log is a metric log
-    """
-    key = "type"
-    if key in log and log[key] == "metric":
-        return True
-    return False
-
-
 def error_handler_when_parsing_log_file(
     log_line: str, error: json.decoder.JSONDecodeError
 ) -> Optional[LogType]:
@@ -35,7 +20,6 @@ def error_handler_when_parsing_log_file(
         Optional[LogType]: None. Print the error on the console
     """
     print(f"Could not parse: {log_line} because of error: {error}")
-    return None
 
 
 def silent_error_handler_when_parsing_log_file(

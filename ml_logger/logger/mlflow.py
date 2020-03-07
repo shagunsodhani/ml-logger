@@ -29,7 +29,7 @@ class Logger(BaseLogger):
         mlflow.create_experiment(**config)
 
     def write_log(self, log: LogType) -> None:
-        """Write the log to wandb
+        """Write the log to mlflow
 
         Args:
             log (LogType): Log to write

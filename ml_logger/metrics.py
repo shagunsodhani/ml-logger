@@ -275,11 +275,7 @@ class MetricDict:
             metrics_dict = metrics_dict.to_dict()
         for key, val in metrics_dict.items():
             if key in self._metrics_dict:
-                if (
-                    isinstance(val, str)
-                    or isinstance(val, int)
-                    or isinstance(val, float)
-                ):
+                if isinstance(val, (str, float, int)):
                     self._metrics_dict[key].update(val)
                 else:
                     self._metrics_dict[key].update(*val)
