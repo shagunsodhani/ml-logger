@@ -55,7 +55,7 @@ class Logger(BaseLogger):
         if self.key_prefix:
             prefix = {metric.pop(self.key_prefix)}
             metric = {f"{prefix}_{key}": value for key, value in metric.items()}
-        wandb.log_metrics(metric, step)
+        wandb.log(metric, step)
 
     def write_config(self, config: ConfigType) -> None:
         """Write the config to wandb
