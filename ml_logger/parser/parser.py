@@ -20,6 +20,7 @@ def error_handler_when_parsing_log_file(
         Optional[LogType]: None. Print the error on the console
     """
     print(f"Could not parse: {log_line} because of error: {error}")
+    return None
 
 
 def silent_error_handler_when_parsing_log_file(

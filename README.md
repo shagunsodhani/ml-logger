@@ -12,7 +12,7 @@ Logging utility for ML experiments
 
 If you want to use only the filesystem logger, use `pip install "mllogger==0.3rc5"`
 
-**To install from source**
+**Install from source**
 
 * `git clone git@github.com:shagunsodhani/ml-logger.git`
 * `cd ml-logger`
@@ -21,6 +21,10 @@ If you want to use only the filesystem logger, use `pip install "mllogger==0.3rc
 Alternatively, `pip install "git+https://git@github.com/shagunsodhani/ml-logger.git@master#egg=ml_logger[all]"`
 
 If you want to use only the filesystem logger, use `pip install .` or `pip install "git+https://git@github.com/shagunsodhani/ml-logger.git@master#egg=ml_logger"`.
+
+### Documentation
+
+[https://shagunsodhani.github.io/ml-logger](https://shagunsodhani.github.io/ml-logger/)
 
 ### Use
 
@@ -63,11 +67,6 @@ If you want to use only the filesystem logger, use `pip install .` or `pip insta
 
 * If you are writing to tensorboard, the `log` must have a key called `main_tag` or `tag` which acts as the data Identifier and another key called `global_step`. These keys are described [here](https://tensorboardx.readthedocs.io/en/latest/tensorboard.html#tensorboardX.SummaryWriter.add_scalars). If your `log` already captures these values but as different key (say `mode` for `main_tag` and `epoch` for `global_step`), you can pass the `tensorboard_key_map` argument (set as `{mode: main_tag, epoch: global_step}`). For more details, refer the documentation [here](https://shagunsodhani.com/ml-logger/ml_logger.html?highlight=make_config#ml_logger.logbook.make_config).
 
-* TensorboardX sometimes throws an error when logging metrics whose value is of type string. Currently, such metrics are not logged.
-
-### Documentation
-
-[https://shagunsodhani.github.io/ml-logger](https://shagunsodhani.github.io/ml-logger/)
 
 ### Dev Setup
 

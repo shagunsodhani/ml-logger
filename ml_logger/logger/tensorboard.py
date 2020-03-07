@@ -1,4 +1,4 @@
-"""Logger class that writes to wandb"""
+"""Logger class that writes to tensorboard"""
 
 from typing import Dict
 
@@ -22,7 +22,7 @@ class Logger(BaseLogger):
                 (https://tensorboardx.readthedocs.io/en/latest/tensorboard.html#tensorboardX.SummaryWriter).
                 Note that the config is passed as keyword arguments to the
                 tensorboardX.SummaryWriter() method. This provides a lot
-                of flexibility to the users to configure wandb. This also
+                of flexibility to the users to configure tensorboard. This also
                 means that config should not have any parameters that
                 tensorboardX.SummaryWriter() would not accept.
         """
@@ -31,23 +31,19 @@ class Logger(BaseLogger):
         self.keys_to_skip = ["logbook_id", "logbook_type", "logbook_timestamp"]
 
     def write_log(self, log: LogType) -> None:
-        """Write the log to tensorboardX
+        """Write the log to tensorboard
 
         Args:
             log (LogType): Log to write
         """
-
         logbook_type = log["logbook_type"]
-        log = self._prepare_log_to_write(log=log)
-
         if logbook_type == "metric":
+            log = self._prepare_metric_log_to_write(log=log)
             self.write_metric_log(metric=log)
-
-        elif logbook_type == "config":
-            self.write_config(config=log)
         else:
-            pass
-            # Only metric logs and configs can be written to tensorboardX
+            if logbook_type == "config":
+                self.write_config(config=log)
+            # Only metric logs and message logs are supported right now
 
     def write_metric_log(self, metric: MetricType) -> None:
         """Write metric to tensorboard
@@ -62,20 +58,20 @@ class Logger(BaseLogger):
         if "walltime" in metric:
             walltime = metric.pop("walltime")
 
-        main_tag = None
+        main_tag = ""
         if "tag" in metric:
-            main_tag = metric.pop("tag")
+            main_tag = str(metric.pop("tag")) + "/"
         elif "main_tag" in metric:
-            main_tag = metric.pop("main_tag")
+            main_tag = str(metric.pop("main_tag")) + "/"
 
         if self.key_prefix:
             prefix = {metric.pop(self.key_prefix)}
             metric = {f"{prefix}_{key}": value for key, value in metric.items()}
 
-        for key, value in metric:
+        for key, value in metric.items():
             self.summary_writer.add_scalar(
                 tag=f"{main_tag}/key",
-                value=value,
+                scalar_value=value,
                 global_step=global_step,
                 walltime=walltime,
             )
@@ -93,10 +89,13 @@ class Logger(BaseLogger):
         metric_dict: Dict[str, NumType] = {}
         if "metric_dict" in config:
             metric_dict = config.pop("metric_dict")
+            metric_dict = self._prepare_metric_log_to_write(log=metric_dict)
 
         global_step = None
         if "global_step" in config:
             global_step = config.pop("global_step")
+
+        config = self._prepare_log_to_write(log=config)
 
         self.summary_writer.add_hparams(
             hparam_dict=config,
