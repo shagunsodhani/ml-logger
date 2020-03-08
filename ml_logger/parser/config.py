@@ -2,11 +2,12 @@
 
 import glob
 import json
-from typing import Callable, Iterator, Optional
+from typing import Callable, Optional
 
 import tinydb
 
 from ml_logger.parser import parser as base_parser
+from ml_logger.parser import utils as parser_utils
 from ml_logger.types import ConfigType, LogType
 
 
@@ -31,27 +32,27 @@ class Parser(base_parser.Parser):
 
     def __init__(
         self,
-        fn_to_transform_log: Callable[[LogType], LogType] = base_parser.transform_log,
-        fn_to_handle_error_when_parsing_log_file: Callable[
+        log_transformer: Callable[
+            [LogType], LogType
+        ] = parser_utils.identity_log_transformer,
+        error_handler: Callable[
             [str, json.decoder.JSONDecodeError], Optional[LogType]
-        ] = base_parser.error_handler_when_parsing_log_file,
+        ] = parser_utils.silent_error_handler,
     ):
         """Class to parse the log files
 
         Args:
-            fn_to_transform_log (Callable[[LogType], LogType], optional):
-                Function to transform the logs after reading them from
-                the filesystem. Defaults to transform_log.
-            fn_to_handle_error_when_parsing_log_file (Callable[[str,
-                json.decoder.JSONDecodeError], Optional[LogType]], optional):
-                Function to handle the error when the parser reads an
-                invalid json string
-
+            log_transformer (Callable[[LogType], LogType], optional):
+                Function to transform the logs after reading them from the
+                filesystem. Defaults to parser_utils.identity_log_transformer.
+            error_handler (Callable[[str, json.decoder.JSONDecodeError],
+                Optional[LogType]], optional): Function to handle the
+                error when the parser reads an invalid json string.
+                Defaults to parser_utils.silent_error_handler.
         """
 
         super().__init__(
-            fn_to_transform_log=fn_to_transform_log,
-            fn_to_handle_error_when_parsing_log_file=fn_to_handle_error_when_parsing_log_file,
+            log_transformer=log_transformer, error_handler=error_handler,
         )
 
     def get_logs(self, log_file_path: str) -> Iterator[ConfigType]:

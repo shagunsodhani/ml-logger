@@ -13,28 +13,31 @@ class Parser:
 
     def __init__(
         self,
-        fn_to_transform_log: Callable[[LogType], LogType] = transform_log,
-        fn_to_handle_error_when_parsing_log_file: Callable[
+        log_transformer: Callable[
+            [LogType], LogType
+        ] = parser_utils.identity_log_transformer,
+        error_handler: Callable[
             [str, json.decoder.JSONDecodeError], Optional[LogType]
-        ] = error_handler_when_parsing_log_file,
+        ] = parser_utils.silent_error_handler,
     ):
         """Class to parse the log files
 
         Args:
-            fn_to_transform_log (Callable[[LogType], LogType], optional):
-                Function to transform the logs after reading them from
-                the filesystem. Defaults to transform_log.
-            fn_to_handle_error_when_parsing_log_file (Callable[[str,
-                json.decoder.JSONDecodeError], Optional[LogType]], optional):
-                Function to handle the error when the parser reads an
-                invalid json string
+            log_transformer (Callable[[LogType], LogType], optional):
+                Function to transform the logs after reading them from the
+                filesystem. Defaults to parser_utils.identity_log_transformer.
+            error_handler (Callable[[str, json.decoder.JSONDecodeError],
+                Optional[LogType]], optional): Function to handle the
+                error when the parser reads an invalid json string.
+                Defaults to parser_utils.silent_error_handler.
+        """
+        self.log_transformer = log_transformer
+        self.error_handler = error_handler
+        self.log_type: Optional[str] = None
+
 
         """
 
-        self.fn_to_transform_log = fn_to_transform_log
-        self.fn_to_handle_error_when_parsing_log_file = (
-            fn_to_handle_error_when_parsing_log_file
-        )
 
     def parse_log_file(self, log_file_path: str) -> Iterator[LogType]:
         """Method to open a log file and parse the logs
