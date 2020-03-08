@@ -52,11 +52,11 @@ class Parser:
 
         return False
 
-    def parse_log_file(self, log_file_path: str) -> Iterator[LogType]:
+    def _parse_file(self, file_path: str) -> Iterator[LogType]:
         """Method to open a log file and parse the logs
 
         Args:
-            log_file_path (str): Log file to read from
+            file_path (str): Log file to read from
 
         Returns:
             Iterator[LogType]: Iterator over the logs
@@ -64,23 +64,21 @@ class Parser:
         Yields:
             Iterator[LogType]: Iterator over the logs
         """
-        with open(log_file_path) as f:
+        with open(file_path) as f:
             for line in f:
                 try:
                     yield json.loads(line)
                 except json.decoder.JSONDecodeError as e:
                     # This could be the scase where a new line was missing
-                    error_handler_response = self.fn_to_handle_error_when_parsing_log_file(
-                        line, e
-                    )
+                    error_handler_response = self.error_handler(line, e)
                     if error_handler_response is not None:
                         yield error_handler_response
 
-    def get_logs(self, log_file_path: str) -> Iterator[LogType]:
+    def get_logs(self, file_path: str) -> Iterator[LogType]:
         """Method to open a log file, parse the logs and return logs
 
         Args:
-            log_file_path (str): Log file to read from
+            file_path (str): Log file to read from
 
         Returns:
             Iterator[LogType]: Iterator over the logs
@@ -88,6 +86,6 @@ class Parser:
         Yields:
             Iterator[LogType]: Iterator over the logs
         """
-        for log in self.parse_log_file(log_file_path=log_file_path):
+        for log in self._parse_file(file_path=file_path):
             if self.filter_log(log):
                 yield self.log_transformer(log)

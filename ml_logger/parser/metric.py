@@ -83,7 +83,7 @@ class Parser(base_parser.Parser):
 
     def get_metrics_as_df(
         self,
-        log_file_path: str,
+        file_path: str,
         fn_to_group_metrics: Callable[
             [List[LogType]], Dict[str, List[LogType]]
         ] = fn_to_group_metrics,
@@ -100,7 +100,7 @@ class Parser(base_parser.Parser):
         (iii) converts the merged metrics into dataframes and returns a list of dataframes
 
         Args:
-            log_file_path (str): Log file to read from
+            file_path (str): Log file to read from
             fn_to_group_metrics (Callable[[List[LogType]], Dict[str, List[LogType]]], optional):
                 Function to group a list of metrics into a dictionary of
                 (key, list of grouped metrics). Defaults to fn_to_group_metrics.
@@ -111,7 +111,7 @@ class Parser(base_parser.Parser):
             Dict[str, pd.DataFrame]: [description]
 
         """
-        metric_logs = list(self.get_logs(log_file_path=log_file_path))
+        metric_logs = list(self.get_logs(file_path=file_path))
         grouped_metrics: Dict[str, List[LogType]] = fn_to_group_metrics(metric_logs)
         merged_metrics = {
             key: fn_to_aggregate_metrics(metrics)

@@ -57,7 +57,7 @@ class Parser(base_parser.Parser):
             if filter_log(log):
                 yield self.fn_to_transform_log(log)
 
-    def get_config(self, log_file_path: str) -> Optional[ConfigType]:
+    def get_config(self, file_path: str) -> Optional[ConfigType]:
         """Method to get the config from the log file.
 
         The different between `get_config` and `get_logs` function is that
@@ -67,13 +67,13 @@ class Parser(base_parser.Parser):
         `get_config` should be the default method for getting the config
 
         Args:
-            log_file_path (str): Log file to read from
+            file_path (str): Log file to read from
 
         Returns:
             ConfigType: Config object
         """
 
-        configs = list(self.get_logs(log_file_path=log_file_path))
+        configs = list(self.get_logs(file_path=file_path))
         if configs:
             return configs[-1]
         return None
@@ -90,9 +90,9 @@ class Parser(base_parser.Parser):
         """
         db = tinydb.TinyDB("config.json")
         paths = glob.glob(path_pattern)
-        for log_file_path in paths:
-            config = self.get_config(log_file_path=log_file_path)
+        for file_path in paths:
+            config = self.get_config(file_path=file_path)
             if config is not None:
-                config["path"] = log_file_path
+                config["file_path"] = file_path
                 db.insert(config)
         return db
