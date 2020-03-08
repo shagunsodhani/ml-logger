@@ -59,7 +59,6 @@ class LogBook:
         Returns:
             LogType: Processed log
         """
-
         log["logbook_id"] = self.id
         log["logbook_timestamp"] = time.strftime(self.time_format)
         log["logbook_type"] = log_type
