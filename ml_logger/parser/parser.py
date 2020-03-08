@@ -3,64 +3,8 @@
 import json
 from typing import Callable, Iterator, Optional
 
+from ml_logger.parser import utils as parser_utils
 from ml_logger.types import LogType
-
-
-def error_handler_when_parsing_log_file(
-    log_line: str, error: json.decoder.JSONDecodeError
-) -> Optional[LogType]:
-    """Function to print the error on the console, when the `log_line` is
-        not a valid json string
-
-    Args:
-        log_line (str): Parsing this line triggered the error
-        error (json.decoder.JSONDecodeError): The error object
-
-    Returns:
-        Optional[LogType]: None. Print the error on the console
-    """
-    print(f"Could not parse: {log_line} because of error: {error}")
-    return None
-
-
-def silent_error_handler_when_parsing_log_file(
-    log_line: str, error: json.decoder.JSONDecodeError
-) -> Optional[LogType]:
-    """Function to silently ignore the error, when the `log_line` is
-        not a valid json string
-
-    Args:
-        log_line (str): Parsing this line triggered the error
-        error (json.decoder.JSONDecodeError): The error object
-
-    Returns:
-        Optional[LogType]: None. Nothing is done
-    """
-    return None
-
-
-def transform_log(log: LogType) -> LogType:
-    """Function to transform the log after parsing
-
-    Args:
-        log (LogType): log to transform
-
-    Returns:
-        LogType: transformed log
-    """
-    return log
-
-
-def filter_log(log: LogType) -> bool:
-    """Check if the log is a valid log
-
-    Args:
-        log (LogType): log to check
-
-    Returns:
-        bool: True if the log is a valid log
-    """
-    return True
 
 
 class Parser:
