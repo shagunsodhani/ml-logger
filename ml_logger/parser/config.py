@@ -41,22 +41,6 @@ class Parser(base_parser.Parser):
         )
         self.log_type = "config"
 
-    def get_logs(self, log_file_path: str) -> Iterator[ConfigType]:
-        """Method to open a log file, parse the logs and return config logs
-
-        Args:
-            log_file_path (str): Log file to read from
-
-        Returns:
-            Iterator[ConfigType]: Iterator over the configs
-
-        Yields:
-            Iterator[ConfigType]: Iterator over the configs
-        """
-        for log in self.parse_log_file(log_file_path=log_file_path):
-            if filter_log(log):
-                yield self.fn_to_transform_log(log)
-
     def get_config(self, file_path: str) -> Optional[ConfigType]:
         """Method to get the config from the log file.
 

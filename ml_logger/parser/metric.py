@@ -64,22 +64,7 @@ class Parser(base_parser.Parser):
         super().__init__(
             log_transformer=log_transformer, error_handler=error_handler,
         )
-
-    def get_logs(self, log_file_path: str) -> Iterator[MetricType]:
-        """Method to open a log file, parse the logs and return metric logs
-
-        Args:
-            log_file_path (str): Log file to read from
-
-        Returns:
-            Iterator[MetricType]: Iterator over the metrics
-
-        Yields:
-            Iterator[MetricType]: Iterator over the metrics
-        """
-        for log in self.parse_log_file(log_file_path=log_file_path):
-            if filter_log(log):
-                yield self.fn_to_transform_log(log)
+        self.log_type = "metric"
 
     def get_metrics_as_df(
         self,
