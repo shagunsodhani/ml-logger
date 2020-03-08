@@ -10,21 +10,6 @@ from ml_logger.parser import utils as parser_utils
 from ml_logger.types import LogType, MetricType
 
 
-def filter_log(log: LogType) -> bool:
-    """Check if the log is a metric log
-
-    Args:
-        log (LogType): log to check
-
-    Returns:
-        bool: True if the log is a metric log
-    """
-    key = "type"
-    if key in log and log[key] == "metric":
-        return True
-    return False
-
-
 def fn_to_group_metrics(metrics: List[MetricType]) -> Dict[str, List[MetricType]]:
     """Function to group a list of metrics into a dictionary of (key,
     list of grouped metrics)

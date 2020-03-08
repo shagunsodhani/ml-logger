@@ -35,9 +35,22 @@ class Parser:
         self.error_handler = error_handler
         self.log_type: Optional[str] = None
 
+    def filter_log(self, log: LogType) -> bool:
+        """Check if the log is a valid log
 
+        Args:
+            log (LogType): log to check
+
+        Returns:
+            bool: True if the log is a valid log
         """
+        if self.log_type is None:
+            return True
+        key = "type"
+        if key in log and log[key] == self.log_type:
+            return True
 
+        return False
 
     def parse_log_file(self, log_file_path: str) -> Iterator[LogType]:
         """Method to open a log file and parse the logs
@@ -76,5 +89,5 @@ class Parser:
             Iterator[LogType]: Iterator over the logs
         """
         for log in self.parse_log_file(log_file_path=log_file_path):
-            if filter_log(log):
-                yield self.fn_to_transform_log(log)
+            if self.filter_log(log):
+                yield self.log_transformer(log)

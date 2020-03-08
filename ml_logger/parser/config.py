@@ -11,21 +11,6 @@ from ml_logger.parser import utils as parser_utils
 from ml_logger.types import ConfigType, LogType
 
 
-def filter_log(log: LogType) -> bool:
-    """Check if the log is a config log
-
-    Args:
-        log (LogType): log to check
-
-    Returns:
-        bool: True if the log is a config log
-    """
-    key = "type"
-    if key in log and log[key] == "config":
-        return True
-    return False
-
-
 class Parser(base_parser.Parser):
     """Class to parse the config in the log files
     """
@@ -54,6 +39,7 @@ class Parser(base_parser.Parser):
         super().__init__(
             log_transformer=log_transformer, error_handler=error_handler,
         )
+        self.log_type = "config"
 
     def get_logs(self, log_file_path: str) -> Iterator[ConfigType]:
         """Method to open a log file, parse the logs and return config logs
