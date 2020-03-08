@@ -1,28 +1,13 @@
 """Implementation of Parser to parse the logs"""
 
 import json
-from typing import Callable, Dict, Iterator, List, Optional
+from typing import Callable, Dict, List, Optional
 
 import pandas as pd
 
 from ml_logger.parser import parser as base_parser
 from ml_logger.parser import utils as parser_utils
 from ml_logger.types import LogType, MetricType
-
-
-def filter_log(log: LogType) -> bool:
-    """Check if the log is a metric log
-
-    Args:
-        log (LogType): log to check
-
-    Returns:
-        bool: True if the log is a metric log
-    """
-    key = "type"
-    if key in log and log[key] == "metric":
-        return True
-    return False
 
 
 def fn_to_group_metrics(metrics: List[MetricType]) -> Dict[str, List[MetricType]]:
@@ -57,48 +42,33 @@ class Parser(base_parser.Parser):
 
     def __init__(
         self,
-        fn_to_transform_log: Callable[[LogType], LogType] = base_parser.transform_log,
-        fn_to_handle_error_when_parsing_log_file: Callable[
+        log_transformer: Callable[
+            [LogType], LogType
+        ] = parser_utils.identity_log_transformer,
+        error_handler: Callable[
             [str, json.decoder.JSONDecodeError], Optional[LogType]
-        ] = base_parser.error_handler_when_parsing_log_file,
+        ] = parser_utils.silent_error_handler,
     ):
         """Class to parse the log files
 
         Args:
-            fn_to_transform_log (Callable[[LogType], LogType], optional):
-                Function to transform the logs after reading them from
-                the filesystem. Defaults to transform_log.
-            fn_to_handle_error_when_parsing_log_file (Callable[[str,
-                json.decoder.JSONDecodeError], Optional[LogType]], optional):
-                Function to handle the error when the parser reads an
-                invalid json string
-
+            log_transformer (Callable[[LogType], LogType], optional):
+                Function to transform the logs after reading them from the
+                filesystem. Defaults to parser_utils.identity_log_transformer.
+            error_handler (Callable[[str, json.decoder.JSONDecodeError],
+                Optional[LogType]], optional): Function to handle the
+                error when the parser reads an invalid json string.
+                Defaults to parser_utils.silent_error_handler.
         """
 
         super().__init__(
-            fn_to_transform_log=fn_to_transform_log,
-            fn_to_handle_error_when_parsing_log_file=fn_to_handle_error_when_parsing_log_file,
+            log_transformer=log_transformer, error_handler=error_handler,
         )
-
-    def get_logs(self, log_file_path: str) -> Iterator[MetricType]:
-        """Method to open a log file, parse the logs and return metric logs
-
-        Args:
-            log_file_path (str): Log file to read from
-
-        Returns:
-            Iterator[MetricType]: Iterator over the metrics
-
-        Yields:
-            Iterator[MetricType]: Iterator over the metrics
-        """
-        for log in self.parse_log_file(log_file_path=log_file_path):
-            if filter_log(log):
-                yield self.fn_to_transform_log(log)
+        self.log_type = "metric"
 
     def get_metrics_as_df(
         self,
-        log_file_path: str,
+        file_path: str,
         fn_to_group_metrics: Callable[
             [List[LogType]], Dict[str, List[LogType]]
         ] = fn_to_group_metrics,
@@ -115,7 +85,7 @@ class Parser(base_parser.Parser):
         (iii) converts the merged metrics into dataframes and returns a list of dataframes
 
         Args:
-            log_file_path (str): Log file to read from
+            file_path (str): Log file to read from
             fn_to_group_metrics (Callable[[List[LogType]], Dict[str, List[LogType]]], optional):
                 Function to group a list of metrics into a dictionary of
                 (key, list of grouped metrics). Defaults to fn_to_group_metrics.
@@ -126,7 +96,7 @@ class Parser(base_parser.Parser):
             Dict[str, pd.DataFrame]: [description]
 
         """
-        metric_logs = list(self.get_logs(log_file_path=log_file_path))
+        metric_logs = list(self.get_logs(file_path=file_path))
         grouped_metrics: Dict[str, List[LogType]] = fn_to_group_metrics(metric_logs)
         merged_metrics = {
             key: fn_to_aggregate_metrics(metrics)

@@ -97,6 +97,10 @@ class Logger(BaseLogger):
 
         config = self._prepare_log_to_write(log=config)
 
+        for key in config:
+            if config[key] is None:
+                config[key] = "None"
+
         self.summary_writer.add_hparams(
             hparam_dict=config,
             metric_dict=metric_dict,
