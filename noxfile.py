@@ -1,6 +1,8 @@
 # type: ignore
 import nox
 
+PYTHON_VERSIONS = ["3.6", "3.7", "3.8"]
+
 
 @nox.session(venv_backend="conda")
 def lint(session) -> None:
@@ -12,7 +14,7 @@ def lint(session) -> None:
     session.run("mypy", "--strict", "ml_logger")
 
 
-@nox.session(venv_backend="conda")
+@nox.session(venv_backend="conda", python=PYTHON_VERSIONS)
 def test_metrics(session) -> None:
     session.install("--upgrade", "setuptools", "pip")
     session.install("-r", "requirements/all.txt")
