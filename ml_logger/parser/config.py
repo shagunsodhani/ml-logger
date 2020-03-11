@@ -4,7 +4,7 @@ import glob
 import json
 from typing import Callable, Optional
 
-import tinydb
+from tinydb import TinyDB
 
 from ml_logger.parser import parser as base_parser
 from ml_logger.parser import utils as parser_utils
@@ -64,7 +64,7 @@ class Parser(base_parser.Parser):
 
     def load_configs_from_path(
         self, path_pattern: str, path_to_save: str = "config.json"
-    ) -> tinydb.TinyDB:
+    ) -> TinyDB:
         """Method to glob the given path pattern and load config from
         all the matching paths
 
@@ -74,9 +74,9 @@ class Parser(base_parser.Parser):
                 are saved. Defaults to config.json.
 
         Returns:
-            tinydb.TinyDB: TinyDB database instance over the collection of configs
+            TinyDB: TinyDB database instance over the collection of configs
         """
-        db = tinydb.TinyDB(path_to_save)
+        db = TinyDB(path_to_save)
         paths = glob.glob(path_pattern)
         for file_path in paths:
             config = self.get_config(file_path=file_path)
