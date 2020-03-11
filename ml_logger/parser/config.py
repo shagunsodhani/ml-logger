@@ -62,17 +62,21 @@ class Parser(base_parser.Parser):
             return configs[-1]
         return None
 
-    def load_configs_from_path(self, path_pattern: str) -> tinydb.TinyDB:
+    def load_configs_from_path(
+        self, path_pattern: str, path_to_save: str = "config.json"
+    ) -> tinydb.TinyDB:
         """Method to glob the given path pattern and load config from
         all the matching paths
 
         Args:
             path_pattern (str): path pattern to glob
+            path_to_save (str): filesystem path where the loaded configs
+                are saved. Defaults to config.json.
 
         Returns:
             tinydb.TinyDB: TinyDB database instance over the collection of configs
         """
-        db = tinydb.TinyDB("config.json")
+        db = tinydb.TinyDB(path_to_save)
         paths = glob.glob(path_pattern)
         for file_path in paths:
             config = self.get_config(file_path=file_path)
