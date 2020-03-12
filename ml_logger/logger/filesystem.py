@@ -2,6 +2,7 @@
 
 import json
 import logging
+import os
 
 from ml_logger.logger.base import Logger as BaseLogger
 from ml_logger.types import ConfigType, LogType
@@ -89,12 +90,31 @@ class Logger(BaseLogger):
         super().__init__(config=config)
         assert "logger_file_path" in config
         assert "logger_name" in config
+        assert "write_to_console" in config
+        assert "create_multiple_log_files" in config
 
-        self.logger = _set_logger(
-            logger_file_path=config["logger_file_path"],
-            logger_name=config["logger_name"],
-            write_to_console=config["write_to_console"],
-        )
+        logger_types = ["config", "message", "metadata", "metric"]
+
+        if config["create_multiple_log_files"]:
+
+            self.loggers = {
+                _type: _set_logger(
+                    logger_file_path=os.path.join(
+                        config["logger_file_path"], f"{_type}.jsonl"
+                    ),
+                    logger_name=config["logger_name"] + "_" + _type,
+                    write_to_console=config["write_to_console"],
+                )
+                for _type in logger_types
+            }
+
+        else:
+            logger = _set_logger(
+                logger_file_path=os.path.join(config["logger_file_path"], "log.jsonl"),
+                logger_name=config["logger_name"],
+                write_to_console=config["write_to_console"],
+            )
+            self.loggers = {_type: logger for _type in logger_types}
 
     def write_log(self, log: LogType) -> None:
         """Write the log to the filesystem
@@ -104,13 +124,13 @@ class Logger(BaseLogger):
         """
 
         log_str = _serialize_log_to_json(log=self._prepare_log_to_write(log))
-        return self._write_log_to_fs(log_str=log_str)
+        return self._write_log_to_fs(log_str=log_str, log_type=log["logbook_type"])
 
-    def _write_log_to_fs(self, log_str: str) -> None:
+    def _write_log_to_fs(self, log_str: str, log_type: str) -> None:
         """Write log string to filesystem
 
         Args:
             log_str (str): Log string to write
+            log_type (str): Type of log to write
         """
-
-        self.logger.info(msg=log_str)
+        self.loggers[log_type].info(msg=log_str)

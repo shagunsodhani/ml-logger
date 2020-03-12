@@ -116,6 +116,7 @@ def make_config(
     name: str = "default_logger",
     write_to_console: bool = True,
     logger_file_path: Optional[str] = None,
+    create_multiple_log_files: bool = True,
     wandb_config: Optional[ConfigType] = None,
     wandb_key_map: Optional[KeyMapType] = None,
     wandb_prefix_key: Optional[str] = None,
@@ -137,6 +138,11 @@ def make_config(
         logger_file_path (str, optional):  Path where the logs will be
             written. If None is pass, logs are not written to the filesystem.
             Defaults to None.
+        create_multiple_log_files (bool, optional): Should multiple log
+            files be created - for config, metric, metadata and message
+            logs. If True, the files are named as config_log.jsonl,
+            metric_log.jsonl etc. If False, only one file log.jsonl is
+            created. Defaults to True.
         wandb_config (Optional[ConfigType], optional): Config for the wandb
             logger. If None, wandb logger is not created. The config can
             have any parameters that wandb.init() methods accepts
@@ -212,6 +218,7 @@ def make_config(
             "logger_file_path": logger_file_path,
             "logger_name": name,
             "write_to_console": write_to_console,
+            "create_multiple_log_files": create_multiple_log_files,
         }
         loggers["filesystem"]["logbook_key_map"] = None
         loggers["filesystem"]["logbook_key_prefix"] = None
