@@ -114,6 +114,7 @@ class LogBook:
 def make_config(
     id: str = "0",
     name: str = "default_logger",
+    write_to_console: bool = True,
     logger_file_path: Optional[str] = None,
     wandb_config: Optional[ConfigType] = None,
     wandb_key_map: Optional[KeyMapType] = None,
@@ -131,6 +132,8 @@ def make_config(
     Args:
         id (str, optional): Id of the current LogBook instance. Defaults to "0".
         name (str, optional): Name of the logger. Defaults to "default_logger".
+        write_to_console (bool, optional): Should write the logs to console.
+            Defaults to True
         logger_file_path (str, optional):  Path where the logs will be
             written. If None is pass, logs are not written to the filesystem.
             Defaults to None.
@@ -208,6 +211,7 @@ def make_config(
         loggers["filesystem"] = {
             "logger_file_path": logger_file_path,
             "logger_name": name,
+            "write_to_console": write_to_console,
         }
         loggers["filesystem"]["logbook_key_map"] = None
         loggers["filesystem"]["logbook_key_prefix"] = None

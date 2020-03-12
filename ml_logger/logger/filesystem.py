@@ -33,7 +33,9 @@ def _get_logger(logger_name: str = "default_logger") -> logging.Logger:
 
 
 def _set_logger(
-    logger_file_path: str, logger_name: str = "default_logger",
+    logger_file_path: str,
+    logger_name: str = "default_logger",
+    write_to_console: bool = True,
 ) -> logging.Logger:
     """Set logger to log to the given path
 
@@ -43,6 +45,8 @@ def _set_logger(
         logger_file_path (str): Filepath to write to
         logger_name (str, optional): Name of the logger to use. Defaults
             to "default_logger"
+        write_to_console (bool, optional): Should write the logs to console.
+            Defaults to True
 
     Returns:
         logging.Logger: Logger object
@@ -52,16 +56,20 @@ def _set_logger(
     # create file handler which logs all the messages
     file_handler = logging.FileHandler(filename=logger_file_path)
     file_handler.setLevel(level=logging.INFO)
-    # create console handler with a higher log level
-    stream_handler = logging.StreamHandler()
-    stream_handler.setLevel(level=logging.INFO)
     # create formatter and add it to the handlers
     formatter = logging.Formatter(fmt="%(message)s")
     file_handler.setFormatter(fmt=formatter)
-    stream_handler.setFormatter(fmt=formatter)
     # add the handlers to the logger
     logger.addHandler(hdlr=file_handler)
-    logger.addHandler(hdlr=stream_handler)
+
+    if write_to_console:
+        # create console handler with a higher log level
+        stream_handler = logging.StreamHandler()
+        stream_handler.setLevel(level=logging.INFO)
+        # add formatter to the handlers
+        stream_handler.setFormatter(fmt=formatter)
+        # add the handlers to the logger
+        logger.addHandler(hdlr=stream_handler)
     return logger
 
 
@@ -85,6 +93,7 @@ class Logger(BaseLogger):
         self.logger = _set_logger(
             logger_file_path=config["logger_file_path"],
             logger_name=config["logger_name"],
+            write_to_console=config["write_to_console"],
         )
 
     def write_log(self, log: LogType) -> None:
