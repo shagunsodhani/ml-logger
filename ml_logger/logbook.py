@@ -116,6 +116,8 @@ def make_config(
     name: str = "default_logger",
     write_to_console: bool = True,
     logger_dir: Optional[str] = None,
+    filename: Optional[str] = None,
+    filename_prefix: str = "",
     create_multiple_log_files: bool = True,
     wandb_config: Optional[ConfigType] = None,
     wandb_key_map: Optional[KeyMapType] = None,
@@ -136,14 +138,23 @@ def make_config(
         write_to_console (bool, optional): Should write the logs to console.
             Defaults to True
         logger_dir (str, optional):  Path where the logs will be
-            written. If None is pass, logs are not written to the filesystem.
+            written. If None is passed, logs are not written to the filesystem.
             LogBook creates the directory, if it does not exist. Defaults
             to None.
+        filename (str, optional):  Name to assign to the log file (eg
+            log.jsonl). If None is passed, this argument is ignored. If
+            the value is set, `filename_prefix` and `create_multiple_log_files`
+            arguments are ignored. Defaults to None.
+        filename_prefix (str): String to prefix before the name of the log
+            files. Eg if filename_prefix is "dummy", name of log files are
+            dummymetric.jsonl, dummylog.jsonl etc. This argument is ignored
+            if `filename` is set. Defaults to "".
         create_multiple_log_files (bool, optional): Should multiple log
             files be created - for config, metric, metadata and message
             logs. If True, the files are named as config_log.jsonl,
             metric_log.jsonl etc. If False, only one file log.jsonl is
-            created. Defaults to True.
+            created. This argument is ignored if `filename` is set.
+            Defaults to True.
         wandb_config (Optional[ConfigType], optional): Config for the wandb
             logger. If None, wandb logger is not created. The config can
             have any parameters that wandb.init() methods accepts
@@ -219,7 +230,9 @@ def make_config(
             "logger_dir": logger_dir,
             "logger_name": name,
             "write_to_console": write_to_console,
+            "filename": filename,
             "create_multiple_log_files": create_multiple_log_files,
+            "filename_prefix": filename_prefix,
         }
         loggers["filesystem"]["logbook_key_map"] = None
         loggers["filesystem"]["logbook_key_prefix"] = None

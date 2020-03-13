@@ -93,17 +93,29 @@ class Logger(BaseLogger):
         assert "logger_name" in config
         assert "write_to_console" in config
         assert "create_multiple_log_files" in config
+        assert "filename_prefix" in config
+        assert "filename" in config
+
+        filename_prefix = config["filename_prefix"]
 
         logger_types = ["config", "message", "metadata", "metric"]
 
         make_dir(config["logger_dir"])
+
+        def _get_logger_file_path(suffix: str) -> str:
+            if config["filename"]:
+                filename = config["filename"]
+                print(filename)
+            else:
+                filename = f"{filename_prefix}{suffix}.jsonl"
+            logger_file_path = os.path.join(config["logger_dir"], filename)
+            return logger_file_path
+
         if config["create_multiple_log_files"]:
 
             self.loggers = {
                 _type: _set_logger(
-                    logger_file_path=os.path.join(
-                        config["logger_dir"], f"{_type}.jsonl"
-                    ),
+                    logger_file_path=_get_logger_file_path(suffix=f"{_type}_log"),
                     logger_name=config["logger_name"] + "_" + _type,
                     write_to_console=config["write_to_console"],
                 )
@@ -112,7 +124,7 @@ class Logger(BaseLogger):
 
         else:
             logger = _set_logger(
-                logger_file_path=os.path.join(config["logger_dir"], "log.jsonl"),
+                logger_file_path=_get_logger_file_path(suffix="log"),
                 logger_name=config["logger_name"],
                 write_to_console=config["write_to_console"],
             )
@@ -135,4 +147,6 @@ class Logger(BaseLogger):
             log_str (str): Log string to write
             log_type (str): Type of log to write
         """
+        if log_type not in self.loggers:
+            log_type = "message"
         self.loggers[log_type].info(msg=log_str)
