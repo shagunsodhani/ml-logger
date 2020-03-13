@@ -33,7 +33,7 @@ If you want to use only the filesystem logger, use `pip install .` or `pip insta
     ```
     from ml_logger import logbook as ml_logbook
     logbook_config = ml_logbook.make_config(
-        logger_file_path = <path to write logs>,
+        logger_dir = <path to write logs>,
         wandb_config = <wandb config or None>,
         tensorboard_config = <tensorboard config or None>,
         mlflow_config = <mlflow config or None>)
@@ -76,8 +76,7 @@ If you want to use only the filesystem logger, use `pip install .` or `pip insta
     * `black`
     * `flake8`
     * `mypy`
-* CI currently only checks for linting. 
-* Lint tests can be run locally using `nox -s lint`
+* Tests can be run locally using `nox`
 
 ### Acknowledgements
 
