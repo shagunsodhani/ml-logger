@@ -88,7 +88,7 @@ class Logger(BaseLogger):
                 will be written. "logger_name" is the name of the logger instance
         """
         super().__init__(config=config)
-        assert "logger_file_path" in config
+        assert "logger_dir" in config
         assert "logger_name" in config
         assert "write_to_console" in config
         assert "create_multiple_log_files" in config
@@ -100,7 +100,7 @@ class Logger(BaseLogger):
             self.loggers = {
                 _type: _set_logger(
                     logger_file_path=os.path.join(
-                        config["logger_file_path"], f"{_type}.jsonl"
+                        config["logger_dir"], f"{_type}.jsonl"
                     ),
                     logger_name=config["logger_name"] + "_" + _type,
                     write_to_console=config["write_to_console"],
@@ -110,7 +110,7 @@ class Logger(BaseLogger):
 
         else:
             logger = _set_logger(
-                logger_file_path=os.path.join(config["logger_file_path"], "log.jsonl"),
+                logger_file_path=os.path.join(config["logger_dir"], "log.jsonl"),
                 logger_name=config["logger_name"],
                 write_to_console=config["write_to_console"],
             )
