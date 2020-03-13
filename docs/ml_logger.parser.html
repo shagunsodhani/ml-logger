@@ -203,18 +203,22 @@ config file may be written multiple times in a log file. Hence
 
 <dl class="method">
 <dt id="ml_logger.parser.config.Parser.load_configs_from_path">
-<code class="sig-name descname">load_configs_from_path</code><span class="sig-paren">(</span><em class="sig-param">path_pattern: str</em><span class="sig-paren">)</span> &#x2192; tinydb.database.TinyDB<a class="headerlink" href="#ml_logger.parser.config.Parser.load_configs_from_path" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">load_configs_from_path</code><span class="sig-paren">(</span><em class="sig-param">path_pattern: str</em>, <em class="sig-param">path_to_save: str = 'config.json'</em><span class="sig-paren">)</span> &#x2192; tinydb.database.TinyDB<a class="headerlink" href="#ml_logger.parser.config.Parser.load_configs_from_path" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method to glob the given path pattern and load config from
 all the matching paths</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>path_pattern</strong> (<em>str</em>) – path pattern to glob</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_pattern</strong> (<em>str</em>) – path pattern to glob</p></li>
+<li><p><strong>path_to_save</strong> (<em>str</em>) – filesystem path where the loaded configs
+are saved. Defaults to config.json.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>TinyDB database instance over the collection of configs</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>tinydb.TinyDB</p>
+<dd class="field-odd"><p>TinyDB</p>
 </dd>
 </dl>
 </dd></dl>
@@ -349,6 +353,59 @@ list of grouped metrics)</p>
 </div>
 <div class="section" id="module-ml_logger.parser.utils">
 <span id="ml-logger-parser-utils-module"></span><h2>ml_logger.parser.utils module<a class="headerlink" href="#module-ml_logger.parser.utils" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="ml_logger.parser.utils.compare_logs">
+<code class="sig-prename descclassname">ml_logger.parser.utils.</code><code class="sig-name descname">compare_logs</code><span class="sig-paren">(</span><em class="sig-param">first_log: Dict[str, Any], second_log: Dict[str, Any], verbose: bool = False</em><span class="sig-paren">)</span> &#x2192; Tuple[List[str], List[str], List[str]]<a class="headerlink" href="#ml_logger.parser.utils.compare_logs" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Compare two logs and return list of keys that are either missing or</dt><dd><p>have different valus in the two logs.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>first_log</strong> (<em>LogType</em>) – First Log</p></li>
+<li><p><strong>second_log</strong> (<em>LogType</em>) – Second Log</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em>) – Defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Tuple of [</dt><dd><p>list of keys with different values,
+list of keys with values missing in first log,
+list of keys with values missing in the second log</p>
+</dd>
+</dl>
+<p>]</p>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[List[str], List[str], List[str]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ml_logger.parser.utils.flatten_log">
+<code class="sig-prename descclassname">ml_logger.parser.utils.</code><code class="sig-name descname">flatten_log</code><span class="sig-paren">(</span><em class="sig-param">d: Dict[str, Any], parent_key: str = '', sep: str = '#'</em><span class="sig-paren">)</span> &#x2192; Dict[str, Any]<a class="headerlink" href="#ml_logger.parser.utils.flatten_log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flatten a log using a separator</p>
+<p>Taken from <a class="reference external" href="https://stackoverflow.com/a/6027615/1353861">https://stackoverflow.com/a/6027615/1353861</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>d</strong> (<em>LogType</em>) – [description]</p></li>
+<li><p><strong>parent_key</strong> (<em>str</em><em>, </em><em>optional</em>) – [description]. Defaults to “”.</p></li>
+<li><p><strong>sep</strong> (<em>str</em><em>, </em><em>optional</em>) – [description]. Defaults to “#”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>[description]</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>LogType</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="function">
 <dt id="ml_logger.parser.utils.identity_log_transformer">
 <code class="sig-prename descclassname">ml_logger.parser.utils.</code><code class="sig-name descname">identity_log_transformer</code><span class="sig-paren">(</span><em class="sig-param">log: Dict[str, Any]</em><span class="sig-paren">)</span> &#x2192; Dict[str, Any]<a class="headerlink" href="#ml_logger.parser.utils.identity_log_transformer" title="Permalink to this definition">¶</a></dt>
