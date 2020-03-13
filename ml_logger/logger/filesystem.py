@@ -6,6 +6,7 @@ import os
 
 from ml_logger.logger.base import Logger as BaseLogger
 from ml_logger.types import ConfigType, LogType
+from ml_logger.utils import make_dir
 
 
 def _serialize_log_to_json(log: LogType) -> str:
@@ -95,6 +96,7 @@ class Logger(BaseLogger):
 
         logger_types = ["config", "message", "metadata", "metric"]
 
+        make_dir(config["logger_dir"])
         if config["create_multiple_log_files"]:
 
             self.loggers = {

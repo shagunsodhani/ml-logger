@@ -6,6 +6,7 @@ from tensorboardX import SummaryWriter
 
 from ml_logger.logger.base import Logger as BaseLogger
 from ml_logger.types import ConfigType, LogType, MetricType, NumType
+from ml_logger.utils import make_dir
 
 
 class Logger(BaseLogger):
@@ -27,6 +28,7 @@ class Logger(BaseLogger):
                 tensorboardX.SummaryWriter() would not accept.
         """
         super().__init__(config=config)
+        make_dir(config["logdir"])
         self.summary_writer = SummaryWriter(**config)
         self.keys_to_skip = ["logbook_id", "logbook_type", "logbook_timestamp"]
 
