@@ -46,9 +46,9 @@ class Parser:
         """
         if self.log_type is None:
             return True
-        key = "type"
-        if key in log and log[key] == self.log_type:
-            return True
+        for key in ["logbook_type", "type"]:
+            if key in log and log[key] == self.log_type:
+                return True
 
         return False
 
