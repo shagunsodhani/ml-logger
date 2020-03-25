@@ -25,7 +25,7 @@ class Experiment:
         self.logger_dir = logger_dir
 
 
-class ExperimentSequence(Sequence[Experiment]):
+class ExperimentSequence(Sequence):  # type: ignore
     """Provides a list-like interface to a collection of Experimente
     """
 
