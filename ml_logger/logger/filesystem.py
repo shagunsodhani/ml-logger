@@ -3,6 +3,8 @@
 import json
 import logging
 import os
+from functools import partial
+from typing import Optional
 
 from ml_logger.logger.base import Logger as BaseLogger
 from ml_logger.types import ConfigType, LogType
@@ -96,26 +98,24 @@ class Logger(BaseLogger):
         assert "filename_prefix" in config
         assert "filename" in config
 
-        filename_prefix = config["filename_prefix"]
-
         logger_types = ["config", "message", "metadata", "metric"]
 
         make_dir(config["logger_dir"])
 
-        def _get_logger_file_path(suffix: str) -> str:
-            if config["filename"]:
-                filename = config["filename"]
-                print(filename)
-            else:
-                filename = f"{filename_prefix}{suffix}.jsonl"
-            logger_file_path = os.path.join(config["logger_dir"], filename)
-            return logger_file_path
+        _get_logger_file_path = partial(
+            get_logger_file_path,
+            logger_dir=config["logger_dir"],
+            filename=config["filename"],
+            filename_prefix=config["filename_prefix"],
+        )
 
         if config["create_multiple_log_files"]:
 
             self.loggers = {
                 _type: _set_logger(
-                    logger_file_path=_get_logger_file_path(suffix=f"{_type}_log"),
+                    logger_file_path=_get_logger_file_path(
+                        filename_suffix=f"{_type}_log"
+                    ),
                     logger_name=config["logger_name"] + "_" + _type,
                     write_to_console=config["write_to_console"],
                 )
@@ -124,7 +124,7 @@ class Logger(BaseLogger):
 
         else:
             logger = _set_logger(
-                logger_file_path=_get_logger_file_path(suffix="log"),
+                logger_file_path=_get_logger_file_path(filename_suffix="log"),
                 logger_name=config["logger_name"],
                 write_to_console=config["write_to_console"],
             )
@@ -150,3 +150,12 @@ class Logger(BaseLogger):
         if log_type not in self.loggers:
             log_type = "message"
         self.loggers[log_type].info(msg=log_str)
+
+
+def get_logger_file_path(
+    logger_dir: str, filename: Optional[str], filename_prefix: str, filename_suffix: str
+) -> str:
+    if filename is None:
+        filename = f"{filename_prefix}{filename_suffix}.jsonl"
+    logger_file_path = os.path.join(logger_dir, filename)
+    return logger_file_path

@@ -41,7 +41,7 @@ class Parser(base_parser.Parser):
         )
         self.log_type = "config"
 
-    def get_config(self, file_path: str) -> Optional[ConfigType]:
+    def get_one_config(self, file_path: str) -> Optional[ConfigType]:
         """Method to get the config from the log file.
 
         The different between `get_config` and `get_logs` function is that
@@ -79,7 +79,7 @@ class Parser(base_parser.Parser):
         db = TinyDB(path_to_save)
         paths = glob.glob(path_pattern)
         for file_path in paths:
-            config = self.get_config(file_path=file_path)
+            config = self.get_one_config(file_path=file_path)
             if config is not None:
                 config["file_path"] = file_path
                 db.insert(config)
