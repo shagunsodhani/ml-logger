@@ -83,8 +83,7 @@ class ExperimentSequence(Sequence):  # type: ignore
     ) -> Union[Experiment, "ExperimentSequence"]:
         if isinstance(index, slice):
             return ExperimentSequence(self.experiments[index])
-        else:
-            return self.experiments[index]
+        return self.experiments[index]
 
     def __len__(self) -> int:
         return len(self.experiments)
