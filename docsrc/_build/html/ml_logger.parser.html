@@ -180,8 +180,8 @@
 <dd><p>Bases: <a class="reference internal" href="#ml_logger.parser.parser.Parser" title="ml_logger.parser.parser.Parser"><code class="xref py py-class docutils literal notranslate"><span class="pre">ml_logger.parser.parser.Parser</span></code></a></p>
 <p>Class to parse the config in the log files</p>
 <dl class="method">
-<dt id="ml_logger.parser.config.Parser.get_config">
-<code class="sig-name descname">get_config</code><span class="sig-paren">(</span><em class="sig-param">file_path: str</em><span class="sig-paren">)</span> &#x2192; Optional[Dict[str, Any]]<a class="headerlink" href="#ml_logger.parser.config.Parser.get_config" title="Permalink to this definition">¶</a></dt>
+<dt id="ml_logger.parser.config.Parser.get_one_config">
+<code class="sig-name descname">get_one_config</code><span class="sig-paren">(</span><em class="sig-param">file_path: str</em><span class="sig-paren">)</span> &#x2192; Optional[Dict[str, Any]]<a class="headerlink" href="#ml_logger.parser.config.Parser.get_one_config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method to get the config from the log file.</p>
 <p>The different between <cite>get_config</cite> and <cite>get_logs</cite> function is that
 <cite>get_logs</cite> returns an iterator over all the configs that are found
@@ -219,6 +219,118 @@ are saved. Defaults to config.json.</p></li>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>TinyDB</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-ml_logger.parser.experiment">
+<span id="ml-logger-parser-experiment-module"></span><h2>ml_logger.parser.experiment module<a class="headerlink" href="#module-ml_logger.parser.experiment" title="Permalink to this headline">¶</a></h2>
+<p>Implementation of Parser to parse the logs</p>
+<dl class="class">
+<dt id="ml_logger.parser.experiment.Experiment">
+<em class="property">class </em><code class="sig-prename descclassname">ml_logger.parser.experiment.</code><code class="sig-name descname">Experiment</code><span class="sig-paren">(</span><em class="sig-param">config: Dict[str, Any], metrics: Dict[str, pandas.core.frame.DataFrame], logger_dir: str</em><span class="sig-paren">)</span><a class="headerlink" href="#ml_logger.parser.experiment.Experiment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="ml_logger.parser.experiment.ExperimentSequence">
+<em class="property">class </em><code class="sig-prename descclassname">ml_logger.parser.experiment.</code><code class="sig-name descname">ExperimentSequence</code><span class="sig-paren">(</span><em class="sig-param">experiments: List[ml_logger.parser.experiment.Experiment]</em><span class="sig-paren">)</span><a class="headerlink" href="#ml_logger.parser.experiment.ExperimentSequence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">collections.abc.Sequence</span></code></p>
+<p>Provides a list-like interface to a collection of Experimente</p>
+<dl class="method">
+<dt id="ml_logger.parser.experiment.ExperimentSequence.filter">
+<code class="sig-name descname">filter</code><span class="sig-paren">(</span><em class="sig-param">filter_fn: Callable[ml_logger.parser.experiment.Experiment, bool]</em><span class="sig-paren">)</span> &#x2192; ml_logger.parser.experiment.ExperimentSequence<a class="headerlink" href="#ml_logger.parser.experiment.ExperimentSequence.filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter experiments in the sequence</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filter_fn</strong> – Function to filter an experiment</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A sequence of experiments for which the
+filter condition is true</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#ml_logger.parser.experiment.ExperimentSequence" title="ml_logger.parser.experiment.ExperimentSequence">ExperimentSequence</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ml_logger.parser.experiment.ExperimentSequence.groupby">
+<code class="sig-name descname">groupby</code><span class="sig-paren">(</span><em class="sig-param">group_fn: Callable[ml_logger.parser.experiment.Experiment, str]</em><span class="sig-paren">)</span> &#x2192; Dict[str, ml_logger.parser.experiment.ExperimentSequence]<a class="headerlink" href="#ml_logger.parser.experiment.ExperimentSequence.groupby" title="Permalink to this definition">¶</a></dt>
+<dd><p>Group experiments in the sequence</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>group_fn</strong> – Function to assign a string group id to the experiment</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary mapping the sring
+group id to a sequence of experiments</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Dict[str, <a class="reference internal" href="#ml_logger.parser.experiment.ExperimentSequence" title="ml_logger.parser.experiment.ExperimentSequence">ExperimentSequence</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ml_logger.parser.experiment.Parser">
+<em class="property">class </em><code class="sig-prename descclassname">ml_logger.parser.experiment.</code><code class="sig-name descname">Parser</code><span class="sig-paren">(</span><em class="sig-param">log_transformer: Callable[Dict[str, Any], Dict[str, Any]] = &lt;function identity_log_transformer&gt;, error_handler: Callable[[str, json.decoder.JSONDecodeError], Optional[Dict[str, Any]]] = &lt;function silent_error_handler&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#ml_logger.parser.experiment.Parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ml_logger.parser.parser.Parser" title="ml_logger.parser.parser.Parser"><code class="xref py py-class docutils literal notranslate"><span class="pre">ml_logger.parser.parser.Parser</span></code></a></p>
+<p>Class to parse the entire experiment from the log dir</p>
+<dl class="method">
+<dt id="ml_logger.parser.experiment.Parser.get_experiment_sequence">
+<code class="sig-name descname">get_experiment_sequence</code><span class="sig-paren">(</span><em class="sig-param">logger_path: str</em>, <em class="sig-param">filename: Optional[str] = None</em>, <em class="sig-param">filename_prefix: str = ''</em><span class="sig-paren">)</span> &#x2192; ml_logger.parser.experiment.ExperimentSequence<a class="headerlink" href="#ml_logger.parser.experiment.Parser.get_experiment_sequence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a sequence of experiments frrom the log dirs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>logger_dir</strong> (<em>str</em>) – Path where the logs will be read from.</p></li>
+<li><p><strong>filename</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – Name to assigned to the</p></li>
+<li><p><strong>file</strong> (<em>log</em>) – </p></li>
+<li><p><strong>and it is assumed that multiple log files are written</strong> (<em>ignored</em>) – </p></li>
+<li><p><strong>experiment</strong> (<em>per</em>) – </p></li>
+<li><p><strong>is set</strong><strong>, </strong><strong>filename_prefix argument is ignored. Defaults</strong> (<em>value</em>) – </p></li>
+<li><p><strong>None.</strong> (<em>to</em>) – </p></li>
+<li><p><strong>filename_prefix</strong> (<em>str</em><em>, </em><em>optional</em>) – String to prefix before the</p></li>
+<li><p><strong>of the log files. Eg if filename_prefix is &quot;dummy&quot;</strong><strong>,</strong> (<em>name</em>) – </p></li>
+<li><p><strong>of log files are dummymetric.jsonl</strong><strong>, </strong><strong>dummylog.jsonl etc.</strong> (<em>name</em>) – </p></li>
+<li><p><strong>argument is ignored if filename is set. Defaults to &quot;&quot;.</strong> (<em>This</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>ExperimentSequence</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ml_logger.parser.experiment.Parser.get_one_experiment">
+<code class="sig-name descname">get_one_experiment</code><span class="sig-paren">(</span><em class="sig-param">logger_dir: str</em>, <em class="sig-param">filename: Optional[str] = None</em>, <em class="sig-param">filename_prefix: str = ''</em><span class="sig-paren">)</span> &#x2192; ml_logger.parser.experiment.Experiment<a class="headerlink" href="#ml_logger.parser.experiment.Parser.get_one_experiment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load one experiment from the log dir</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>logger_dir</strong> (<em>str</em>) – Path where the logs will be read from.</p></li>
+<li><p><strong>filename</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – Name to assigned to the</p></li>
+<li><p><strong>file</strong> (<em>log</em>) – </p></li>
+<li><p><strong>and it is assumed that multiple log files are written</strong> (<em>ignored</em>) – </p></li>
+<li><p><strong>experiment</strong> (<em>per</em>) – </p></li>
+<li><p><strong>is set</strong><strong>, </strong><strong>filename_prefix argument is ignored. Defaults</strong> (<em>value</em>) – </p></li>
+<li><p><strong>None.</strong> (<em>to</em>) – </p></li>
+<li><p><strong>filename_prefix</strong> (<em>str</em><em>, </em><em>optional</em>) – String to prefix before the</p></li>
+<li><p><strong>of the log files. Eg if filename_prefix is &quot;dummy&quot;</strong><strong>,</strong> (<em>name</em>) – </p></li>
+<li><p><strong>of log files are dummymetric.jsonl</strong><strong>, </strong><strong>dummylog.jsonl etc.</strong> (<em>name</em>) – </p></li>
+<li><p><strong>argument is ignored if filename is set. Defaults to &quot;&quot;.</strong> (<em>This</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Experiment</p>
 </dd>
 </dl>
 </dd></dl>
