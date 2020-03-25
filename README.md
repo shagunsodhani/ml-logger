@@ -6,6 +6,10 @@
 # ml-logger
 Logging utility for ML experiments
 
+### Why
+
+People use different tools for logging experimental results - [Tensorboard](https://www.tensorflow.org/tensorboard), [Wandb](https://www.wandb.com/) etc to name a few. Working with different collaborators, I will have to switch my logging tool with each new project. So I made this simple tool that provides a common interface to logging results to different loggers.
+
 ### Installation
 
 * `pip install "mllogger[all]"`
