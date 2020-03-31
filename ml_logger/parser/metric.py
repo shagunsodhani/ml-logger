@@ -82,7 +82,7 @@ class Parser(base_parser.Parser):
         (i) reads the requested metrics (for each specified mode),
         (ii) groups metrics
         (iii) merge all the metrics in a group,
-        (iii) converts the merged metrics into dataframes and returns a list of dataframes
+        (iv) converts the merged metrics into dataframes and returns a list of dataframes
 
         Args:
             file_path (str): Log file to read from
@@ -97,6 +97,41 @@ class Parser(base_parser.Parser):
 
         """
         metric_logs = list(self.get_logs(file_path=file_path))
+        return self.metrics_to_df(
+            metric_logs=metric_logs,
+            fn_to_group_metrics=fn_to_group_metrics,
+            fn_to_aggregate_metrics=fn_to_aggregate_metrics,
+        )
+
+    def metrics_to_df(
+        self,
+        metric_logs: List[LogType],
+        fn_to_group_metrics: Callable[
+            [List[LogType]], Dict[str, List[LogType]]
+        ] = fn_to_group_metrics,
+        fn_to_aggregate_metrics: Callable[
+            [List[LogType]], List[LogType]
+        ] = fn_to_aggregate_metrics,
+    ) -> Dict[str, pd.DataFrame]:
+        """Create a dict of (metric_name, dataframe)
+
+        Method that:
+        (i) groups metrics
+        (ii) merge all the metrics in a group,
+        (iii) converts the merged metrics into dataframes and returns a list of dataframes
+
+        Args:
+            metric_logs (List[LogType]): List of metrics
+            fn_to_group_metrics (Callable[[List[LogType]], Dict[str, List[LogType]]], optional):
+                Function to group a list of metrics into a dictionary of
+                (key, list of grouped metrics). Defaults to fn_to_group_metrics.
+            fn_to_aggregate_metrics (Callable[[List[LogType]], List[LogType]], optional):
+                Function to aggregate a list of metrics. Defaults to fn_to_aggregate_metrics.
+
+        Returns:
+            Dict[str, pd.DataFrame]: [description]
+
+        """
         grouped_metrics: Dict[str, List[LogType]] = fn_to_group_metrics(metric_logs)
         merged_metrics = {
             key: fn_to_aggregate_metrics(metrics)

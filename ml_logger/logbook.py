@@ -100,7 +100,7 @@ class LogBook:
             log_type (str, optional): Type of this message (log).
                 Defaults to "info".
         """
-        return self.write_log(log={"messgae": message}, log_type=log_type)
+        return self.write_log(log={"message": message}, log_type=log_type)
 
     def write_metadata_log(self, metadata: LogType) -> None:
         """Write metadata to loggers
