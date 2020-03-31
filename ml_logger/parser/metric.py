@@ -82,7 +82,7 @@ class Parser(base_parser.Parser):
         (i) reads the requested metrics (for each specified mode),
         (ii) groups metrics
         (iii) merge all the metrics in a group,
-        (iii) converts the merged metrics into dataframes and returns a list of dataframes
+        (iv) converts the merged metrics into dataframes and returns a list of dataframes
 
         Args:
             file_path (str): Log file to read from
