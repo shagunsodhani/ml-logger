@@ -64,6 +64,7 @@ class Parser:
         Yields:
             Iterator[LogType]: Iterator over the logs
         """
+
         with open(file_path) as f:
             for line in f:
                 try:

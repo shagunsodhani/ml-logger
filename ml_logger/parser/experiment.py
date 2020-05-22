@@ -134,15 +134,15 @@ class Parser(base_parser.Parser):
         Args:
             logger_dir (str): Path where the logs will be read from.
             filename (Optional[str], optional): Name to assigned to the
-            log file (eg log.jsonl). If None is passed, this argument is
-            ignored and it is assumed that multiple log files are written
-            per experiment (for config, metadata, metric etc).  If the
-            value is set, `filename_prefix` argument is ignored. Defaults
-            to None.
+                log file (eg log.jsonl). If None is passed, this argument is
+                ignored and it is assumed that multiple log files are written
+                per experiment (for config, metadata, metric etc).  If the
+                value is set, `filename_prefix` argument is ignored. Defaults
+                to None.
             filename_prefix (str, optional): String to prefix before the
-            name of the log files. Eg if filename_prefix is "dummy",
-            name of log files are dummymetric.jsonl, dummylog.jsonl etc.
-            This argument is ignored if `filename` is set. Defaults to "".
+                name of the log files. Eg if filename_prefix is "dummy",
+                name of log files are dummymetric.jsonl, dummylog.jsonl etc.
+                This argument is ignored if `filename` is set. Defaults to "".
 
         Returns:
             Experiment
@@ -192,20 +192,19 @@ class Parser(base_parser.Parser):
         Args:
             logger_dir (str): Path where the logs will be read from.
             filename (Optional[str], optional): Name to assigned to the
-            log file (eg log.jsonl). If None is passed, this argument is
-            ignored and it is assumed that multiple log files are written
-            per experiment (for config, metadata, metric etc).  If the
-            value is set, `filename_prefix` argument is ignored. Defaults
-            to None.
+                log file (eg log.jsonl). If None is passed, this argument is
+                ignored and it is assumed that multiple log files are written
+                per experiment (for config, metadata, metric etc).  If the
+                value is set, `filename_prefix` argument is ignored. Defaults
+                to None.
             filename_prefix (str, optional): String to prefix before the
-            name of the log files. Eg if filename_prefix is "dummy",
-            name of log files are dummymetric.jsonl, dummylog.jsonl etc.
-            This argument is ignored if `filename` is set. Defaults to "".
+                name of the log files. Eg if filename_prefix is "dummy",
+                name of log files are dummymetric.jsonl, dummylog.jsonl etc.
+                This argument is ignored if `filename` is set. Defaults to "".
 
         Returns:
             ExperimentSequence
         """
-
         experiments = []
         for current_dir in Path(logger_path).iterdir():
             if current_dir.is_dir():
