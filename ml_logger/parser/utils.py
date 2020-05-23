@@ -35,51 +35,6 @@ def map_list_of_dicts_to_dict_of_lists(
     return dict_of_lists
 
 
-def identity_log_transformer(log: LogType) -> LogType:
-    """Function to transform the log after parsing
-
-    Args:
-        log (LogType): log to transform
-
-    Returns:
-        LogType: transformed log
-    """
-    return log
-
-
-def verbose_error_handler(
-    log_line: str, error: json.decoder.JSONDecodeError
-) -> Optional[LogType]:
-    """Function to print the error on the console, when the `log_line` is
-        not a valid json string
-
-    Args:
-        log_line (str): Parsing this line triggered the error
-        error (json.decoder.JSONDecodeError): The error object
-
-    Returns:
-        Optional[LogType]: None. Print the error on the console
-    """
-    print(f"Could not parse: {log_line} because of error: {error}")
-    return None
-
-
-def silent_error_handler(
-    log_line: str, error: json.decoder.JSONDecodeError
-) -> Optional[LogType]:
-    """Function to silently ignore the error, when the `log_line` is
-        not a valid json string
-
-    Args:
-        log_line (str): Parsing this line triggered the error
-        error (json.decoder.JSONDecodeError): The error object
-
-    Returns:
-        Optional[LogType]: None. Nothing is done
-    """
-    return None
-
-
 def flatten_log(d: LogType, parent_key: str = "", sep: str = "#") -> LogType:
     """Flatten a log using a separator
 
@@ -148,3 +103,12 @@ def compare_logs(
         keys_with_missing_value_in_first_log,
         keys_with_missing_value_in_second_log,
     )
+
+
+def parse_json(line: str) -> Optional[LogType]:
+    log: Optional[LogType]
+    try:
+        log = json.loads(line)
+    except json.JSONDecodeError:
+        log = None
+    return log
