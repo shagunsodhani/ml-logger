@@ -1,0 +1,443 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ml_logger.logbook &mdash; ml_logger 0.6rc1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> ml_logger
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">ml_logger</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ml_logger</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>ml_logger.logbook</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ml_logger.logbook</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Implementation of the LogBook class.</span>
+
+<span class="sd">LogBook class provides an interface to persist the logs on the filesystem,</span>
+<span class="sd">tensorboard, remote backends, etc.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">importlib</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">from</span> <span class="nn">ml_logger.logger.base</span> <span class="kn">import</span> <span class="n">Logger</span> <span class="k">as</span> <span class="n">LoggerType</span>
+<span class="kn">from</span> <span class="nn">ml_logger.types</span> <span class="kn">import</span> <span class="n">ConfigType</span><span class="p">,</span> <span class="n">KeyMapType</span><span class="p">,</span> <span class="n">LogType</span><span class="p">,</span> <span class="n">MetricType</span>
+
+
+<div class="viewcode-block" id="LogBook"><a class="viewcode-back" href="../../ml_logger.html#ml_logger.logbook.LogBook">[docs]</a><span class="k">class</span> <span class="nc">LogBook</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;This class provides an interface to persist the logs on the filesystem,</span>
+<span class="sd">    tensorboard, remote backends, etc.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">ConfigType</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialise the Logbook class</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            logbook_config (ConfigType): Config to initialise the</span>
+<span class="sd">                LogBook class. The logbook config must have the</span>
+<span class="sd">                following keys:</span>
+<span class="sd">                id: Id of the current LogBook instance. This</span>
+<span class="sd">                    attribute is logged with each log and is useful</span>
+<span class="sd">                    when multiple LogBook instances are needed (for</span>
+<span class="sd">                    example with multiprocessing)</span>
+<span class="sd">                logger_file_path: Path to the file, where the logs</span>
+<span class="sd">                    will be written</span>
+<span class="sd">                The logbook config can be created using the make_config</span>
+<span class="sd">                method defined in ml_logger/logbook.py</span>
+<span class="sd">            config (ConfigType): config corresponding to the ml experiment</span>
+<span class="sd">                creating the logbook</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger_name</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_format</span> <span class="o">=</span> <span class="s2">&quot;%I:%M:%S%p %Z %b </span><span class="si">%d</span><span class="s2">, %Y&quot;</span>  <span class="c1"># 10:21:14PM EST Mar 04, 2020</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loggers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">LoggerType</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">logger_name</span><span class="p">,</span> <span class="n">logger_config</span> <span class="ow">in</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;loggers&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">logger_module</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ml_logger.logger.</span><span class="si">{</span><span class="n">logger_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">logger_cls</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">logger_module</span><span class="p">,</span> <span class="s2">&quot;Logger&quot;</span><span class="p">)</span>
+            <span class="n">logger</span> <span class="o">=</span> <span class="n">logger_cls</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">logger_config</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loggers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_process_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log</span><span class="p">:</span> <span class="n">LogType</span><span class="p">,</span> <span class="n">log_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LogType</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Process the log before writing</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            log (LogType): Log to process</span>
+<span class="sd">            log_type (str): Type of the log: config, metric, metadata, etc</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            LogType: Processed log</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">log</span><span class="p">[</span><span class="s2">&quot;logbook_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span>
+        <span class="n">log</span><span class="p">[</span><span class="s2">&quot;logbook_timestamp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_format</span><span class="p">)</span>
+        <span class="n">log</span><span class="p">[</span><span class="s2">&quot;logbook_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">log_type</span>
+        <span class="k">return</span> <span class="n">log</span>
+
+<div class="viewcode-block" id="LogBook.write_log"><a class="viewcode-back" href="../../ml_logger.html#ml_logger.logbook.LogBook.write_log">[docs]</a>    <span class="k">def</span> <span class="nf">write_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log</span><span class="p">:</span> <span class="n">LogType</span><span class="p">,</span> <span class="n">log_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;metric&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Write log to loggers</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            log (LogType): Log to write</span>
+<span class="sd">            log_type (str, optional): Type of this log. Defaults to &quot;metric&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">log</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_log</span><span class="p">(</span><span class="n">log</span><span class="p">,</span> <span class="n">log_type</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">logger</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">loggers</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">write_log</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">log</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="LogBook.write_config_log"><a class="viewcode-back" href="../../ml_logger.html#ml_logger.logbook.LogBook.write_config_log">[docs]</a>    <span class="k">def</span> <span class="nf">write_config_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">ConfigType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Write config to loggers</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            config [ConfigType]: Config to write.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_log</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">log_type</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LogBook.write_metric_log"><a class="viewcode-back" href="../../ml_logger.html#ml_logger.logbook.LogBook.write_metric_log">[docs]</a>    <span class="k">def</span> <span class="nf">write_metric_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metric</span><span class="p">:</span> <span class="n">MetricType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Write metric to loggers</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            metric (MetricType): Metric to write</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_log</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="n">metric</span><span class="p">,</span> <span class="n">log_type</span><span class="o">=</span><span class="s2">&quot;metric&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LogBook.write_message"><a class="viewcode-back" href="../../ml_logger.html#ml_logger.logbook.LogBook.write_message">[docs]</a>    <span class="k">def</span> <span class="nf">write_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">log_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;info&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Write message string to loggers</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            message (str): Message string to write</span>
+<span class="sd">            log_type (str, optional): Type of this message (log).</span>
+<span class="sd">                Defaults to &quot;info&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_log</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="n">message</span><span class="p">},</span> <span class="n">log_type</span><span class="o">=</span><span class="n">log_type</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LogBook.write_metadata_log"><a class="viewcode-back" href="../../ml_logger.html#ml_logger.logbook.LogBook.write_metadata_log">[docs]</a>    <span class="k">def</span> <span class="nf">write_metadata_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">LogType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Write metadata to loggers</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            metadata (LogType): Metadata to wite</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_log</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span> <span class="n">log_type</span><span class="o">=</span><span class="s2">&quot;metadata&quot;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="make_config"><a class="viewcode-back" href="../../ml_logger.html#ml_logger.logbook.make_config">[docs]</a><span class="k">def</span> <span class="nf">make_config</span><span class="p">(</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;default_logger&quot;</span><span class="p">,</span>
+    <span class="n">write_to_console</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">logger_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">filename</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">filename_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">create_multiple_log_files</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">wandb_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ConfigType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">wandb_key_map</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">KeyMapType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">wandb_prefix_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">tensorboard_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ConfigType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">tensorboard_key_map</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">KeyMapType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">tensorboard_prefix_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">mlflow_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ConfigType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">mlflow_key_map</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">KeyMapType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">mlflow_prefix_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ConfigType</span><span class="p">:</span>
+
+    <span class="sd">&quot;&quot;&quot;Make the config that can be passed to the LogBook constructor</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        id (str, optional): Id of the current LogBook instance. Defaults to &quot;0&quot;.</span>
+<span class="sd">        name (str, optional): Name of the logger. Defaults to &quot;default_logger&quot;.</span>
+<span class="sd">        write_to_console (bool, optional): Should write the logs to console.</span>
+<span class="sd">            Defaults to True</span>
+<span class="sd">        logger_dir (str, optional):  Path where the logs will be</span>
+<span class="sd">            written. If None is passed, logs are not written to the filesystem.</span>
+<span class="sd">            LogBook creates the directory, if it does not exist. Defaults</span>
+<span class="sd">            to None.</span>
+<span class="sd">        filename (str, optional):  Name to assign to the log file (eg</span>
+<span class="sd">            log.jsonl). If None is passed, this argument is ignored. If</span>
+<span class="sd">            the value is set, `filename_prefix` and `create_multiple_log_files`</span>
+<span class="sd">            arguments are ignored. Defaults to None.</span>
+<span class="sd">        filename_prefix (str): String to prefix before the name of the log</span>
+<span class="sd">            files. Eg if filename_prefix is &quot;dummy&quot;, name of log files are</span>
+<span class="sd">            dummymetric.jsonl, dummylog.jsonl etc. This argument is ignored</span>
+<span class="sd">            if `filename` is set. Defaults to &quot;&quot;.</span>
+<span class="sd">        create_multiple_log_files (bool, optional): Should multiple log</span>
+<span class="sd">            files be created - for config, metric, metadata and message</span>
+<span class="sd">            logs. If True, the files are named as config_log.jsonl,</span>
+<span class="sd">            metric_log.jsonl etc. If False, only one file log.jsonl is</span>
+<span class="sd">            created. This argument is ignored if `filename` is set.</span>
+<span class="sd">            Defaults to True.</span>
+<span class="sd">        wandb_config (Optional[ConfigType], optional): Config for the wandb</span>
+<span class="sd">            logger. If None, wandb logger is not created. The config can</span>
+<span class="sd">            have any parameters that wandb.init() methods accepts</span>
+<span class="sd">            (https://docs.wandb.com/library/init). Note that the wandb_config</span>
+<span class="sd">            is passed as keyword arguments to the wandb.init() method.</span>
+<span class="sd">            This provides a lot of flexibility to the users to configure</span>
+<span class="sd">            wandb. This also means that the config should not have any</span>
+<span class="sd">            parameters that wandb.init() would not accept. Defaults to None.</span>
+<span class="sd">        wandb_key_map (Optional[KeyMapType], optional): When using wandb</span>
+<span class="sd">            logger for logging metrics, certain keys are required. This</span>
+<span class="sd">            dictionary provides an easy way to map the keys in the `log`</span>
+<span class="sd">            to be written) with the keys that wandb logger needs. For</span>
+<span class="sd">            instance, wandb logger needs a `step` key in all the metric</span>
+<span class="sd">            logs. If your logs have a key called `epoch` that you want to</span>
+<span class="sd">            use as `step`, set `wandb_key_map` as `{epoch: step}`. This</span>
+<span class="sd">            argument is ignored if set to None. Defaults to None.</span>
+<span class="sd">        wandb_prefix_key (Optional[str], optional): When a metric is logged</span>
+<span class="sd">            to wandb, prefix the value (corresponding to the key) to all</span>
+<span class="sd">            the remaining keys before values are logged in the wandb logger.</span>
+<span class="sd">            This argument is ignored if set to None. Defaults to None.</span>
+<span class="sd">        tensorboard_config (Optional[ConfigType], optional): config to</span>
+<span class="sd">            initialise the tensorboardX logger. The config can have</span>
+<span class="sd">            any parameters that tensorboardX.SummaryWriter() method accepts</span>
+<span class="sd">            (https://tensorboardx.readthedocs.io/en/latest/tensorboard.html#tensorboardX.SummaryWriter).</span>
+<span class="sd">            Note that the config is passed as keyword arguments to the</span>
+<span class="sd">            tensorboardX.SummaryWriter() method. This provides a lot</span>
+<span class="sd">            of flexibility to the users to configure tensorboard. This also</span>
+<span class="sd">            means that config should not have any parameters that</span>
+<span class="sd">            tensorboardX.SummaryWriter() would not accept. Defaults to None.</span>
+<span class="sd">        tensorboard_key_map (Optional[KeyMapType], optional): When using</span>
+<span class="sd">            tensorboard logger for logging metrics, certain keys are required.</span>
+<span class="sd">            This dictionary provides an easy way to map the keys in the `log`</span>
+<span class="sd">            (to be written) with the keys that tensorboard logger needs.</span>
+<span class="sd">            For instance, tensorboard logger needs a `main_tag` key and a</span>
+<span class="sd">            `global_step` in all the metric logs. If your logs have a key</span>
+<span class="sd">            called `epoch` that you want to use as `step`, and a key called</span>
+<span class="sd">            `mode` that you want to use as `main_tag`, set `tensorboard_key_map`</span>
+<span class="sd">            as `{epoch: global_step, mode: main_tag}`. This argument is</span>
+<span class="sd">             ignored if set to None. Defaults to None.</span>
+<span class="sd">        tensorboard_prefix_key (Optional[str], optional): When a metric is</span>
+<span class="sd">            logged to tensorboard, prefix the value (corresponding to the key)</span>
+<span class="sd">            to all the remaining keys before values are logged in the</span>
+<span class="sd">            tensorboard logger. This argument is ignored if set to None.</span>
+<span class="sd">            Defaults to None.</span>
+<span class="sd">        mlflow_config (Optional[ConfigType], optional): config to</span>
+<span class="sd">            initialise an mlflow experiment. The config can have</span>
+<span class="sd">            any parameters that mlflow.create_experiment() method accepts</span>
+<span class="sd">            (https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.create_experiment).</span>
+<span class="sd">            Note that the config is passed as keyword arguments to the</span>
+<span class="sd">            mlflow.create_experiment() method. This provides a lot</span>
+<span class="sd">            of flexibility to the users to configure mlflow. This also</span>
+<span class="sd">            means that config should not have any parameters that</span>
+<span class="sd">            mlflow.create_experiment would not accept. Defaults to None.</span>
+<span class="sd">        mlflow_key_map (Optional[KeyMapType], optional): When using mlflow</span>
+<span class="sd">            logger for logging metrics, certain keys are required. This</span>
+<span class="sd">            dictionary provides an easy way to map the keys in the `log`</span>
+<span class="sd">            (to be written) with the keys that mlflow logger needs. For</span>
+<span class="sd">            instance, mlflow logger needs a `step` key in all the metric</span>
+<span class="sd">            logs. If your logs have a key called `epoch` that you want to</span>
+<span class="sd">            use as `step`, set `mlflow_key_map` as `{epoch: step}`. This</span>
+<span class="sd">            argument is ignored if set to None. Defaults to None.</span>
+<span class="sd">        mlflow_prefix_key (Optional[str], optional): When a metric is logged</span>
+<span class="sd">            to mlflow, prefix the value (corresponding to the key) to all</span>
+<span class="sd">            the remaining keys before values are logged in the mlflow logger.</span>
+<span class="sd">            This argument is ignored if set to None. Defaults to None.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        ConfigType: config to construct the LogBook</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">loggers</span><span class="p">:</span> <span class="n">ConfigType</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">logger_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">loggers</span><span class="p">[</span><span class="s2">&quot;filesystem&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;logger_dir&quot;</span><span class="p">:</span> <span class="n">logger_dir</span><span class="p">,</span>
+            <span class="s2">&quot;logger_name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+            <span class="s2">&quot;write_to_console&quot;</span><span class="p">:</span> <span class="n">write_to_console</span><span class="p">,</span>
+            <span class="s2">&quot;filename&quot;</span><span class="p">:</span> <span class="n">filename</span><span class="p">,</span>
+            <span class="s2">&quot;create_multiple_log_files&quot;</span><span class="p">:</span> <span class="n">create_multiple_log_files</span><span class="p">,</span>
+            <span class="s2">&quot;filename_prefix&quot;</span><span class="p">:</span> <span class="n">filename_prefix</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">loggers</span><span class="p">[</span><span class="s2">&quot;filesystem&quot;</span><span class="p">][</span><span class="s2">&quot;logbook_key_map&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">loggers</span><span class="p">[</span><span class="s2">&quot;filesystem&quot;</span><span class="p">][</span><span class="s2">&quot;logbook_key_prefix&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">wandb_config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">loggers</span><span class="p">[</span><span class="s2">&quot;wandb&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wandb_config</span>
+        <span class="n">loggers</span><span class="p">[</span><span class="s2">&quot;wandb&quot;</span><span class="p">][</span><span class="s2">&quot;logbook_key_map&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wandb_key_map</span>
+        <span class="n">loggers</span><span class="p">[</span><span class="s2">&quot;wandb&quot;</span><span class="p">][</span><span class="s2">&quot;logbook_key_prefix&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wandb_prefix_key</span>
+
+    <span class="k">if</span> <span class="n">tensorboard_config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">loggers</span><span class="p">[</span><span class="s2">&quot;tensorboard&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tensorboard_config</span>
+        <span class="n">loggers</span><span class="p">[</span><span class="s2">&quot;tensorboard&quot;</span><span class="p">][</span><span class="s2">&quot;logbook_key_map&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tensorboard_key_map</span>
+        <span class="n">loggers</span><span class="p">[</span><span class="s2">&quot;tensorboard&quot;</span><span class="p">][</span><span class="s2">&quot;logbook_key_prefix&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tensorboard_prefix_key</span>
+
+    <span class="k">if</span> <span class="n">mlflow_config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">loggers</span><span class="p">[</span><span class="s2">&quot;mlflow&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mlflow_config</span>
+        <span class="n">loggers</span><span class="p">[</span><span class="s2">&quot;mlflow&quot;</span><span class="p">][</span><span class="s2">&quot;logbook_key_map&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mlflow_key_map</span>
+        <span class="n">loggers</span><span class="p">[</span><span class="s2">&quot;mlflow&quot;</span><span class="p">][</span><span class="s2">&quot;logbook_key_prefix&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mlflow_prefix_key</span>
+
+    <span class="n">config</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="nb">id</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;loggers&quot;</span><span class="p">:</span> <span class="n">loggers</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">config</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Shagun Sodhani
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

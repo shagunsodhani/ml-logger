@@ -1,8 +1,23 @@
 ml\_logger.parser package
 =========================
 
+Subpackages
+-----------
+
+.. toctree::
+
+   ml_logger.parser.experiment
+
 Submodules
 ----------
+
+ml\_logger.parser.base module
+-----------------------------
+
+.. automodule:: ml_logger.parser.base
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 ml\_logger.parser.config module
 -------------------------------
@@ -12,10 +27,10 @@ ml\_logger.parser.config module
    :undoc-members:
    :show-inheritance:
 
-ml\_logger.parser.experiment module
------------------------------------
+ml\_logger.parser.log module
+----------------------------
 
-.. automodule:: ml_logger.parser.experiment
+.. automodule:: ml_logger.parser.log
    :members:
    :undoc-members:
    :show-inheritance:
@@ -24,14 +39,6 @@ ml\_logger.parser.metric module
 -------------------------------
 
 .. automodule:: ml_logger.parser.metric
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-ml\_logger.parser.parser module
--------------------------------
-
-.. automodule:: ml_logger.parser.parser
    :members:
    :undoc-members:
    :show-inheritance:
