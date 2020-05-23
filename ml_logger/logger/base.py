@@ -23,7 +23,7 @@ class Logger(metaclass=ABCMeta):
         self.key_prefix: Optional[str] = config.pop("logbook_key_prefix")
 
     @abstractmethod
-    def write_log(self, log: LogType) -> None:
+    def write(self, log: LogType) -> None:
         """Interface to write the log
 
         Args:

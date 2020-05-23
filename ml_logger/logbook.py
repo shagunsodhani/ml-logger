@@ -64,7 +64,7 @@ class LogBook:
         log["logbook_type"] = log_type
         return log
 
-    def write_log(self, log: LogType, log_type: str = "metric") -> None:
+    def write(self, log: LogType, log_type: str = "metric") -> None:
         """Write log to loggers
 
         Args:
@@ -74,23 +74,23 @@ class LogBook:
 
         log = self._process_log(log, log_type)
         for logger in self.loggers:
-            logger.write_log(log=deepcopy(log))
+            logger.write(log=deepcopy(log))
 
-    def write_config_log(self, config: ConfigType) -> None:
+    def write_config(self, config: ConfigType) -> None:
         """Write config to loggers
 
         Args:
             config [ConfigType]: Config to write.
         """
-        return self.write_log(log=config, log_type="config")
+        return self.write(log=config, log_type="config")
 
-    def write_metric_log(self, metric: MetricType) -> None:
+    def write_metric(self, metric: MetricType) -> None:
         """Write metric to loggers
 
         Args:
             metric (MetricType): Metric to write
         """
-        return self.write_log(log=metric, log_type="metric")
+        return self.write(log=metric, log_type="metric")
 
     def write_message(self, message: str, log_type: str = "info") -> None:
         """Write message string to loggers
@@ -100,15 +100,15 @@ class LogBook:
             log_type (str, optional): Type of this message (log).
                 Defaults to "info".
         """
-        return self.write_log(log={"message": message}, log_type=log_type)
+        return self.write(log={"message": message}, log_type=log_type)
 
-    def write_metadata_log(self, metadata: LogType) -> None:
+    def write_metadata(self, metadata: LogType) -> None:
         """Write metadata to loggers
 
         Args:
             metadata (LogType): Metadata to wite
         """
-        return self.write_log(log=metadata, log_type="metadata")
+        return self.write(log=metadata, log_type="metadata")
 
 
 def make_config(

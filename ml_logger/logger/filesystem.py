@@ -130,7 +130,7 @@ class Logger(BaseLogger):
             )
             self.loggers = {_type: logger for _type in logger_types}
 
-    def write_log(self, log: LogType) -> None:
+    def write(self, log: LogType) -> None:
         """Write the log to the filesystem
 
         Args:

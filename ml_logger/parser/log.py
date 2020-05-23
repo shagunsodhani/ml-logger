@@ -73,7 +73,7 @@ class Parser(BaseParser):
 
     def parse_first_log(self, filepath_pattern: str) -> Optional[LogType]:
         """Return the first log from a file. The method will return after
-        finding the first log. Unlike `get_logs()` method, it will not
+        finding the first log. Unlike `parse()` method, it will not
         iterate over the entire log file (thus saving memory and time).
 
         Args:
@@ -91,7 +91,7 @@ class Parser(BaseParser):
         return None
 
     def parse_last_log(self, filepath_pattern: str) -> Optional[LogType]:
-        """Return the last log from a file. Like `get_logs()` method,
+        """Return the last log from a file. Like `parse()` method,
         it will iterate over the entire log file but will not keep all
         the logs in memory (thus saving memory).
 

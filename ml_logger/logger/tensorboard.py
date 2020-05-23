@@ -32,7 +32,7 @@ class Logger(BaseLogger):
         self.summary_writer = SummaryWriter(**config)
         self.keys_to_skip = ["logbook_id", "logbook_type", "logbook_timestamp"]
 
-    def write_log(self, log: LogType) -> None:
+    def write(self, log: LogType) -> None:
         """Write the log to tensorboard
 
         Args:
@@ -41,13 +41,13 @@ class Logger(BaseLogger):
         logbook_type = log["logbook_type"]
         if logbook_type == "metric":
             log = self._prepare_metric_log_to_write(log=log)
-            self.write_metric_log(metric=log)
+            self.write_metric(metric=log)
         else:
             if logbook_type == "config":
                 self.write_config(config=log)
             # Only metric logs and message logs are supported right now
 
-    def write_metric_log(self, metric: MetricType) -> None:
+    def write_metric(self, metric: MetricType) -> None:
         """Write metric to tensorboard
 
         Args:
