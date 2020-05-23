@@ -2,7 +2,7 @@
 import nox
 
 
-@nox.session(venv_backend="conda")
+@nox.session()
 def lint(session) -> None:
     session.install("--upgrade", "setuptools", "pip")
     session.install("-r", "requirements/filesystem.txt")
@@ -13,7 +13,7 @@ def lint(session) -> None:
     session.run("mypy", "--strict", "ml_logger")
 
 
-@nox.session(venv_backend="conda")
+@nox.session()
 def test_metrics(session) -> None:
     session.install("--upgrade", "setuptools", "pip")
     session.install("-r", "requirements/filesystem.txt")
