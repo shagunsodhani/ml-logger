@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ml_logger.parser package &mdash; ml_logger 0.3 documentation</title>
+  <title>ml_logger.parser package &mdash; ml_logger 0.6rc1 documentation</title>
   
 
   
@@ -35,6 +35,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ml_logger.parser.experiment package" href="ml_logger.parser.experiment.html" />
     <link rel="prev" title="ml_logger.logger package" href="ml_logger.logger.html" /> 
 </head>
 
@@ -168,169 +169,112 @@
             
   <div class="section" id="ml-logger-parser-package">
 <h1>ml_logger.parser package<a class="headerlink" href="#ml-logger-parser-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ml_logger.parser.experiment.html">ml_logger.parser.experiment package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ml_logger.parser.experiment.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ml_logger.parser.experiment.html#module-ml_logger.parser.experiment.experiment">ml_logger.parser.experiment.experiment module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ml_logger.parser.experiment.html#module-ml_logger.parser.experiment.parser">ml_logger.parser.experiment.parser module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ml_logger.parser.experiment.html#module-ml_logger.parser.experiment">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-ml_logger.parser.config">
-<span id="ml-logger-parser-config-module"></span><h2>ml_logger.parser.config module<a class="headerlink" href="#module-ml_logger.parser.config" title="Permalink to this headline">¶</a></h2>
-<p>Implementation of Parser to parse the logs</p>
-<dl class="class">
-<dt id="ml_logger.parser.config.Parser">
-<em class="property">class </em><code class="sig-prename descclassname">ml_logger.parser.config.</code><code class="sig-name descname">Parser</code><span class="sig-paren">(</span><em class="sig-param">log_transformer: Callable[Dict[str, Any], Dict[str, Any]] = &lt;function identity_log_transformer&gt;, error_handler: Callable[[str, json.decoder.JSONDecodeError], Optional[Dict[str, Any]]] = &lt;function silent_error_handler&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#ml_logger.parser.config.Parser" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#ml_logger.parser.parser.Parser" title="ml_logger.parser.parser.Parser"><code class="xref py py-class docutils literal notranslate"><span class="pre">ml_logger.parser.parser.Parser</span></code></a></p>
-<p>Class to parse the config in the log files</p>
-<dl class="method">
-<dt id="ml_logger.parser.config.Parser.get_one_config">
-<code class="sig-name descname">get_one_config</code><span class="sig-paren">(</span><em class="sig-param">file_path: str</em><span class="sig-paren">)</span> &#x2192; Optional[Dict[str, Any]]<a class="headerlink" href="#ml_logger.parser.config.Parser.get_one_config" title="Permalink to this definition">¶</a></dt>
-<dd><p>Method to get the config from the log file.</p>
-<p>The different between <cite>get_config</cite> and <cite>get_logs</cite> function is that
-<cite>get_logs</cite> returns an iterator over all the configs that are found
-in a log file while <cite>get_config</cite> only returns the last config. The same
-config file may be written multiple times in a log file. Hence
-<cite>get_config</cite> should be the default method for getting the config</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em>) – Log file to read from</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Config object</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>ConfigType</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="ml_logger.parser.config.Parser.load_configs_from_path">
-<code class="sig-name descname">load_configs_from_path</code><span class="sig-paren">(</span><em class="sig-param">path_pattern: str</em>, <em class="sig-param">path_to_save: str = 'config.json'</em><span class="sig-paren">)</span> &#x2192; tinydb.database.TinyDB<a class="headerlink" href="#ml_logger.parser.config.Parser.load_configs_from_path" title="Permalink to this definition">¶</a></dt>
-<dd><p>Method to glob the given path pattern and load config from
-all the matching paths</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>path_pattern</strong> (<em>str</em>) – path pattern to glob</p></li>
-<li><p><strong>path_to_save</strong> (<em>str</em>) – filesystem path where the loaded configs
-are saved. Defaults to config.json.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>TinyDB database instance over the collection of configs</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>TinyDB</p>
-</dd>
-</dl>
-</dd></dl>
-
+<div class="section" id="module-ml_logger.parser.base">
+<span id="ml-logger-parser-base-module"></span><h2>ml_logger.parser.base module<a class="headerlink" href="#module-ml_logger.parser.base" title="Permalink to this headline">¶</a></h2>
+<p>Base class that all parsers extend</p>
+<dl class="py class">
+<dt id="ml_logger.parser.base.Parser">
+<em class="property">class </em><code class="sig-prename descclassname">ml_logger.parser.base.</code><code class="sig-name descname">Parser</code><span class="sig-paren">(</span><em class="sig-param">parse_line: Callable[str</em>, <em class="sig-param">Optional[Dict[str</em>, <em class="sig-param">Any]]] = &lt;function parse_json&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ml_logger/parser/base.html#Parser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.parser.base.Parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Base class that all parsers extend</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-ml_logger.parser.experiment">
-<span id="ml-logger-parser-experiment-module"></span><h2>ml_logger.parser.experiment module<a class="headerlink" href="#module-ml_logger.parser.experiment" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-ml_logger.parser.config">
+<span id="ml-logger-parser-config-module"></span><h2>ml_logger.parser.config module<a class="headerlink" href="#module-ml_logger.parser.config" title="Permalink to this headline">¶</a></h2>
+<p>Implementation of Parser to parse config from logs</p>
+<dl class="py class">
+<dt id="ml_logger.parser.config.Parser">
+<em class="property">class </em><code class="sig-prename descclassname">ml_logger.parser.config.</code><code class="sig-name descname">Parser</code><span class="sig-paren">(</span><em class="sig-param">parse_line: Callable[str</em>, <em class="sig-param">Optional[Dict[str</em>, <em class="sig-param">Any]]] = &lt;function parse_json_and_match_key&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ml_logger/parser/config.html#Parser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.parser.config.Parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ml_logger.parser.log.Parser" title="ml_logger.parser.log.Parser"><code class="xref py py-class docutils literal notranslate"><span class="pre">ml_logger.parser.log.Parser</span></code></a></p>
+<p>Class to parse config from the logs</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ml_logger.parser.config.parse_json_and_match_key">
+<code class="sig-prename descclassname">ml_logger.parser.config.</code><code class="sig-name descname">parse_json_and_match_key</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">line</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><a class="reference internal" href="_modules/ml_logger/parser/config.html#parse_json_and_match_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.parser.config.parse_json_and_match_key" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-ml_logger.parser.log">
+<span id="ml-logger-parser-log-module"></span><h2>ml_logger.parser.log module<a class="headerlink" href="#module-ml_logger.parser.log" title="Permalink to this headline">¶</a></h2>
 <p>Implementation of Parser to parse the logs</p>
-<dl class="class">
-<dt id="ml_logger.parser.experiment.Experiment">
-<em class="property">class </em><code class="sig-prename descclassname">ml_logger.parser.experiment.</code><code class="sig-name descname">Experiment</code><span class="sig-paren">(</span><em class="sig-param">config: Dict[str, Any], metrics: Dict[str, pandas.core.frame.DataFrame], logger_dir: str</em><span class="sig-paren">)</span><a class="headerlink" href="#ml_logger.parser.experiment.Experiment" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-</dd></dl>
-
-<dl class="class">
-<dt id="ml_logger.parser.experiment.ExperimentSequence">
-<em class="property">class </em><code class="sig-prename descclassname">ml_logger.parser.experiment.</code><code class="sig-name descname">ExperimentSequence</code><span class="sig-paren">(</span><em class="sig-param">experiments: List[ml_logger.parser.experiment.Experiment]</em><span class="sig-paren">)</span><a class="headerlink" href="#ml_logger.parser.experiment.ExperimentSequence" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">collections.abc.Sequence</span></code></p>
-<p>Provides a list-like interface to a collection of Experimente</p>
-<dl class="method">
-<dt id="ml_logger.parser.experiment.ExperimentSequence.filter">
-<code class="sig-name descname">filter</code><span class="sig-paren">(</span><em class="sig-param">filter_fn: Callable[ml_logger.parser.experiment.Experiment, bool]</em><span class="sig-paren">)</span> &#x2192; ml_logger.parser.experiment.ExperimentSequence<a class="headerlink" href="#ml_logger.parser.experiment.ExperimentSequence.filter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Filter experiments in the sequence</p>
+<dl class="py class">
+<dt id="ml_logger.parser.log.Parser">
+<em class="property">class </em><code class="sig-prename descclassname">ml_logger.parser.log.</code><code class="sig-name descname">Parser</code><span class="sig-paren">(</span><em class="sig-param">parse_line: Callable[str</em>, <em class="sig-param">Optional[Dict[str</em>, <em class="sig-param">Any]]] = &lt;function parse_json&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ml_logger/parser/log.html#Parser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.parser.log.Parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ml_logger.parser.base.Parser" title="ml_logger.parser.base.Parser"><code class="xref py py-class docutils literal notranslate"><span class="pre">ml_logger.parser.base.Parser</span></code></a></p>
+<p>Class to parse the log files</p>
+<dl class="py method">
+<dt id="ml_logger.parser.log.Parser.parse">
+<code class="sig-name descname">parse</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filepath_pattern</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Iterator<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><a class="reference internal" href="_modules/ml_logger/parser/log.html#Parser.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.parser.log.Parser.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a log file, parse its contents and return <cite>logs</cite></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>filter_fn</strong> – Function to filter an experiment</p>
+<dd class="field-odd"><p><strong>filepath_pattern</strong> (<em>str</em>) – filepath pattern to glob</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A sequence of experiments for which the
-filter condition is true</p>
+<dd class="field-even"><p>Iterator over the logs</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#ml_logger.parser.experiment.ExperimentSequence" title="ml_logger.parser.experiment.ExperimentSequence">ExperimentSequence</a></p>
+<dd class="field-odd"><p>Iterator[LogType]</p>
+</dd>
+<dt class="field-even">Yields</dt>
+<dd class="field-even"><p><em>Iterator[LogType]</em> – Iterator over the logs</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="ml_logger.parser.experiment.ExperimentSequence.groupby">
-<code class="sig-name descname">groupby</code><span class="sig-paren">(</span><em class="sig-param">group_fn: Callable[ml_logger.parser.experiment.Experiment, str]</em><span class="sig-paren">)</span> &#x2192; Dict[str, ml_logger.parser.experiment.ExperimentSequence]<a class="headerlink" href="#ml_logger.parser.experiment.ExperimentSequence.groupby" title="Permalink to this definition">¶</a></dt>
-<dd><p>Group experiments in the sequence</p>
+<dl class="py method">
+<dt id="ml_logger.parser.log.Parser.parse_first_log">
+<code class="sig-name descname">parse_first_log</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filepath_pattern</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><a class="reference internal" href="_modules/ml_logger/parser/log.html#Parser.parse_first_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.parser.log.Parser.parse_first_log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the first log from a file. The method will return after
+finding the first log. Unlike <cite>get_logs()</cite> method, it will not
+iterate over the entire log file (thus saving memory and time).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>group_fn</strong> – Function to assign a string group id to the experiment</p>
+<dd class="field-odd"><p><strong>filepath_pattern</strong> (<em>str</em>) – filepath pattern to glob</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A dictionary mapping the sring
-group id to a sequence of experiments</p>
+<dd class="field-even"><p>First instance of a log</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Dict[str, <a class="reference internal" href="#ml_logger.parser.experiment.ExperimentSequence" title="ml_logger.parser.experiment.ExperimentSequence">ExperimentSequence</a>]</p>
+<dd class="field-odd"><p>LogType</p>
 </dd>
 </dl>
 </dd></dl>
 
-</dd></dl>
-
-<dl class="class">
-<dt id="ml_logger.parser.experiment.Parser">
-<em class="property">class </em><code class="sig-prename descclassname">ml_logger.parser.experiment.</code><code class="sig-name descname">Parser</code><span class="sig-paren">(</span><em class="sig-param">log_transformer: Callable[Dict[str, Any], Dict[str, Any]] = &lt;function identity_log_transformer&gt;, error_handler: Callable[[str, json.decoder.JSONDecodeError], Optional[Dict[str, Any]]] = &lt;function silent_error_handler&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#ml_logger.parser.experiment.Parser" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#ml_logger.parser.parser.Parser" title="ml_logger.parser.parser.Parser"><code class="xref py py-class docutils literal notranslate"><span class="pre">ml_logger.parser.parser.Parser</span></code></a></p>
-<p>Class to parse the entire experiment from the log dir</p>
-<dl class="method">
-<dt id="ml_logger.parser.experiment.Parser.get_experiment_sequence">
-<code class="sig-name descname">get_experiment_sequence</code><span class="sig-paren">(</span><em class="sig-param">logger_path: str</em>, <em class="sig-param">filename: Optional[str] = None</em>, <em class="sig-param">filename_prefix: str = ''</em><span class="sig-paren">)</span> &#x2192; ml_logger.parser.experiment.ExperimentSequence<a class="headerlink" href="#ml_logger.parser.experiment.Parser.get_experiment_sequence" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load a sequence of experiments frrom the log dirs.</p>
+<dl class="py method">
+<dt id="ml_logger.parser.log.Parser.parse_last_log">
+<code class="sig-name descname">parse_last_log</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filepath_pattern</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><a class="reference internal" href="_modules/ml_logger/parser/log.html#Parser.parse_last_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.parser.log.Parser.parse_last_log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the last log from a file. Like <cite>get_logs()</cite> method,
+it will iterate over the entire log file but will not keep all
+the logs in memory (thus saving memory).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>logger_dir</strong> (<em>str</em>) – Path where the logs will be read from.</p></li>
-<li><p><strong>filename</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – Name to assigned to the</p></li>
-<li><p><strong>file</strong> (<em>log</em>) – </p></li>
-<li><p><strong>and it is assumed that multiple log files are written</strong> (<em>ignored</em>) – </p></li>
-<li><p><strong>experiment</strong> (<em>per</em>) – </p></li>
-<li><p><strong>is set</strong><strong>, </strong><strong>filename_prefix argument is ignored. Defaults</strong> (<em>value</em>) – </p></li>
-<li><p><strong>None.</strong> (<em>to</em>) – </p></li>
-<li><p><strong>filename_prefix</strong> (<em>str</em><em>, </em><em>optional</em>) – String to prefix before the</p></li>
-<li><p><strong>of the log files. Eg if filename_prefix is &quot;dummy&quot;</strong><strong>,</strong> (<em>name</em>) – </p></li>
-<li><p><strong>of log files are dummymetric.jsonl</strong><strong>, </strong><strong>dummylog.jsonl etc.</strong> (<em>name</em>) – </p></li>
-<li><p><strong>argument is ignored if filename is set. Defaults to &quot;&quot;.</strong> (<em>This</em>) – </p></li>
-</ul>
+<dd class="field-odd"><p><strong>filepath_pattern</strong> (<em>str</em>) – filepath pattern to glob</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>ExperimentSequence</p>
+<dd class="field-even"><p>Last instance of a log</p>
 </dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="ml_logger.parser.experiment.Parser.get_one_experiment">
-<code class="sig-name descname">get_one_experiment</code><span class="sig-paren">(</span><em class="sig-param">logger_dir: str</em>, <em class="sig-param">filename: Optional[str] = None</em>, <em class="sig-param">filename_prefix: str = ''</em><span class="sig-paren">)</span> &#x2192; ml_logger.parser.experiment.Experiment<a class="headerlink" href="#ml_logger.parser.experiment.Parser.get_one_experiment" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load one experiment from the log dir</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>logger_dir</strong> (<em>str</em>) – Path where the logs will be read from.</p></li>
-<li><p><strong>filename</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – Name to assigned to the</p></li>
-<li><p><strong>file</strong> (<em>log</em>) – </p></li>
-<li><p><strong>and it is assumed that multiple log files are written</strong> (<em>ignored</em>) – </p></li>
-<li><p><strong>experiment</strong> (<em>per</em>) – </p></li>
-<li><p><strong>is set</strong><strong>, </strong><strong>filename_prefix argument is ignored. Defaults</strong> (<em>value</em>) – </p></li>
-<li><p><strong>None.</strong> (<em>to</em>) – </p></li>
-<li><p><strong>filename_prefix</strong> (<em>str</em><em>, </em><em>optional</em>) – String to prefix before the</p></li>
-<li><p><strong>of the log files. Eg if filename_prefix is &quot;dummy&quot;</strong><strong>,</strong> (<em>name</em>) – </p></li>
-<li><p><strong>of log files are dummymetric.jsonl</strong><strong>, </strong><strong>dummylog.jsonl etc.</strong> (<em>name</em>) – </p></li>
-<li><p><strong>argument is ignored if filename is set. Defaults to &quot;&quot;.</strong> (<em>This</em>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Experiment</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>LogType</p>
 </dd>
 </dl>
 </dd></dl>
@@ -340,71 +284,39 @@ group id to a sequence of experiments</p>
 </div>
 <div class="section" id="module-ml_logger.parser.metric">
 <span id="ml-logger-parser-metric-module"></span><h2>ml_logger.parser.metric module<a class="headerlink" href="#module-ml_logger.parser.metric" title="Permalink to this headline">¶</a></h2>
-<p>Implementation of Parser to parse the logs</p>
-<dl class="class">
+<p>Implementation of Parser to parse metrics from logs</p>
+<dl class="py class">
 <dt id="ml_logger.parser.metric.Parser">
-<em class="property">class </em><code class="sig-prename descclassname">ml_logger.parser.metric.</code><code class="sig-name descname">Parser</code><span class="sig-paren">(</span><em class="sig-param">log_transformer: Callable[Dict[str, Any], Dict[str, Any]] = &lt;function identity_log_transformer&gt;, error_handler: Callable[[str, json.decoder.JSONDecodeError], Optional[Dict[str, Any]]] = &lt;function silent_error_handler&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#ml_logger.parser.metric.Parser" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#ml_logger.parser.parser.Parser" title="ml_logger.parser.parser.Parser"><code class="xref py py-class docutils literal notranslate"><span class="pre">ml_logger.parser.parser.Parser</span></code></a></p>
-<p>Class to parse the metrics in the log files</p>
-<dl class="method">
-<dt id="ml_logger.parser.metric.Parser.get_metrics_as_df">
-<code class="sig-name descname">get_metrics_as_df</code><span class="sig-paren">(</span><em class="sig-param">file_path: str, fn_to_group_metrics: Callable[List[Dict[str, Any]], Dict[str, List[Dict[str, Any]]]] = &lt;function fn_to_group_metrics&gt;, fn_to_aggregate_metrics: Callable[List[Dict[str, Any]], List[Dict[str, Any]]] = &lt;function fn_to_aggregate_metrics&gt;</em><span class="sig-paren">)</span> &#x2192; Dict[str, pandas.core.frame.DataFrame]<a class="headerlink" href="#ml_logger.parser.metric.Parser.get_metrics_as_df" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ml_logger.parser.metric.</code><code class="sig-name descname">Parser</code><span class="sig-paren">(</span><em class="sig-param">parse_line: Callable[str</em>, <em class="sig-param">Optional[Dict[str</em>, <em class="sig-param">Any]]] = &lt;function parse_json_and_match_key&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ml_logger/parser/metric.html#Parser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.parser.metric.Parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ml_logger.parser.log.Parser" title="ml_logger.parser.log.Parser"><code class="xref py py-class docutils literal notranslate"><span class="pre">ml_logger.parser.log.Parser</span></code></a></p>
+<p>Class to parse the metrics from the logs</p>
+<dl class="py method">
+<dt id="ml_logger.parser.metric.Parser.parse_as_df">
+<code class="sig-name descname">parse_as_df</code><span class="sig-paren">(</span><em class="sig-param">filepath_pattern: str, group_metrics: Callable[List[Dict[str, Any]], Dict[str, List[Dict[str, Any]]]] = &lt;function group_metrics&gt;, aggregate_metrics: Callable[List[Dict[str, Any]], List[Dict[str, Any]]] = &lt;function aggregate_metrics&gt;</em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>str<span class="p">, </span>pandas.core.frame.DataFrame<span class="p">]</span><a class="reference internal" href="_modules/ml_logger/parser/metric.html#Parser.parse_as_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.parser.metric.Parser.parse_as_df" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a dict of (metric_name, dataframe)</p>
 <p>Method that:
-(i) reads the requested metrics (for each specified mode),
+(i) reads metrics from the filesystem
 (ii) groups metrics
-(iii) merge all the metrics in a group,
-(iv) converts the merged metrics into dataframes and returns a list of dataframes</p>
+(iii) aggregates all the metrics within a group,
+(iv) converts the aggregate metrics into dataframes and returns a             dictionary of dataframes</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>file_path</strong> (<em>str</em>) – Log file to read from</p></li>
-<li><p><strong>fn_to_group_metrics</strong> (<em>Callable</em><em>[</em><em>[</em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Function to group a list of metrics into a dictionary of
-(key, list of grouped metrics). Defaults to fn_to_group_metrics.</p></li>
-<li><p><strong>fn_to_aggregate_metrics</strong> (<em>Callable</em><em>[</em><em>[</em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Function to aggregate a list of metrics. Defaults to fn_to_aggregate_metrics.</p></li>
+<li><p><strong>filepath_pattern</strong> (<em>str</em>) – filepath pattern to glob</p></li>
+<li><p><strong>group_metrics</strong> (<em>Callable</em><em>[</em><em>[</em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Function to group a list of metrics into a dictionary of
+(key, list of grouped metrics). Defaults to group_metrics.</p></li>
+<li><p><strong>aggregate_metrics</strong> (<em>Callable</em><em>[</em><em>[</em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Function to aggregate a list of metrics. Defaults to aggregate_metrics.</p></li>
 </ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>[description]</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Dict[str, pd.DataFrame]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="ml_logger.parser.metric.Parser.metrics_to_df">
-<code class="sig-name descname">metrics_to_df</code><span class="sig-paren">(</span><em class="sig-param">metric_logs: List[Dict[str, Any]], fn_to_group_metrics: Callable[List[Dict[str, Any]], Dict[str, List[Dict[str, Any]]]] = &lt;function fn_to_group_metrics&gt;, fn_to_aggregate_metrics: Callable[List[Dict[str, Any]], List[Dict[str, Any]]] = &lt;function fn_to_aggregate_metrics&gt;</em><span class="sig-paren">)</span> &#x2192; Dict[str, pandas.core.frame.DataFrame]<a class="headerlink" href="#ml_logger.parser.metric.Parser.metrics_to_df" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a dict of (metric_name, dataframe)</p>
-<p>Method that:
-(i) groups metrics
-(ii) merge all the metrics in a group,
-(iii) converts the merged metrics into dataframes and returns a list of dataframes</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>metric_logs</strong> (<em>List</em><em>[</em><em>LogType</em><em>]</em>) – List of metrics</p></li>
-<li><p><strong>fn_to_group_metrics</strong> (<em>Callable</em><em>[</em><em>[</em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Function to group a list of metrics into a dictionary of
-(key, list of grouped metrics). Defaults to fn_to_group_metrics.</p></li>
-<li><p><strong>fn_to_aggregate_metrics</strong> (<em>Callable</em><em>[</em><em>[</em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Function to aggregate a list of metrics. Defaults to fn_to_aggregate_metrics.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>[description]</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Dict[str, pd.DataFrame]</p>
 </dd>
 </dl>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="function">
-<dt id="ml_logger.parser.metric.fn_to_aggregate_metrics">
-<code class="sig-prename descclassname">ml_logger.parser.metric.</code><code class="sig-name descname">fn_to_aggregate_metrics</code><span class="sig-paren">(</span><em class="sig-param">metrics: List[Dict[str, Union[str, int, float]]]</em><span class="sig-paren">)</span> &#x2192; List[Dict[str, Union[str, int, float]]]<a class="headerlink" href="#ml_logger.parser.metric.fn_to_aggregate_metrics" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to aggregate a list of metrics</p>
+<dl class="py function">
+<dt id="ml_logger.parser.metric.aggregate_metrics">
+<code class="sig-prename descclassname">ml_logger.parser.metric.</code><code class="sig-name descname">aggregate_metrics</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">metrics</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">, </span>float<span class="p">]</span><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">, </span>float<span class="p">]</span><span class="p">]</span><span class="p">]</span><a class="reference internal" href="_modules/ml_logger/parser/metric.html#aggregate_metrics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.parser.metric.aggregate_metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Aggregate a list of metrics</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>metrics</strong> (<em>List</em><em>[</em><em>MetricType</em><em>]</em>) – List of metrics to aggregate</p>
@@ -418,10 +330,10 @@ group id to a sequence of experiments</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="ml_logger.parser.metric.fn_to_group_metrics">
-<code class="sig-prename descclassname">ml_logger.parser.metric.</code><code class="sig-name descname">fn_to_group_metrics</code><span class="sig-paren">(</span><em class="sig-param">metrics: List[Dict[str, Union[str, int, float]]]</em><span class="sig-paren">)</span> &#x2192; Dict[str, List[Dict[str, Union[str, int, float]]]]<a class="headerlink" href="#ml_logger.parser.metric.fn_to_group_metrics" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to group a list of metrics into a dictionary of (key,
+<dl class="py function">
+<dt id="ml_logger.parser.metric.group_metrics">
+<code class="sig-prename descclassname">ml_logger.parser.metric.</code><code class="sig-name descname">group_metrics</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">metrics</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">, </span>float<span class="p">]</span><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>str<span class="p">, </span>List<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">, </span>float<span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">]</span><a class="reference internal" href="_modules/ml_logger/parser/metric.html#group_metrics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.parser.metric.group_metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Group a list of metrics into a dictionary of (key,
 list of grouped metrics)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -440,60 +352,43 @@ list of grouped metrics)</p>
 </dl>
 </dd></dl>
 
-</div>
-<div class="section" id="module-ml_logger.parser.parser">
-<span id="ml-logger-parser-parser-module"></span><h2>ml_logger.parser.parser module<a class="headerlink" href="#module-ml_logger.parser.parser" title="Permalink to this headline">¶</a></h2>
-<p>Implementation of Parser to parse the logs</p>
-<dl class="class">
-<dt id="ml_logger.parser.parser.Parser">
-<em class="property">class </em><code class="sig-prename descclassname">ml_logger.parser.parser.</code><code class="sig-name descname">Parser</code><span class="sig-paren">(</span><em class="sig-param">log_transformer: Callable[Dict[str, Any], Dict[str, Any]] = &lt;function identity_log_transformer&gt;, error_handler: Callable[[str, json.decoder.JSONDecodeError], Optional[Dict[str, Any]]] = &lt;function silent_error_handler&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#ml_logger.parser.parser.Parser" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Class to parse the log files</p>
-<dl class="method">
-<dt id="ml_logger.parser.parser.Parser.filter_log">
-<code class="sig-name descname">filter_log</code><span class="sig-paren">(</span><em class="sig-param">log: Dict[str, Any]</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#ml_logger.parser.parser.Parser.filter_log" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if the log is a valid log</p>
+<dl class="py function">
+<dt id="ml_logger.parser.metric.metrics_to_df">
+<code class="sig-prename descclassname">ml_logger.parser.metric.</code><code class="sig-name descname">metrics_to_df</code><span class="sig-paren">(</span><em class="sig-param">metric_logs: List[Dict[str, Any]], group_metrics: Callable[List[Dict[str, Any]], Dict[str, List[Dict[str, Any]]]] = &lt;function group_metrics&gt;, aggregate_metrics: Callable[List[Dict[str, Any]], List[Dict[str, Any]]] = &lt;function aggregate_metrics&gt;</em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>str<span class="p">, </span>pandas.core.frame.DataFrame<span class="p">]</span><a class="reference internal" href="_modules/ml_logger/parser/metric.html#metrics_to_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.parser.metric.metrics_to_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a dict of (metric_name, dataframe)</p>
+<p>Method that:
+(i) groups metrics
+(ii) aggregates all the metrics within a group,
+(iii) converts the aggregate metrics into dataframes and returns a         dictionary of dataframes</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>log</strong> (<em>LogType</em>) – log to check</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metric_logs</strong> (<em>List</em><em>[</em><em>LogType</em><em>]</em>) – List of metrics</p></li>
+<li><p><strong>group_metrics</strong> (<em>Callable</em><em>[</em><em>[</em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Function to group a list of metrics into a dictionary of
+(key, list of grouped metrics). Defaults to group_metrics.</p></li>
+<li><p><strong>aggregate_metrics</strong> (<em>Callable</em><em>[</em><em>[</em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>List</em><em>[</em><em>LogType</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – Function to aggregate a list of metrics. Defaults to aggregate_metrics.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>True if the log is a valid log</p>
+<dd class="field-even"><p>[description]</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>bool</p>
+<dd class="field-odd"><p>Dict[str, pd.DataFrame]</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="ml_logger.parser.parser.Parser.get_logs">
-<code class="sig-name descname">get_logs</code><span class="sig-paren">(</span><em class="sig-param">file_path: str</em><span class="sig-paren">)</span> &#x2192; Iterator[Dict[str, Any]]<a class="headerlink" href="#ml_logger.parser.parser.Parser.get_logs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Method to open a log file, parse the logs and return logs</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em>) – Log file to read from</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Iterator over the logs</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Iterator[LogType]</p>
-</dd>
-<dt class="field-even">Yields</dt>
-<dd class="field-even"><p><em>Iterator[LogType]</em> – Iterator over the logs</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
+<dl class="py function">
+<dt id="ml_logger.parser.metric.parse_json_and_match_key">
+<code class="sig-prename descclassname">ml_logger.parser.metric.</code><code class="sig-name descname">parse_json_and_match_key</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">line</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><a class="reference internal" href="_modules/ml_logger/parser/metric.html#parse_json_and_match_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.parser.metric.parse_json_and_match_key" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 <div class="section" id="module-ml_logger.parser.utils">
 <span id="ml-logger-parser-utils-module"></span><h2>ml_logger.parser.utils module<a class="headerlink" href="#module-ml_logger.parser.utils" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="ml_logger.parser.utils.compare_logs">
-<code class="sig-prename descclassname">ml_logger.parser.utils.</code><code class="sig-name descname">compare_logs</code><span class="sig-paren">(</span><em class="sig-param">first_log: Dict[str, Any], second_log: Dict[str, Any], verbose: bool = False</em><span class="sig-paren">)</span> &#x2192; Tuple[List[str], List[str], List[str]]<a class="headerlink" href="#ml_logger.parser.utils.compare_logs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ml_logger.parser.utils.</code><code class="sig-name descname">compare_logs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">first_log</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">second_log</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">verbose</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>List<span class="p">[</span>str<span class="p">]</span><span class="p">, </span>List<span class="p">[</span>str<span class="p">]</span><span class="p">, </span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span><a class="reference internal" href="_modules/ml_logger/parser/utils.html#compare_logs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.parser.utils.compare_logs" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>Compare two logs and return list of keys that are either missing or</dt><dd><p>have different valus in the two logs.</p>
 </dd>
@@ -510,10 +405,9 @@ list of grouped metrics)</p>
 <dd class="field-even"><p><dl class="simple">
 <dt>Tuple of [</dt><dd><p>list of keys with different values,
 list of keys with values missing in first log,
-list of keys with values missing in the second log</p>
+list of keys with values missing in the second log,]</p>
 </dd>
 </dl>
-<p>]</p>
 </p>
 </dd>
 <dt class="field-odd">Return type</dt>
@@ -522,9 +416,9 @@ list of keys with values missing in the second log</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="ml_logger.parser.utils.flatten_log">
-<code class="sig-prename descclassname">ml_logger.parser.utils.</code><code class="sig-name descname">flatten_log</code><span class="sig-paren">(</span><em class="sig-param">d: Dict[str, Any], parent_key: str = '', sep: str = '#'</em><span class="sig-paren">)</span> &#x2192; Dict[str, Any]<a class="headerlink" href="#ml_logger.parser.utils.flatten_log" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ml_logger.parser.utils.</code><code class="sig-name descname">flatten_log</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">d</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">parent_key</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">sep</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'#'</span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><a class="reference internal" href="_modules/ml_logger/parser/utils.html#flatten_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.parser.utils.flatten_log" title="Permalink to this definition">¶</a></dt>
 <dd><p>Flatten a log using a separator</p>
 <p>Taken from <a class="reference external" href="https://stackoverflow.com/a/6027615/1353861">https://stackoverflow.com/a/6027615/1353861</a></p>
 <dl class="field-list simple">
@@ -544,40 +438,19 @@ list of keys with values missing in the second log</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="ml_logger.parser.utils.identity_log_transformer">
-<code class="sig-prename descclassname">ml_logger.parser.utils.</code><code class="sig-name descname">identity_log_transformer</code><span class="sig-paren">(</span><em class="sig-param">log: Dict[str, Any]</em><span class="sig-paren">)</span> &#x2192; Dict[str, Any]<a class="headerlink" href="#ml_logger.parser.utils.identity_log_transformer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to transform the log after parsing</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>log</strong> (<em>LogType</em>) – log to transform</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>transformed log</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>LogType</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
+<dl class="py function">
 <dt id="ml_logger.parser.utils.map_list_of_dicts_to_dict_of_lists">
-<code class="sig-prename descclassname">ml_logger.parser.utils.</code><code class="sig-name descname">map_list_of_dicts_to_dict_of_lists</code><span class="sig-paren">(</span><em class="sig-param">list_of_dicts: List[Dict[str, Union[str, int, float]]]</em><span class="sig-paren">)</span> &#x2192; Dict[str, List[Union[str, int, float, None]]]<a class="headerlink" href="#ml_logger.parser.utils.map_list_of_dicts_to_dict_of_lists" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ml_logger.parser.utils.</code><code class="sig-name descname">map_list_of_dicts_to_dict_of_lists</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">list_of_dicts</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">, </span>float<span class="p">]</span><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Dict[str, List[Union[str, int, float, None]]]<a class="reference internal" href="_modules/ml_logger/parser/utils.html#map_list_of_dicts_to_dict_of_lists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.parser.utils.map_list_of_dicts_to_dict_of_lists" title="Permalink to this definition">¶</a></dt>
 <dd><p>Map a list of dictionary to a dictionary of lists</p>
 <dl class="simple">
 <dt>Example input: [</dt><dd><p>{“a”: 1, “b”: 2},
-{“b”: 3, “c”: 4},</p>
+{“b”: 3, “c”: 4},]</p>
 </dd>
-</dl>
-<p>]</p>
-<dl class="simple">
 <dt>Example output: {</dt><dd><p>“a”: [1],
 “b”: [2, 3],
-“c”: [4]</p>
+“c”: [4],}</p>
 </dd>
 </dl>
-<p>}</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>list_of_dicts</strong> (<em>List</em><em>[</em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>ValueType</em><em>]</em><em>]</em>) – List of dictionaries</p>
@@ -591,51 +464,10 @@ list of keys with values missing in the second log</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="ml_logger.parser.utils.silent_error_handler">
-<code class="sig-prename descclassname">ml_logger.parser.utils.</code><code class="sig-name descname">silent_error_handler</code><span class="sig-paren">(</span><em class="sig-param">log_line: str</em>, <em class="sig-param">error: json.decoder.JSONDecodeError</em><span class="sig-paren">)</span> &#x2192; Optional[Dict[str, Any]]<a class="headerlink" href="#ml_logger.parser.utils.silent_error_handler" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Function to silently ignore the error, when the <cite>log_line</cite> is</dt><dd><p>not a valid json string</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>log_line</strong> (<em>str</em>) – Parsing this line triggered the error</p></li>
-<li><p><strong>error</strong> (<em>json.decoder.JSONDecodeError</em>) – The error object</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>None. Nothing is done</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Optional[LogType]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="ml_logger.parser.utils.verbose_error_handler">
-<code class="sig-prename descclassname">ml_logger.parser.utils.</code><code class="sig-name descname">verbose_error_handler</code><span class="sig-paren">(</span><em class="sig-param">log_line: str</em>, <em class="sig-param">error: json.decoder.JSONDecodeError</em><span class="sig-paren">)</span> &#x2192; Optional[Dict[str, Any]]<a class="headerlink" href="#ml_logger.parser.utils.verbose_error_handler" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Function to print the error on the console, when the <cite>log_line</cite> is</dt><dd><p>not a valid json string</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>log_line</strong> (<em>str</em>) – Parsing this line triggered the error</p></li>
-<li><p><strong>error</strong> (<em>json.decoder.JSONDecodeError</em>) – The error object</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>None. Print the error on the console</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Optional[LogType]</p>
-</dd>
-</dl>
-</dd></dl>
+<dl class="py function">
+<dt id="ml_logger.parser.utils.parse_json">
+<code class="sig-prename descclassname">ml_logger.parser.utils.</code><code class="sig-name descname">parse_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">line</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><a class="reference internal" href="_modules/ml_logger/parser/utils.html#parse_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.parser.utils.parse_json" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 <div class="section" id="module-ml_logger.parser">
@@ -650,6 +482,8 @@ list of keys with values missing in the second log</p>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ml_logger.parser.experiment.html" class="btn btn-neutral float-right" title="ml_logger.parser.experiment package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="ml_logger.logger.html" class="btn btn-neutral float-left" title="ml_logger.logger package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
