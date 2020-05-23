@@ -60,7 +60,7 @@ class Parser(log_parser.Parser):
         super().__init__(parse_line)
         self.log_type = "metric"
 
-    def get_metrics_as_df(
+    def parse_as_df(
         self,
         filepath_pattern: str,
         group_metrics: Callable[
@@ -74,7 +74,7 @@ class Parser(log_parser.Parser):
         (i) reads metrics from the filesystem
         (ii) groups metrics
         (iii) aggregates all the metrics within a group,
-        (iv) converts the aggregate metrics into dataframes and returns a
+        (iv) converts the aggregate metrics into dataframes and returns a \
             dictionary of dataframes
 
         Args:
@@ -104,7 +104,7 @@ def metrics_to_df(
     Method that:
     (i) groups metrics
     (ii) aggregates all the metrics within a group,
-    (iii) converts the aggregate metrics into dataframes and returns a
+    (iii) converts the aggregate metrics into dataframes and returns a \
         dictionary of dataframes
 
     Args:

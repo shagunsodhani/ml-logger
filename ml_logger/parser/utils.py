@@ -11,14 +11,12 @@ def map_list_of_dicts_to_dict_of_lists(
 
     Example input: [
         {"a": 1, "b": 2},
-        {"b": 3, "c": 4},
-    ]
+        {"b": 3, "c": 4},]
 
     Example output: {
         "a": [1],
         "b": [2, 3],
-        "c": [4]
-    }
+        "c": [4],}
 
     Args:
         list_of_dicts (List[Dict[str, ValueType]]): List of dictionaries
@@ -73,8 +71,7 @@ def compare_logs(
         Tuple[List[str], List[str], List[str]]: Tuple of [
             list of keys with different values,
             list of keys with values missing in first log,
-            list of keys with values missing in the second log
-        ]
+            list of keys with values missing in the second log,]
     """
     first_log = flatten_log(first_log)
     second_log = flatten_log(second_log)
