@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ml_logger package &mdash; ml_logger 0.3 documentation</title>
+  <title>ml_logger package &mdash; ml_logger 0.6rc1 documentation</title>
   
 
   
@@ -182,11 +182,21 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ml_logger.parser.html">ml_logger.parser package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ml_logger.parser.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ml_logger.parser.experiment.html">ml_logger.parser.experiment package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="ml_logger.parser.experiment.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ml_logger.parser.experiment.html#module-ml_logger.parser.experiment.experiment">ml_logger.parser.experiment.experiment module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ml_logger.parser.experiment.html#module-ml_logger.parser.experiment.parser">ml_logger.parser.experiment.parser module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ml_logger.parser.experiment.html#module-ml_logger.parser.experiment">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="ml_logger.parser.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ml_logger.parser.html#module-ml_logger.parser.base">ml_logger.parser.base module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ml_logger.parser.html#module-ml_logger.parser.config">ml_logger.parser.config module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ml_logger.parser.html#module-ml_logger.parser.experiment">ml_logger.parser.experiment module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ml_logger.parser.html#module-ml_logger.parser.log">ml_logger.parser.log module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ml_logger.parser.html#module-ml_logger.parser.metric">ml_logger.parser.metric module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ml_logger.parser.html#module-ml_logger.parser.parser">ml_logger.parser.parser module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ml_logger.parser.html#module-ml_logger.parser.utils">ml_logger.parser.utils module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ml_logger.parser.html#module-ml_logger.parser">Module contents</a></li>
 </ul>
@@ -202,15 +212,15 @@
 <p>Implementation of the LogBook class.</p>
 <p>LogBook class provides an interface to persist the logs on the filesystem,
 tensorboard, remote backends, etc.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="ml_logger.logbook.LogBook">
-<em class="property">class </em><code class="sig-prename descclassname">ml_logger.logbook.</code><code class="sig-name descname">LogBook</code><span class="sig-paren">(</span><em class="sig-param">config: Dict[str, Any]</em><span class="sig-paren">)</span><a class="headerlink" href="#ml_logger.logbook.LogBook" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ml_logger.logbook.</code><code class="sig-name descname">LogBook</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ml_logger/logbook.html#LogBook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logbook.LogBook" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>This class provides an interface to persist the logs on the filesystem,
 tensorboard, remote backends, etc.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="ml_logger.logbook.LogBook.write_config_log">
-<code class="sig-name descname">write_config_log</code><span class="sig-paren">(</span><em class="sig-param">config: Dict[str, Any]</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#ml_logger.logbook.LogBook.write_config_log" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">write_config_log</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ml_logger/logbook.html#LogBook.write_config_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logbook.LogBook.write_config_log" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write config to loggers</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -219,9 +229,9 @@ tensorboard, remote backends, etc.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="ml_logger.logbook.LogBook.write_log">
-<code class="sig-name descname">write_log</code><span class="sig-paren">(</span><em class="sig-param">log: Dict[str, Any], log_type: str = 'metric'</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#ml_logger.logbook.LogBook.write_log" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">write_log</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">log</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">log_type</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'metric'</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ml_logger/logbook.html#LogBook.write_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logbook.LogBook.write_log" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write log to loggers</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -233,9 +243,9 @@ tensorboard, remote backends, etc.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="ml_logger.logbook.LogBook.write_message">
-<code class="sig-name descname">write_message</code><span class="sig-paren">(</span><em class="sig-param">message: str</em>, <em class="sig-param">log_type: str = 'info'</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#ml_logger.logbook.LogBook.write_message" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">write_message</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">message</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">log_type</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'info'</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ml_logger/logbook.html#LogBook.write_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logbook.LogBook.write_message" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write message string to loggers</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -248,9 +258,9 @@ Defaults to “info”.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="ml_logger.logbook.LogBook.write_metadata_log">
-<code class="sig-name descname">write_metadata_log</code><span class="sig-paren">(</span><em class="sig-param">metadata: Dict[str, Any]</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#ml_logger.logbook.LogBook.write_metadata_log" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">write_metadata_log</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">metadata</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ml_logger/logbook.html#LogBook.write_metadata_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logbook.LogBook.write_metadata_log" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write metadata to loggers</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -259,9 +269,9 @@ Defaults to “info”.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="ml_logger.logbook.LogBook.write_metric_log">
-<code class="sig-name descname">write_metric_log</code><span class="sig-paren">(</span><em class="sig-param">metric: Dict[str, Union[str, int, float]]</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#ml_logger.logbook.LogBook.write_metric_log" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">write_metric_log</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">metric</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ml_logger/logbook.html#LogBook.write_metric_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logbook.LogBook.write_metric_log" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write metric to loggers</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -272,9 +282,9 @@ Defaults to “info”.</p></li>
 
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="ml_logger.logbook.make_config">
-<code class="sig-prename descclassname">ml_logger.logbook.</code><code class="sig-name descname">make_config</code><span class="sig-paren">(</span><em class="sig-param">id: str = '0'</em>, <em class="sig-param">name: str = 'default_logger'</em>, <em class="sig-param">write_to_console: bool = True</em>, <em class="sig-param">logger_dir: Optional[str] = None</em>, <em class="sig-param">filename: Optional[str] = None</em>, <em class="sig-param">filename_prefix: str = ''</em>, <em class="sig-param">create_multiple_log_files: bool = True</em>, <em class="sig-param">wandb_config: Optional[Dict[str</em>, <em class="sig-param">Any]] = None</em>, <em class="sig-param">wandb_key_map: Optional[Dict[str</em>, <em class="sig-param">str]] = None</em>, <em class="sig-param">wandb_prefix_key: Optional[str] = None</em>, <em class="sig-param">tensorboard_config: Optional[Dict[str</em>, <em class="sig-param">Any]] = None</em>, <em class="sig-param">tensorboard_key_map: Optional[Dict[str</em>, <em class="sig-param">str]] = None</em>, <em class="sig-param">tensorboard_prefix_key: Optional[str] = None</em>, <em class="sig-param">mlflow_config: Optional[Dict[str</em>, <em class="sig-param">Any]] = None</em>, <em class="sig-param">mlflow_key_map: Optional[Dict[str</em>, <em class="sig-param">str]] = None</em>, <em class="sig-param">mlflow_prefix_key: Optional[str] = None</em><span class="sig-paren">)</span> &#x2192; Dict[str, Any]<a class="headerlink" href="#ml_logger.logbook.make_config" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ml_logger.logbook.</code><code class="sig-name descname">make_config</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">id</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'0'</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'default_logger'</span></em>, <em class="sig-param"><span class="n">write_to_console</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">logger_dir</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">filename_prefix</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">create_multiple_log_files</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">wandb_config</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">wandb_key_map</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">wandb_prefix_key</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tensorboard_config</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tensorboard_key_map</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tensorboard_prefix_key</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">mlflow_config</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">mlflow_key_map</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">mlflow_prefix_key</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><a class="reference internal" href="_modules/ml_logger/logbook.html#make_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logbook.make_config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make the config that can be passed to the LogBook constructor</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -384,9 +394,9 @@ This argument is ignored if set to None. Defaults to None.</p></li>
 <div class="section" id="module-ml_logger.metrics">
 <span id="ml-logger-metrics-module"></span><h2>ml_logger.metrics module<a class="headerlink" href="#module-ml_logger.metrics" title="Permalink to this headline">¶</a></h2>
 <p>Implementation of different type of metrics</p>
-<dl class="class">
+<dl class="py class">
 <dt id="ml_logger.metrics.AverageMetric">
-<em class="property">class </em><code class="sig-prename descclassname">ml_logger.metrics.</code><code class="sig-name descname">AverageMetric</code><span class="sig-paren">(</span><em class="sig-param">name: str</em><span class="sig-paren">)</span><a class="headerlink" href="#ml_logger.metrics.AverageMetric" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ml_logger.metrics.</code><code class="sig-name descname">AverageMetric</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ml_logger/metrics.html#AverageMetric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.metrics.AverageMetric" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#ml_logger.metrics.BaseMetric" title="ml_logger.metrics.BaseMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ml_logger.metrics.BaseMetric</span></code></a></p>
 <p>Metric to track the average value</p>
 <p>This is generally used for logging strings</p>
@@ -395,21 +405,21 @@ This argument is ignored if set to None. Defaults to None.</p></li>
 <dd class="field-odd"><p><strong>BaseMetric</strong> – Base metric class</p>
 </dd>
 </dl>
-<dl class="method">
+<dl class="py method">
 <dt id="ml_logger.metrics.AverageMetric.get_val">
-<code class="sig-name descname">get_val</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#ml_logger.metrics.AverageMetric.get_val" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_val</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="_modules/ml_logger/metrics.html#AverageMetric.get_val"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.metrics.AverageMetric.get_val" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the current average value</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="ml_logger.metrics.AverageMetric.reset">
-<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#ml_logger.metrics.AverageMetric.reset" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ml_logger/metrics.html#AverageMetric.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.metrics.AverageMetric.reset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reset the metric to the default value</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="ml_logger.metrics.AverageMetric.update">
-<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">val: Union[int, float], n: int = 1</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#ml_logger.metrics.AverageMetric.update" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">val</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>int<span class="p">, </span>float<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">n</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ml_logger/metrics.html#AverageMetric.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.metrics.AverageMetric.update" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>Update the metric using the current average value and the</dt><dd><p>number of samples used to compute the average value</p>
 </dd>
@@ -427,26 +437,26 @@ average. Defaults to 1</p></li>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="ml_logger.metrics.BaseMetric">
-<em class="property">class </em><code class="sig-prename descclassname">ml_logger.metrics.</code><code class="sig-name descname">BaseMetric</code><span class="sig-paren">(</span><em class="sig-param">name: str</em><span class="sig-paren">)</span><a class="headerlink" href="#ml_logger.metrics.BaseMetric" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ml_logger.metrics.</code><code class="sig-name descname">BaseMetric</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ml_logger/metrics.html#BaseMetric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.metrics.BaseMetric" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Base Metric class. This class is not to be used directly</p>
-<dl class="method">
+<dl class="py method">
 <dt id="ml_logger.metrics.BaseMetric.get_val">
-<code class="sig-name descname">get_val</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Union[str, int, float]<a class="headerlink" href="#ml_logger.metrics.BaseMetric.get_val" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_val</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">, </span>float<span class="p">]</span><a class="reference internal" href="_modules/ml_logger/metrics.html#BaseMetric.get_val"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.metrics.BaseMetric.get_val" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the current value of the metric</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="ml_logger.metrics.BaseMetric.reset">
-<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#ml_logger.metrics.BaseMetric.reset" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ml_logger/metrics.html#BaseMetric.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.metrics.BaseMetric.reset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reset the metric to the default value</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="ml_logger.metrics.BaseMetric.update">
-<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">val: Any</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#ml_logger.metrics.BaseMetric.update" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">val</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ml_logger/metrics.html#BaseMetric.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.metrics.BaseMetric.update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update the metric using the current val</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -458,9 +468,9 @@ metric</p>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="ml_logger.metrics.ComparisonMetric">
-<em class="property">class </em><code class="sig-prename descclassname">ml_logger.metrics.</code><code class="sig-name descname">ComparisonMetric</code><span class="sig-paren">(</span><em class="sig-param">name: str, default_val: Union[str, int, float], comparison_op: Callable[[Union[str, int, float], Union[str, int, float]], bool]</em><span class="sig-paren">)</span><a class="headerlink" href="#ml_logger.metrics.ComparisonMetric" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ml_logger.metrics.</code><code class="sig-name descname">ComparisonMetric</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">default_val</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">, </span>float<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">comparison_op</span><span class="p">:</span> <span class="n">Callable<span class="p">[</span><span class="p">[</span>Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">, </span>float<span class="p">]</span><span class="p">, </span>Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">, </span>float<span class="p">]</span><span class="p">]</span><span class="p">, </span>bool<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ml_logger/metrics.html#ComparisonMetric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.metrics.ComparisonMetric" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#ml_logger.metrics.BaseMetric" title="ml_logger.metrics.BaseMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ml_logger.metrics.BaseMetric</span></code></a></p>
 <p>Metric to track the min/max value</p>
 <p>This is generally used for logging best accuracy, least loss, etc.</p>
@@ -469,15 +479,15 @@ metric</p>
 <dd class="field-odd"><p><strong>BaseMetric</strong> – Base metric class</p>
 </dd>
 </dl>
-<dl class="method">
+<dl class="py method">
 <dt id="ml_logger.metrics.ComparisonMetric.reset">
-<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#ml_logger.metrics.ComparisonMetric.reset" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ml_logger/metrics.html#ComparisonMetric.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.metrics.ComparisonMetric.reset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reset the metric to the default value</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="ml_logger.metrics.ComparisonMetric.update">
-<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">val: Union[str, int, float]</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#ml_logger.metrics.ComparisonMetric.update" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">val</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">, </span>float<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ml_logger/metrics.html#ComparisonMetric.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.metrics.ComparisonMetric.update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Use the comparison operator to decide which value to keep</p>
 <p>If the output of self.comparison_op(val, self)</p>
 <dl class="field-list simple">
@@ -491,9 +501,9 @@ the current value.</p>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="ml_logger.metrics.ConstantMetric">
-<em class="property">class </em><code class="sig-prename descclassname">ml_logger.metrics.</code><code class="sig-name descname">ConstantMetric</code><span class="sig-paren">(</span><em class="sig-param">name: str, val: Union[str, int, float]</em><span class="sig-paren">)</span><a class="headerlink" href="#ml_logger.metrics.ConstantMetric" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ml_logger.metrics.</code><code class="sig-name descname">ConstantMetric</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">val</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">, </span>float<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ml_logger/metrics.html#ConstantMetric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.metrics.ConstantMetric" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#ml_logger.metrics.BaseMetric" title="ml_logger.metrics.BaseMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ml_logger.metrics.BaseMetric</span></code></a></p>
 <p>Metric to track one fixed value</p>
 <p>This is generally used for logging strings</p>
@@ -502,15 +512,15 @@ the current value.</p>
 <dd class="field-odd"><p><strong>BaseMetric</strong> – Base metric class</p>
 </dd>
 </dl>
-<dl class="method">
+<dl class="py method">
 <dt id="ml_logger.metrics.ConstantMetric.reset">
-<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#ml_logger.metrics.ConstantMetric.reset" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ml_logger/metrics.html#ConstantMetric.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.metrics.ConstantMetric.reset" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function does not do anything</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="ml_logger.metrics.ConstantMetric.update">
-<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">val: Union[str</em>, <em class="sig-param">int</em>, <em class="sig-param">float</em>, <em class="sig-param">None] = None</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#ml_logger.metrics.ConstantMetric.update" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">val</span><span class="p">:</span> <span class="n">Union[str, int, float, None]</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ml_logger/metrics.html#ConstantMetric.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.metrics.ConstantMetric.update" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function does not do anything</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -521,9 +531,9 @@ the current value.</p>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="ml_logger.metrics.CurrentMetric">
-<em class="property">class </em><code class="sig-prename descclassname">ml_logger.metrics.</code><code class="sig-name descname">CurrentMetric</code><span class="sig-paren">(</span><em class="sig-param">name: str</em><span class="sig-paren">)</span><a class="headerlink" href="#ml_logger.metrics.CurrentMetric" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ml_logger.metrics.</code><code class="sig-name descname">CurrentMetric</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ml_logger/metrics.html#CurrentMetric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.metrics.CurrentMetric" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#ml_logger.metrics.BaseMetric" title="ml_logger.metrics.BaseMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ml_logger.metrics.BaseMetric</span></code></a></p>
 <p>Metric to track only the most recent value</p>
 <dl class="field-list simple">
@@ -531,9 +541,9 @@ the current value.</p>
 <dd class="field-odd"><p><strong>BaseMetric</strong> – Base metric class</p>
 </dd>
 </dl>
-<dl class="method">
+<dl class="py method">
 <dt id="ml_logger.metrics.CurrentMetric.update">
-<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">val: Union[str, int, float]</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#ml_logger.metrics.CurrentMetric.update" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">val</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">, </span>float<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ml_logger/metrics.html#CurrentMetric.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.metrics.CurrentMetric.update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update the metric using the current val</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -544,9 +554,9 @@ the current value.</p>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="ml_logger.metrics.MaxMetric">
-<em class="property">class </em><code class="sig-prename descclassname">ml_logger.metrics.</code><code class="sig-name descname">MaxMetric</code><span class="sig-paren">(</span><em class="sig-param">name: str</em><span class="sig-paren">)</span><a class="headerlink" href="#ml_logger.metrics.MaxMetric" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ml_logger.metrics.</code><code class="sig-name descname">MaxMetric</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ml_logger/metrics.html#MaxMetric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.metrics.MaxMetric" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#ml_logger.metrics.ComparisonMetric" title="ml_logger.metrics.ComparisonMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ml_logger.metrics.ComparisonMetric</span></code></a></p>
 <p>Metric to track the max value</p>
 <p>This is generally used for logging best accuracy, etc.</p>
@@ -557,20 +567,20 @@ the current value.</p>
 </dl>
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="ml_logger.metrics.MetricDict">
-<em class="property">class </em><code class="sig-prename descclassname">ml_logger.metrics.</code><code class="sig-name descname">MetricDict</code><span class="sig-paren">(</span><em class="sig-param">metric_list: Iterable[ml_logger.metrics.BaseMetric]</em><span class="sig-paren">)</span><a class="headerlink" href="#ml_logger.metrics.MetricDict" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ml_logger.metrics.</code><code class="sig-name descname">MetricDict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">metric_list</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span><a class="reference internal" href="#ml_logger.metrics.BaseMetric" title="ml_logger.metrics.BaseMetric">ml_logger.metrics.BaseMetric</a><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ml_logger/metrics.html#MetricDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.metrics.MetricDict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Class that wraps over a collection of metrics</p>
-<dl class="method">
+<dl class="py method">
 <dt id="ml_logger.metrics.MetricDict.reset">
-<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#ml_logger.metrics.MetricDict.reset" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ml_logger/metrics.html#MetricDict.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.metrics.MetricDict.reset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reset all the metrics to default values</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="ml_logger.metrics.MetricDict.to_dict">
-<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict[str, Any]<a class="headerlink" href="#ml_logger.metrics.MetricDict.to_dict" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><a class="reference internal" href="_modules/ml_logger/metrics.html#MetricDict.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.metrics.MetricDict.to_dict" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>Method to convert the metrics into a dictionary that can be</dt><dd><p>logged using the <cite>LogBook</cite></p>
 </dd>
@@ -585,9 +595,9 @@ the current value.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="ml_logger.metrics.MetricDict.update">
-<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">metrics_dict: Union[Dict[str, Any], MetricDict]</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#ml_logger.metrics.MetricDict.update" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">metrics_dict</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">, </span>MetricDict<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ml_logger/metrics.html#MetricDict.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.metrics.MetricDict.update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update all the metrics using the current values</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -598,9 +608,9 @@ the current value.</p>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="ml_logger.metrics.MinMetric">
-<em class="property">class </em><code class="sig-prename descclassname">ml_logger.metrics.</code><code class="sig-name descname">MinMetric</code><span class="sig-paren">(</span><em class="sig-param">name: str</em><span class="sig-paren">)</span><a class="headerlink" href="#ml_logger.metrics.MinMetric" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ml_logger.metrics.</code><code class="sig-name descname">MinMetric</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ml_logger/metrics.html#MinMetric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.metrics.MinMetric" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#ml_logger.metrics.ComparisonMetric" title="ml_logger.metrics.ComparisonMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ml_logger.metrics.ComparisonMetric</span></code></a></p>
 <p>Metric to track the min value</p>
 <p>This is generally used for logging least loss, etc.</p>
@@ -611,9 +621,9 @@ the current value.</p>
 </dl>
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="ml_logger.metrics.SumMetric">
-<em class="property">class </em><code class="sig-prename descclassname">ml_logger.metrics.</code><code class="sig-name descname">SumMetric</code><span class="sig-paren">(</span><em class="sig-param">name: str</em><span class="sig-paren">)</span><a class="headerlink" href="#ml_logger.metrics.SumMetric" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ml_logger.metrics.</code><code class="sig-name descname">SumMetric</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ml_logger/metrics.html#SumMetric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.metrics.SumMetric" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#ml_logger.metrics.AverageMetric" title="ml_logger.metrics.AverageMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">ml_logger.metrics.AverageMetric</span></code></a></p>
 <p>Metric to track the sum value</p>
 <dl class="field-list simple">
@@ -621,9 +631,9 @@ the current value.</p>
 <dd class="field-odd"><p><strong>BaseMetric</strong> – Base metric class</p>
 </dd>
 </dl>
-<dl class="method">
+<dl class="py method">
 <dt id="ml_logger.metrics.SumMetric.get_val">
-<code class="sig-name descname">get_val</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#ml_logger.metrics.SumMetric.get_val" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_val</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="_modules/ml_logger/metrics.html#SumMetric.get_val"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.metrics.SumMetric.get_val" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the current sum value</p>
 </dd></dl>
 
@@ -635,9 +645,9 @@ the current value.</p>
 </div>
 <div class="section" id="module-ml_logger.utils">
 <span id="ml-logger-utils-module"></span><h2>ml_logger.utils module<a class="headerlink" href="#module-ml_logger.utils" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="ml_logger.utils.flatten_dict">
-<code class="sig-prename descclassname">ml_logger.utils.</code><code class="sig-name descname">flatten_dict</code><span class="sig-paren">(</span><em class="sig-param">d: Dict[str, Any], parent_key: str = '', sep: str = '#'</em><span class="sig-paren">)</span> &#x2192; Dict[str, Any]<a class="headerlink" href="#ml_logger.utils.flatten_dict" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ml_logger.utils.</code><code class="sig-name descname">flatten_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">d</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">parent_key</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">sep</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'#'</span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><a class="reference internal" href="_modules/ml_logger/utils.html#flatten_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.utils.flatten_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Flatten a given dict using the given seperator.</p>
 <p>Taken from <a class="reference external" href="https://stackoverflow.com/a/6027615/1353861">https://stackoverflow.com/a/6027615/1353861</a></p>
 <dl class="field-list simple">
@@ -659,9 +669,9 @@ to “#”</p></li>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="ml_logger.utils.make_dir">
-<code class="sig-prename descclassname">ml_logger.utils.</code><code class="sig-name descname">make_dir</code><span class="sig-paren">(</span><em class="sig-param">path: str</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#ml_logger.utils.make_dir" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ml_logger.utils.</code><code class="sig-name descname">make_dir</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ml_logger/utils.html#make_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.utils.make_dir" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make dir, if not exists</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
