@@ -1,5 +1,4 @@
-"""
-Implementation of the LogBook class.
+"""Implementation of the LogBook class.
 
 LogBook class provides an interface to persist the logs on the filesystem,
 tensorboard, remote backends, etc.
@@ -16,13 +15,10 @@ from ml_logger.types import ConfigType, KeyMapType, LogType, MetricType
 
 
 class LogBook:
-    """This class provides an interface to persist the logs on the filesystem,
-    tensorboard, remote backends, etc.
-
-    """
+    """This class provides an interface to persist the logs on the filesystem, tensorboard, remote backends, etc."""
 
     def __init__(self, config: ConfigType):
-        """Initialise the Logbook class
+        """Initialise the Logbook class.
 
         Args:
             logbook_config (ConfigType): Config to initialise the
@@ -50,7 +46,7 @@ class LogBook:
             self.loggers.append(logger)
 
     def _process_log(self, log: LogType, log_type: str) -> LogType:
-        """Process the log before writing
+        """Process the log before writing.
 
         Args:
             log (LogType): Log to process
@@ -65,19 +61,18 @@ class LogBook:
         return log
 
     def write(self, log: LogType, log_type: str = "metric") -> None:
-        """Write log to loggers
+        """Write log to loggers.
 
         Args:
             log (LogType): Log to write
             log_type (str, optional): Type of this log. Defaults to "metric".
         """
-
         log = self._process_log(log, log_type)
         for logger in self.loggers:
             logger.write(log=deepcopy(log))
 
     def write_config(self, config: ConfigType) -> None:
-        """Write config to loggers
+        """Write config to loggers.
 
         Args:
             config [ConfigType]: Config to write.
@@ -85,7 +80,7 @@ class LogBook:
         return self.write(log=config, log_type="config")
 
     def write_metric(self, metric: MetricType) -> None:
-        """Write metric to loggers
+        """Write metric to loggers.
 
         Args:
             metric (MetricType): Metric to write
@@ -93,7 +88,7 @@ class LogBook:
         return self.write(log=metric, log_type="metric")
 
     def write_message(self, message: str, log_type: str = "info") -> None:
-        """Write message string to loggers
+        """Write message string to loggers.
 
         Args:
             message (str): Message string to write
@@ -103,7 +98,7 @@ class LogBook:
         return self.write(log={"message": message}, log_type=log_type)
 
     def write_metadata(self, metadata: LogType) -> None:
-        """Write metadata to loggers
+        """Write metadata to loggers.
 
         Args:
             metadata (LogType): Metadata to wite
@@ -129,8 +124,7 @@ def make_config(
     mlflow_key_map: Optional[KeyMapType] = None,
     mlflow_prefix_key: Optional[str] = None,
 ) -> ConfigType:
-
-    """Make the config that can be passed to the LogBook constructor
+    """Make the config that can be passed to the LogBook constructor.
 
     Args:
         id (str, optional): Id of the current LogBook instance. Defaults to "0".
@@ -223,7 +217,6 @@ def make_config(
     Returns:
         ConfigType: config to construct the LogBook
     """
-
     loggers: ConfigType = {}
     if logger_dir is not None:
         loggers["filesystem"] = {
