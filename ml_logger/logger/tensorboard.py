@@ -1,20 +1,19 @@
-"""Logger class that writes to tensorboard"""
+"""Logger class that writes to tensorboard."""
 
 from typing import Dict
-
-from tensorboardX import SummaryWriter
 
 from ml_logger.logger.base import Logger as BaseLogger
 from ml_logger.types import ConfigType, LogType, MetricType, NumType
 from ml_logger.utils import make_dir
 
+from tensorboardX import SummaryWriter
+
 
 class Logger(BaseLogger):
-    """Logger class that writes to tensorboardX
-    """
+    """Logger class that writes to tensorboardX."""
 
     def __init__(self, config: ConfigType):
-        """Initialise the tensorboardX Logger
+        """Initialise the tensorboardX Logger.
 
         Args:
             config (ConfigType): config to initialise the tensorboardX
@@ -33,7 +32,7 @@ class Logger(BaseLogger):
         self.keys_to_skip = ["logbook_id", "logbook_type", "logbook_timestamp"]
 
     def write(self, log: LogType) -> None:
-        """Write the log to tensorboard
+        """Write the log to tensorboard.
 
         Args:
             log (LogType): Log to write
@@ -48,7 +47,7 @@ class Logger(BaseLogger):
             # Only metric logs and message logs are supported right now
 
     def write_metric(self, metric: MetricType) -> None:
-        """Write metric to tensorboard
+        """Write metric to tensorboard.
 
         Args:
             metric (MetricType): Metric to write
@@ -79,7 +78,7 @@ class Logger(BaseLogger):
             )
 
     def write_config(self, config: ConfigType) -> None:
-        """Write the config to tensorboard
+        """Write the config to tensorboard.
 
         Args:
             config (ConfigType): Config to write
