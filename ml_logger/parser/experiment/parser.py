@@ -1,4 +1,4 @@
-"""Implementation of Parser to parse experiment from the logs"""
+"""Implementation of Parser to parse experiment from the logs."""
 
 import glob
 from typing import Optional
@@ -16,14 +16,14 @@ from ml_logger.types import LogType, ParseLineFunctionType
 
 
 class Parser(base_parser.Parser):
-    """Class to parse an experiment from the log dir"""
+    """Class to parse an experiment from the log dir."""
 
     def __init__(
         self,
         parse_config_line: ParseLineFunctionType = default_config_line_parser,
         parse_metric_line: ParseLineFunctionType = default_metric_line_parser,
     ):
-        """Class to parse experiment from the logs
+        """Class to parse experiment from the logs.
 
         Args:
             parse_config_line (ParseLineFunctionType):
@@ -58,7 +58,7 @@ class Parser(base_parser.Parser):
         return fn
 
     def parse(self, filepath_pattern: str) -> Experiment:
-        """Load one experiment from the log dir
+        """Load one experiment from the log dir.
 
         Args:
             filepath_pattern (str): filepath pattern to glob
@@ -76,6 +76,10 @@ class Parser(base_parser.Parser):
                         configs.append(log)
                     elif log[self.log_key] == "metric":
                         metric_logs.append(log)
+        if len(configs) == 0:
+            config = None
+        else:
+            config = configs[-1]
         return Experiment(
-            config=configs[-1], metrics=metrics_to_df(metric_logs=metric_logs), info={},
+            config=config, metrics=metrics_to_df(metric_logs=metric_logs), info={},
         )

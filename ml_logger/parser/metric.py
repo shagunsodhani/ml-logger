@@ -1,4 +1,4 @@
-"""Implementation of Parser to parse metrics from logs"""
+"""Implementation of Parser to parse metrics from logs."""
 
 from typing import Callable, Dict, List, Optional
 
@@ -11,6 +11,7 @@ from ml_logger.types import LogType, MetricType, ParseLineFunctionType
 
 
 def parse_json_and_match_key(line: str) -> Optional[LogType]:
+    """Parse a line as JSON string and check if it a valid metric log."""
     log = parse_json(line)
     if log:
         key = "logbook_type"
@@ -20,8 +21,10 @@ def parse_json_and_match_key(line: str) -> Optional[LogType]:
 
 
 def group_metrics(metrics: List[MetricType]) -> Dict[str, List[MetricType]]:
-    """Group a list of metrics into a dictionary of (key,
-    list of grouped metrics)
+    """Group a list of metrics.
+
+    Group a list of metrics into a dictionary of
+        (key, list of grouped metrics)
 
     Args:
         metrics (List[MetricType]): List of metrics to group
@@ -34,7 +37,7 @@ def group_metrics(metrics: List[MetricType]) -> Dict[str, List[MetricType]]:
 
 
 def aggregate_metrics(metrics: List[MetricType]) -> List[MetricType]:
-    """Aggregate a list of metrics
+    """Aggregate a list of metrics.
 
     Args:
         metrics (List[MetricType]): List of metrics to aggregate
@@ -46,10 +49,10 @@ def aggregate_metrics(metrics: List[MetricType]) -> List[MetricType]:
 
 
 class Parser(log_parser.Parser):
-    """Class to parse the metrics from the logs"""
+    """Class to parse the metrics from the logs."""
 
     def __init__(self, parse_line: ParseLineFunctionType = parse_json_and_match_key):
-        """Class to parse the metrics from the logs
+        """Class to parse the metrics from the logs.
 
         Args:
             parse_line (ParseLineFunctionType):
@@ -68,7 +71,7 @@ class Parser(log_parser.Parser):
         ] = group_metrics,
         aggregate_metrics: Callable[[List[LogType]], List[LogType]] = aggregate_metrics,
     ) -> Dict[str, pd.DataFrame]:
-        """Create a dict of (metric_name, dataframe)
+        """Create a dict of (metric_name, dataframe).
 
         Method that:
         (i) reads metrics from the filesystem
@@ -99,7 +102,7 @@ def metrics_to_df(
     group_metrics: Callable[[List[LogType]], Dict[str, List[LogType]]] = group_metrics,
     aggregate_metrics: Callable[[List[LogType]], List[LogType]] = aggregate_metrics,
 ) -> Dict[str, pd.DataFrame]:
-    """Create a dict of (metric_name, dataframe)
+    """Create a dict of (metric_name, dataframe).
 
     Method that:
     (i) groups metrics
