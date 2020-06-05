@@ -18,7 +18,7 @@ dev_requirements = all_requirements + parse_dependency("requirements/dev.txt")
 
 setuptools.setup(
     name="mllogger",
-    version="0.6rc1",
+    version="0.6rc2",
     author="Shagun Sodhani",
     author_email="sshagunsodhani@gmail.com",
     description="Logging Utility for ML Experiments",
