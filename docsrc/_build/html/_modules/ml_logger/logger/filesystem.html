@@ -144,7 +144,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for ml_logger.logger.filesystem</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Functions to interface with the filesystem&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;Functions to interface with the filesystem.&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">logging</span>
@@ -158,7 +158,7 @@
 
 
 <span class="k">def</span> <span class="nf">_serialize_log_to_json</span><span class="p">(</span><span class="n">log</span><span class="p">:</span> <span class="n">LogType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Serialize the log into a JSON string</span>
+    <span class="sd">&quot;&quot;&quot;Serialize the log into a JSON string.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        log (LogType): Log to be serialized</span>
@@ -170,7 +170,7 @@
 
 
 <span class="k">def</span> <span class="nf">_get_logger</span><span class="p">(</span><span class="n">logger_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;default_logger&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Get logger for a given name</span>
+    <span class="sd">&quot;&quot;&quot;Get logger for a given name.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        logger_name (str, optional): Name of the logger (to retrieve).</span>
@@ -187,7 +187,7 @@
     <span class="n">logger_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;default_logger&quot;</span><span class="p">,</span>
     <span class="n">write_to_console</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Set logger to log to the given path</span>
+    <span class="sd">&quot;&quot;&quot;Set logger to log to the given path.</span>
 
 <span class="sd">    Modified from https://docs.python.org/3/howto/logging-cookbook.html</span>
 
@@ -224,11 +224,10 @@
 
 
 <div class="viewcode-block" id="Logger"><a class="viewcode-back" href="../../../ml_logger.logger.html#ml_logger.logger.filesystem.Logger">[docs]</a><span class="k">class</span> <span class="nc">Logger</span><span class="p">(</span><span class="n">BaseLogger</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Logger class that writes to the filesystem</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Logger class that writes to the filesystem.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">ConfigType</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialise the Filesystem Logger</span>
+        <span class="sd">&quot;&quot;&quot;Initialise the Filesystem Logger.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            config (ConfigType): config to initialise the filesystem logger.</span>
@@ -237,12 +236,19 @@
 <span class="sd">                will be written. &quot;logger_name&quot; is the name of the logger instance</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
-        <span class="k">assert</span> <span class="s2">&quot;logger_dir&quot;</span> <span class="ow">in</span> <span class="n">config</span>
-        <span class="k">assert</span> <span class="s2">&quot;logger_name&quot;</span> <span class="ow">in</span> <span class="n">config</span>
-        <span class="k">assert</span> <span class="s2">&quot;write_to_console&quot;</span> <span class="ow">in</span> <span class="n">config</span>
-        <span class="k">assert</span> <span class="s2">&quot;create_multiple_log_files&quot;</span> <span class="ow">in</span> <span class="n">config</span>
-        <span class="k">assert</span> <span class="s2">&quot;filename_prefix&quot;</span> <span class="ow">in</span> <span class="n">config</span>
-        <span class="k">assert</span> <span class="s2">&quot;filename&quot;</span> <span class="ow">in</span> <span class="n">config</span>
+        <span class="n">keys_to_check</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;logger_dir&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;logger_name&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;write_to_console&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;create_multiple_log_files&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;filename_prefix&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;filename&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">key</span> <span class="ow">in</span> <span class="n">config</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys_to_check</span><span class="p">):</span>
+            <span class="n">key_string</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">keys_to_check</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;One or more of the following keys missing in the config: </span><span class="si">{</span><span class="n">key_string</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
 
         <span class="n">logger_types</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="s2">&quot;metric&quot;</span><span class="p">]</span>
 
@@ -276,18 +282,17 @@
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">loggers</span> <span class="o">=</span> <span class="p">{</span><span class="n">_type</span><span class="p">:</span> <span class="n">logger</span> <span class="k">for</span> <span class="n">_type</span> <span class="ow">in</span> <span class="n">logger_types</span><span class="p">}</span>
 
-<div class="viewcode-block" id="Logger.write_log"><a class="viewcode-back" href="../../../ml_logger.logger.html#ml_logger.logger.filesystem.Logger.write_log">[docs]</a>    <span class="k">def</span> <span class="nf">write_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log</span><span class="p">:</span> <span class="n">LogType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Write the log to the filesystem</span>
+<div class="viewcode-block" id="Logger.write"><a class="viewcode-back" href="../../../ml_logger.logger.html#ml_logger.logger.filesystem.Logger.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log</span><span class="p">:</span> <span class="n">LogType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Write the log to the filesystem.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            log (LogType): Log to write</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="n">log_str</span> <span class="o">=</span> <span class="n">_serialize_log_to_json</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_prepare_log_to_write</span><span class="p">(</span><span class="n">log</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_write_log_to_fs</span><span class="p">(</span><span class="n">log_str</span><span class="o">=</span><span class="n">log_str</span><span class="p">,</span> <span class="n">log_type</span><span class="o">=</span><span class="n">log</span><span class="p">[</span><span class="s2">&quot;logbook_type&quot;</span><span class="p">])</span></div>
 
     <span class="k">def</span> <span class="nf">_write_log_to_fs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">log_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Write log string to filesystem</span>
+        <span class="sd">&quot;&quot;&quot;Write log string to filesystem.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            log_str (str): Log string to write</span>
@@ -301,6 +306,7 @@
 <div class="viewcode-block" id="get_logger_file_path"><a class="viewcode-back" href="../../../ml_logger.logger.html#ml_logger.logger.filesystem.get_logger_file_path">[docs]</a><span class="k">def</span> <span class="nf">get_logger_file_path</span><span class="p">(</span>
     <span class="n">logger_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">filename_prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">filename_suffix</span><span class="p">:</span> <span class="nb">str</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Get path to the file (to write logs to).&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filename_prefix</span><span class="si">}{</span><span class="n">filename_suffix</span><span class="si">}</span><span class="s2">.jsonl&quot;</span>
     <span class="n">logger_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">logger_dir</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>

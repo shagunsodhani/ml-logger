@@ -144,8 +144,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for ml_logger.logbook</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Implementation of the LogBook class.</span>
+<span></span><span class="sd">&quot;&quot;&quot;Implementation of the LogBook class.</span>
 
 <span class="sd">LogBook class provides an interface to persist the logs on the filesystem,</span>
 <span class="sd">tensorboard, remote backends, etc.</span>
@@ -162,13 +161,10 @@
 
 
 <div class="viewcode-block" id="LogBook"><a class="viewcode-back" href="../../ml_logger.html#ml_logger.logbook.LogBook">[docs]</a><span class="k">class</span> <span class="nc">LogBook</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;This class provides an interface to persist the logs on the filesystem,</span>
-<span class="sd">    tensorboard, remote backends, etc.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;This class provides an interface to persist the logs on the filesystem, tensorboard, remote backends, etc.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">ConfigType</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialise the Logbook class</span>
+        <span class="sd">&quot;&quot;&quot;Initialise the Logbook class.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            logbook_config (ConfigType): Config to initialise the</span>
@@ -196,7 +192,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">loggers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_process_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log</span><span class="p">:</span> <span class="n">LogType</span><span class="p">,</span> <span class="n">log_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LogType</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Process the log before writing</span>
+        <span class="sd">&quot;&quot;&quot;Process the log before writing.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            log (LogType): Log to process</span>
@@ -210,51 +206,50 @@
         <span class="n">log</span><span class="p">[</span><span class="s2">&quot;logbook_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">log_type</span>
         <span class="k">return</span> <span class="n">log</span>
 
-<div class="viewcode-block" id="LogBook.write_log"><a class="viewcode-back" href="../../ml_logger.html#ml_logger.logbook.LogBook.write_log">[docs]</a>    <span class="k">def</span> <span class="nf">write_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log</span><span class="p">:</span> <span class="n">LogType</span><span class="p">,</span> <span class="n">log_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;metric&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Write log to loggers</span>
+<div class="viewcode-block" id="LogBook.write"><a class="viewcode-back" href="../../ml_logger.html#ml_logger.logbook.LogBook.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log</span><span class="p">:</span> <span class="n">LogType</span><span class="p">,</span> <span class="n">log_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;metric&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Write log to loggers.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            log (LogType): Log to write</span>
 <span class="sd">            log_type (str, optional): Type of this log. Defaults to &quot;metric&quot;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="n">log</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_log</span><span class="p">(</span><span class="n">log</span><span class="p">,</span> <span class="n">log_type</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">logger</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">loggers</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">write_log</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">log</span><span class="p">))</span></div>
+            <span class="n">logger</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">log</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="LogBook.write_config_log"><a class="viewcode-back" href="../../ml_logger.html#ml_logger.logbook.LogBook.write_config_log">[docs]</a>    <span class="k">def</span> <span class="nf">write_config_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">ConfigType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Write config to loggers</span>
+<div class="viewcode-block" id="LogBook.write_config"><a class="viewcode-back" href="../../ml_logger.html#ml_logger.logbook.LogBook.write_config">[docs]</a>    <span class="k">def</span> <span class="nf">write_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">ConfigType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Write config to loggers.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            config [ConfigType]: Config to write.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_log</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">log_type</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">log_type</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LogBook.write_metric_log"><a class="viewcode-back" href="../../ml_logger.html#ml_logger.logbook.LogBook.write_metric_log">[docs]</a>    <span class="k">def</span> <span class="nf">write_metric_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metric</span><span class="p">:</span> <span class="n">MetricType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Write metric to loggers</span>
+<div class="viewcode-block" id="LogBook.write_metric"><a class="viewcode-back" href="../../ml_logger.html#ml_logger.logbook.LogBook.write_metric">[docs]</a>    <span class="k">def</span> <span class="nf">write_metric</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metric</span><span class="p">:</span> <span class="n">MetricType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Write metric to loggers.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            metric (MetricType): Metric to write</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_log</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="n">metric</span><span class="p">,</span> <span class="n">log_type</span><span class="o">=</span><span class="s2">&quot;metric&quot;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="n">metric</span><span class="p">,</span> <span class="n">log_type</span><span class="o">=</span><span class="s2">&quot;metric&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="LogBook.write_message"><a class="viewcode-back" href="../../ml_logger.html#ml_logger.logbook.LogBook.write_message">[docs]</a>    <span class="k">def</span> <span class="nf">write_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">log_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;info&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Write message string to loggers</span>
+        <span class="sd">&quot;&quot;&quot;Write message string to loggers.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            message (str): Message string to write</span>
 <span class="sd">            log_type (str, optional): Type of this message (log).</span>
 <span class="sd">                Defaults to &quot;info&quot;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_log</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="n">message</span><span class="p">},</span> <span class="n">log_type</span><span class="o">=</span><span class="n">log_type</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="n">message</span><span class="p">},</span> <span class="n">log_type</span><span class="o">=</span><span class="n">log_type</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LogBook.write_metadata_log"><a class="viewcode-back" href="../../ml_logger.html#ml_logger.logbook.LogBook.write_metadata_log">[docs]</a>    <span class="k">def</span> <span class="nf">write_metadata_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">LogType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Write metadata to loggers</span>
+<div class="viewcode-block" id="LogBook.write_metadata"><a class="viewcode-back" href="../../ml_logger.html#ml_logger.logbook.LogBook.write_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">write_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">LogType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Write metadata to loggers.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            metadata (LogType): Metadata to wite</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_log</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span> <span class="n">log_type</span><span class="o">=</span><span class="s2">&quot;metadata&quot;</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span> <span class="n">log_type</span><span class="o">=</span><span class="s2">&quot;metadata&quot;</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="make_config"><a class="viewcode-back" href="../../ml_logger.html#ml_logger.logbook.make_config">[docs]</a><span class="k">def</span> <span class="nf">make_config</span><span class="p">(</span>
@@ -275,8 +270,7 @@
     <span class="n">mlflow_key_map</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">KeyMapType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">mlflow_prefix_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ConfigType</span><span class="p">:</span>
-
-    <span class="sd">&quot;&quot;&quot;Make the config that can be passed to the LogBook constructor</span>
+    <span class="sd">&quot;&quot;&quot;Make the config that can be passed to the LogBook constructor.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        id (str, optional): Id of the current LogBook instance. Defaults to &quot;0&quot;.</span>
@@ -369,7 +363,6 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        ConfigType: config to construct the LogBook</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">loggers</span><span class="p">:</span> <span class="n">ConfigType</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">if</span> <span class="n">logger_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">loggers</span><span class="p">[</span><span class="s2">&quot;filesystem&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>

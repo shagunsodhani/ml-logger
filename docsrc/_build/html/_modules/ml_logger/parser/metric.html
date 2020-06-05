@@ -144,7 +144,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for ml_logger.parser.metric</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Implementation of Parser to parse metrics from logs&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;Implementation of Parser to parse metrics from logs.&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
@@ -157,6 +157,7 @@
 
 
 <div class="viewcode-block" id="parse_json_and_match_key"><a class="viewcode-back" href="../../../ml_logger.parser.html#ml_logger.parser.metric.parse_json_and_match_key">[docs]</a><span class="k">def</span> <span class="nf">parse_json_and_match_key</span><span class="p">(</span><span class="n">line</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LogType</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Parse a line as JSON string and check if it a valid metric log.&quot;&quot;&quot;</span>
     <span class="n">log</span> <span class="o">=</span> <span class="n">parse_json</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">log</span><span class="p">:</span>
         <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;logbook_type&quot;</span>
@@ -166,8 +167,10 @@
 
 
 <div class="viewcode-block" id="group_metrics"><a class="viewcode-back" href="../../../ml_logger.parser.html#ml_logger.parser.metric.group_metrics">[docs]</a><span class="k">def</span> <span class="nf">group_metrics</span><span class="p">(</span><span class="n">metrics</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">MetricType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">MetricType</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;Group a list of metrics into a dictionary of (key,</span>
-<span class="sd">    list of grouped metrics)</span>
+    <span class="sd">&quot;&quot;&quot;Group a list of metrics.</span>
+
+<span class="sd">    Group a list of metrics into a dictionary of</span>
+<span class="sd">        (key, list of grouped metrics)</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        metrics (List[MetricType]): List of metrics to group</span>
@@ -180,7 +183,7 @@
 
 
 <div class="viewcode-block" id="aggregate_metrics"><a class="viewcode-back" href="../../../ml_logger.parser.html#ml_logger.parser.metric.aggregate_metrics">[docs]</a><span class="k">def</span> <span class="nf">aggregate_metrics</span><span class="p">(</span><span class="n">metrics</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">MetricType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">MetricType</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Aggregate a list of metrics</span>
+    <span class="sd">&quot;&quot;&quot;Aggregate a list of metrics.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        metrics (List[MetricType]): List of metrics to aggregate</span>
@@ -192,10 +195,10 @@
 
 
 <div class="viewcode-block" id="Parser"><a class="viewcode-back" href="../../../ml_logger.parser.html#ml_logger.parser.metric.Parser">[docs]</a><span class="k">class</span> <span class="nc">Parser</span><span class="p">(</span><span class="n">log_parser</span><span class="o">.</span><span class="n">Parser</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Class to parse the metrics from the logs&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Class to parse the metrics from the logs.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parse_line</span><span class="p">:</span> <span class="n">ParseLineFunctionType</span> <span class="o">=</span> <span class="n">parse_json_and_match_key</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Class to parse the metrics from the logs</span>
+        <span class="sd">&quot;&quot;&quot;Class to parse the metrics from the logs.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            parse_line (ParseLineFunctionType):</span>
@@ -214,7 +217,7 @@
         <span class="p">]</span> <span class="o">=</span> <span class="n">group_metrics</span><span class="p">,</span>
         <span class="n">aggregate_metrics</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">List</span><span class="p">[</span><span class="n">LogType</span><span class="p">]],</span> <span class="n">List</span><span class="p">[</span><span class="n">LogType</span><span class="p">]]</span> <span class="o">=</span> <span class="n">aggregate_metrics</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Create a dict of (metric_name, dataframe)</span>
+        <span class="sd">&quot;&quot;&quot;Create a dict of (metric_name, dataframe).</span>
 
 <span class="sd">        Method that:</span>
 <span class="sd">        (i) reads metrics from the filesystem</span>
@@ -245,7 +248,7 @@
     <span class="n">group_metrics</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">List</span><span class="p">[</span><span class="n">LogType</span><span class="p">]],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">LogType</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">group_metrics</span><span class="p">,</span>
     <span class="n">aggregate_metrics</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">List</span><span class="p">[</span><span class="n">LogType</span><span class="p">]],</span> <span class="n">List</span><span class="p">[</span><span class="n">LogType</span><span class="p">]]</span> <span class="o">=</span> <span class="n">aggregate_metrics</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Create a dict of (metric_name, dataframe)</span>
+    <span class="sd">&quot;&quot;&quot;Create a dict of (metric_name, dataframe).</span>
 
 <span class="sd">    Method that:</span>
 <span class="sd">    (i) groups metrics</span>

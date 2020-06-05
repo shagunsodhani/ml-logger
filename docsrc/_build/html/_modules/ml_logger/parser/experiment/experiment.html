@@ -144,10 +144,10 @@
            <div itemprop="articleBody">
             
   <h1>Source code for ml_logger.parser.experiment.experiment</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Container for the experiment data&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;Container for the experiment data.&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Sequence</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">overload</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">UserList</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
@@ -157,21 +157,21 @@
 <div class="viewcode-block" id="Experiment"><a class="viewcode-back" href="../../../../ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.Experiment">[docs]</a><span class="k">class</span> <span class="nc">Experiment</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">config</span><span class="p">:</span> <span class="n">LogType</span><span class="p">,</span>
+        <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LogType</span><span class="p">],</span>
         <span class="n">metrics</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">],</span>
         <span class="n">info</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Class to hold the experiment data</span>
+        <span class="sd">&quot;&quot;&quot;Class to hold the experiment data.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            config (LogType): Config used for the experiment</span>
+<span class="sd">            config (Optional[LogType]): Config used for the experiment</span>
 <span class="sd">            metrics (Dict[str, pd.DataFrame]): Dictionary mapping strings</span>
 <span class="sd">                to dataframes. Keys could be &quot;train&quot;, &quot;validation&quot;, &quot;test&quot;</span>
 <span class="sd">                and corresponding dataframes would have the data for these</span>
 <span class="sd">                modes.</span>
-<span class="sd">            info (Dict[Any, Any]): A dictionary where the user can store</span>
+<span class="sd">            info (Optional[Dict[Any, Any]], optional): A dictionary where the user can store</span>
 <span class="sd">                any information about the experiment (that does not fit</span>
-<span class="sd">                within config and metrics).</span>
+<span class="sd">                within config and metrics). Defaults to None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span> <span class="o">=</span> <span class="n">metrics</span>
@@ -180,18 +180,15 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">info</span></div>
 
 
-<div class="viewcode-block" id="ExperimentSequence"><a class="viewcode-back" href="../../../../ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.ExperimentSequence">[docs]</a><span class="k">class</span> <span class="nc">ExperimentSequence</span><span class="p">(</span><span class="n">Sequence</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
-    <span class="sd">&quot;&quot;&quot;Provides a list-like interface to a collection of Experimente</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
+<div class="viewcode-block" id="ExperimentSequence"><a class="viewcode-back" href="../../../../ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.ExperimentSequence">[docs]</a><span class="k">class</span> <span class="nc">ExperimentSequence</span><span class="p">(</span><span class="n">UserList</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">experiments</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Experiment</span><span class="p">]):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">experiments</span> <span class="o">=</span> <span class="n">experiments</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="sd">&quot;&quot;&quot;List-like interface to a collection of Experiments.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">experiments</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ExperimentSequence.groupby"><a class="viewcode-back" href="../../../../ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.ExperimentSequence.groupby">[docs]</a>    <span class="k">def</span> <span class="nf">groupby</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">group_fn</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Experiment</span><span class="p">],</span> <span class="nb">str</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s2">&quot;ExperimentSequence&quot;</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Group experiments in the sequence</span>
+        <span class="sd">&quot;&quot;&quot;Group experiments in the sequence.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            group_fn: Function to assign a string group id to the experiment</span>
@@ -201,7 +198,7 @@
 <span class="sd">            group id to a sequence of experiments</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">grouped_experiments</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Experiment</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">experiment</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiments</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">experiment</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
             <span class="n">key</span> <span class="o">=</span> <span class="n">group_fn</span><span class="p">(</span><span class="n">experiment</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">grouped_experiments</span><span class="p">:</span>
                 <span class="n">grouped_experiments</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -212,7 +209,7 @@
         <span class="p">}</span></div>
 
 <div class="viewcode-block" id="ExperimentSequence.filter"><a class="viewcode-back" href="../../../../ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.ExperimentSequence.filter">[docs]</a>    <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_fn</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Experiment</span><span class="p">],</span> <span class="nb">bool</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;ExperimentSequence&quot;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Filter experiments in the sequence</span>
+        <span class="sd">&quot;&quot;&quot;Filter experiments in the sequence.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            filter_fn: Function to filter an experiment</span>
@@ -222,26 +219,8 @@
 <span class="sd">            filter condition is true</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">ExperimentSequence</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">experiment</span> <span class="k">for</span> <span class="n">experiment</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiments</span> <span class="k">if</span> <span class="n">filter_fn</span><span class="p">(</span><span class="n">experiment</span><span class="p">)]</span>
-        <span class="p">)</span></div>
-
-    <span class="nd">@overload</span>  <span class="c1"># noqa:F811</span>
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Experiment</span><span class="p">:</span>
-        <span class="k">pass</span>
-
-    <span class="nd">@overload</span>  <span class="c1"># noqa:F811</span>
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">slice</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;ExperimentSequence&quot;</span><span class="p">:</span>
-        <span class="k">pass</span>
-
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span>  <span class="c1"># noqa:F811</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Experiment</span><span class="p">,</span> <span class="s2">&quot;ExperimentSequence&quot;</span><span class="p">]:</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">ExperimentSequence</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">experiments</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">experiments</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
-
-    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">experiments</span><span class="p">)</span></div>
+            <span class="p">[</span><span class="n">experiment</span> <span class="k">for</span> <span class="n">experiment</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="k">if</span> <span class="n">filter_fn</span><span class="p">(</span><span class="n">experiment</span><span class="p">)]</span>
+        <span class="p">)</span></div></div>
 </pre></div>
 
            </div>
