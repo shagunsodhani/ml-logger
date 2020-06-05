@@ -1,4 +1,4 @@
-"""Functions to interface with the filesystem"""
+"""Functions to interface with the filesystem."""
 
 import json
 import logging
@@ -12,7 +12,7 @@ from ml_logger.utils import make_dir
 
 
 def _serialize_log_to_json(log: LogType) -> str:
-    """Serialize the log into a JSON string
+    """Serialize the log into a JSON string.
 
     Args:
         log (LogType): Log to be serialized
@@ -24,7 +24,7 @@ def _serialize_log_to_json(log: LogType) -> str:
 
 
 def _get_logger(logger_name: str = "default_logger") -> logging.Logger:
-    """Get logger for a given name
+    """Get logger for a given name.
 
     Args:
         logger_name (str, optional): Name of the logger (to retrieve).
@@ -41,7 +41,7 @@ def _set_logger(
     logger_name: str = "default_logger",
     write_to_console: bool = True,
 ) -> logging.Logger:
-    """Set logger to log to the given path
+    """Set logger to log to the given path.
 
     Modified from https://docs.python.org/3/howto/logging-cookbook.html
 
@@ -78,11 +78,10 @@ def _set_logger(
 
 
 class Logger(BaseLogger):
-    """Logger class that writes to the filesystem
-    """
+    """Logger class that writes to the filesystem."""
 
     def __init__(self, config: ConfigType):
-        """Initialise the Filesystem Logger
+        """Initialise the Filesystem Logger.
 
         Args:
             config (ConfigType): config to initialise the filesystem logger.
@@ -91,12 +90,19 @@ class Logger(BaseLogger):
                 will be written. "logger_name" is the name of the logger instance
         """
         super().__init__(config=config)
-        assert "logger_dir" in config
-        assert "logger_name" in config
-        assert "write_to_console" in config
-        assert "create_multiple_log_files" in config
-        assert "filename_prefix" in config
-        assert "filename" in config
+        keys_to_check = [
+            "logger_dir",
+            "logger_name",
+            "write_to_console",
+            "create_multiple_log_files",
+            "filename_prefix",
+            "filename",
+        ]
+        if not all(key in config for key in keys_to_check):
+            key_string = ", ".join(keys_to_check)
+            raise KeyError(
+                f"One or more of the following keys missing in the config: {key_string}"
+            )
 
         logger_types = ["config", "message", "metadata", "metric"]
 
@@ -130,18 +136,17 @@ class Logger(BaseLogger):
             )
             self.loggers = {_type: logger for _type in logger_types}
 
-    def write_log(self, log: LogType) -> None:
-        """Write the log to the filesystem
+    def write(self, log: LogType) -> None:
+        """Write the log to the filesystem.
 
         Args:
             log (LogType): Log to write
         """
-
         log_str = _serialize_log_to_json(log=self._prepare_log_to_write(log))
         return self._write_log_to_fs(log_str=log_str, log_type=log["logbook_type"])
 
     def _write_log_to_fs(self, log_str: str, log_type: str) -> None:
-        """Write log string to filesystem
+        """Write log string to filesystem.
 
         Args:
             log_str (str): Log string to write
@@ -155,6 +160,7 @@ class Logger(BaseLogger):
 def get_logger_file_path(
     logger_dir: str, filename: Optional[str], filename_prefix: str, filename_suffix: str
 ) -> str:
+    """Get path to the file (to write logs to)."""
     if filename is None:
         filename = f"{filename_prefix}{filename_suffix}.jsonl"
     logger_file_path = os.path.join(logger_dir, filename)

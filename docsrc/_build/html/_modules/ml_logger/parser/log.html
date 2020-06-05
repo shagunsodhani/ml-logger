@@ -144,7 +144,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for ml_logger.parser.log</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Implementation of Parser to parse the logs&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;Implementation of Parser to parse the logs.&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">glob</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Optional</span>
@@ -155,10 +155,10 @@
 
 
 <div class="viewcode-block" id="Parser"><a class="viewcode-back" href="../../../ml_logger.parser.html#ml_logger.parser.log.Parser">[docs]</a><span class="k">class</span> <span class="nc">Parser</span><span class="p">(</span><span class="n">BaseParser</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Class to parse the log files&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Class to parse the log files.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parse_line</span><span class="p">:</span> <span class="n">ParseLineFunctionType</span> <span class="o">=</span> <span class="n">parse_json</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Class to parse the log files</span>
+        <span class="sd">&quot;&quot;&quot;Class to parse the log files.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            parse_line (ParseLineFunctionType):</span>
@@ -182,7 +182,7 @@
         <span class="k">return</span> <span class="n">fn</span>
 
     <span class="k">def</span> <span class="nf">_parse_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">LogType</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;Open a log file and parse its content</span>
+        <span class="sd">&quot;&quot;&quot;Open a log file and parse its content.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            file_path (str): Log file to read from</span>
@@ -193,14 +193,13 @@
 <span class="sd">        Yields:</span>
 <span class="sd">            Iterator[Optional[LogType]]: Iterator over the logs</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
                 <span class="n">log</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_line</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
                 <span class="k">yield</span> <span class="n">log</span>
 
 <div class="viewcode-block" id="Parser.parse"><a class="viewcode-back" href="../../../ml_logger.parser.html#ml_logger.parser.log.Parser.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath_pattern</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">LogType</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Open a log file, parse its contents and return `logs`</span>
+        <span class="sd">&quot;&quot;&quot;Open a log file, parse its contents and return `logs`.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            filepath_pattern (str): filepath pattern to glob</span>
@@ -218,9 +217,11 @@
                     <span class="k">yield</span> <span class="n">log</span></div>
 
 <div class="viewcode-block" id="Parser.parse_first_log"><a class="viewcode-back" href="../../../ml_logger.parser.html#ml_logger.parser.log.Parser.parse_first_log">[docs]</a>    <span class="k">def</span> <span class="nf">parse_first_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath_pattern</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LogType</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Return the first log from a file. The method will return after</span>
-<span class="sd">        finding the first log. Unlike `get_logs()` method, it will not</span>
-<span class="sd">        iterate over the entire log file (thus saving memory and time).</span>
+        <span class="sd">&quot;&quot;&quot;Return the first log from a file.</span>
+
+<span class="sd">        The method will return after finding the first log. Unlike `parse()`</span>
+<span class="sd">        method, it will not iterate over the entire log file (thus</span>
+<span class="sd">        saving memory and time).</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            filepath_pattern (str): filepath pattern to glob</span>
@@ -237,9 +238,10 @@
         <span class="k">return</span> <span class="kc">None</span></div>
 
 <div class="viewcode-block" id="Parser.parse_last_log"><a class="viewcode-back" href="../../../ml_logger.parser.html#ml_logger.parser.log.Parser.parse_last_log">[docs]</a>    <span class="k">def</span> <span class="nf">parse_last_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath_pattern</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LogType</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Return the last log from a file. Like `get_logs()` method,</span>
-<span class="sd">        it will iterate over the entire log file but will not keep all</span>
-<span class="sd">        the logs in memory (thus saving memory).</span>
+        <span class="sd">&quot;&quot;&quot;Return the last log from a file.</span>
+
+<span class="sd">        Like `parse()` method, it will iterate over the entire log file</span>
+<span class="sd">        but will not keep all the logs in memory (thus saving memory).</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            filepath_pattern (str): filepath pattern to glob</span>

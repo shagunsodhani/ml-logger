@@ -1,17 +1,16 @@
-"""Logger class that writes to wandb"""
-
-import mlflow
+"""Logger class that writes to mlflow."""
 
 from ml_logger.logger.base import Logger as BaseLogger
 from ml_logger.types import ConfigType, LogType, MetricType
 
+import mlflow
+
 
 class Logger(BaseLogger):
-    """Logger class that writes to mlflow
-    """
+    """Logger class that writes to mlflow."""
 
     def __init__(self, config: ConfigType):
-        """Initialise the mlflow Logger
+        """Initialise the mlflow Logger.
 
         Args:
             config (ConfigType): config to initialise the mlflow logger.
@@ -28,8 +27,8 @@ class Logger(BaseLogger):
         self.keys_to_check = ["step"]
         mlflow.create_experiment(**config)
 
-    def write_log(self, log: LogType) -> None:
-        """Write the log to mlflow
+    def write(self, log: LogType) -> None:
+        """Write the log to mlflow.
 
         Args:
             log (LogType): Log to write
@@ -37,21 +36,20 @@ class Logger(BaseLogger):
         logbook_type = log["logbook_type"]
         if logbook_type == "metric":
             log = self._prepare_metric_log_to_write(log=log)
-            self.write_metric_log(metric=log)
+            self.write_metric(metric=log)
         else:
             log = self._prepare_log_to_write(log=log)
             if logbook_type == "config":
                 self.write_config(config=log)
             # Only metric logs and message logs are supported right now
 
-    def write_metric_log(self, metric: MetricType) -> None:
-        """Write metric to mlflow
+    def write_metric(self, metric: MetricType) -> None:
+        """Write metric to mlflow.
 
         Args:
             metric (MetricType): Metric to write
         """
-        for key in self.keys_to_check:  # type: ignore
-            assert key in metric
+        self._validate_metric_log(metric)
         step = metric.pop("step")
         if self.key_prefix:
             prefix = {metric.pop(self.key_prefix)}
@@ -59,7 +57,7 @@ class Logger(BaseLogger):
         mlflow.log_metrics(metric, step)
 
     def write_config(self, config: ConfigType) -> None:
-        """Write the config to mlflow
+        """Write the config to mlflow.
 
         Args:
             config (ConfigType): Config to write

@@ -1,4 +1,4 @@
-"""Implementation of different type of metrics"""
+"""Implementation of different type of metrics."""
 
 import operator
 from typing import Any, Iterable, Optional, Union
@@ -7,14 +7,12 @@ from ml_logger.types import ComparisonOpType, LogType, NumType, ValueType
 
 
 class BaseMetric:
-    """Base Metric class. This class is not to be used directly
-
-    """
+    """Base Metric class. This class is not to be used directly."""
 
     def __init__(self, name: str):
-        """Base Metric class
+        """All metrics extend this class.
 
-        All the metrics extend this class. It is not to be used directly
+        It is not to be used directly
 
         Args:
             name (str): Name of the metric
@@ -24,12 +22,11 @@ class BaseMetric:
         self.reset()
 
     def reset(self) -> None:
-        """Reset the metric to the default value
-        """
+        """Reset the metric to the default value."""
         self.val = 0
 
     def update(self, val: Any) -> None:
-        """Update the metric using the current val
+        """Update the metric using the current val.
 
         Args:
             val (Any): Current value. This value is used to update the
@@ -38,9 +35,7 @@ class BaseMetric:
         pass
 
     def get_val(self) -> ValueType:
-        """Get the current value of the metric
-
-        """
+        """Get the current value of the metric."""
         return self.val
 
     def __str__(self) -> str:
@@ -51,7 +46,7 @@ class BaseMetric:
 
 
 class CurrentMetric(BaseMetric):
-    """Metric to track only the most recent value
+    """Metric to track only the most recent value.
 
     Args:
         BaseMetric: Base metric class
@@ -61,7 +56,7 @@ class CurrentMetric(BaseMetric):
         super().__init__(name)
 
     def update(self, val: ValueType) -> None:
-        """Update the metric using the current val
+        """Update the metric using the current val.
 
         Args:
             val (Any): Current value. The metric value is set to this value
@@ -70,7 +65,7 @@ class CurrentMetric(BaseMetric):
 
 
 class ConstantMetric(BaseMetric):
-    """Metric to track one fixed value
+    """Metric to track one fixed value.
 
     This is generally used for logging strings
 
@@ -83,11 +78,11 @@ class ConstantMetric(BaseMetric):
         self.val = val
 
     def reset(self) -> None:
-        """This function does not do anything"""
+        """Do nothing for the constant metrics."""
         return None
 
     def update(self, val: Optional[ValueType] = None) -> None:
-        """This function does not do anything
+        """Do nothing for the constant metrics.
 
         Args:
             val (Any): This value is ignored
@@ -96,7 +91,7 @@ class ConstantMetric(BaseMetric):
 
 
 class ComparisonMetric(BaseMetric):
-    """Metric to track the min/max value
+    """Metric to track the min/max value.
 
     This is generally used for logging best accuracy, least loss, etc.
 
@@ -107,7 +102,7 @@ class ComparisonMetric(BaseMetric):
     def __init__(
         self, name: str, default_val: ValueType, comparison_op: ComparisonOpType
     ):
-        """Metric to track the min/max value
+        """Metric to track the min/max value.
 
         This is generally used for logging best accuracy, least loss, etc.
 
@@ -125,11 +120,11 @@ class ComparisonMetric(BaseMetric):
         self.val = default_val
 
     def reset(self) -> None:
-        """Reset the metric to the default value"""
+        """Reset the metric to the default value."""
         self.val = self._default_val
 
     def update(self, val: ValueType) -> None:
-        """Use the comparison operator to decide which value to keep
+        """Use the comparison operator to decide which value to keep.
 
         If the output of self.comparison_op(val, self)
 
@@ -143,7 +138,7 @@ class ComparisonMetric(BaseMetric):
 
 
 class MaxMetric(ComparisonMetric):
-    """Metric to track the max value
+    """Metric to track the max value.
 
     This is generally used for logging best accuracy, etc.
 
@@ -152,7 +147,7 @@ class MaxMetric(ComparisonMetric):
     """
 
     def __init__(self, name: str):
-        """Metric to track the max value
+        """Metric to track the max value.
 
         This is generally used for logging best accuracy, etc.
 
@@ -165,7 +160,7 @@ class MaxMetric(ComparisonMetric):
 
 
 class MinMetric(ComparisonMetric):
-    """Metric to track the min value
+    """Metric to track the min value.
 
     This is generally used for logging least loss, etc.
 
@@ -174,7 +169,7 @@ class MinMetric(ComparisonMetric):
     """
 
     def __init__(self, name: str):
-        """Metric to track the min value
+        """Metric to track the min value.
 
         This is generally used for logging least loss, etc.
 
@@ -185,7 +180,7 @@ class MinMetric(ComparisonMetric):
 
 
 class AverageMetric(BaseMetric):
-    """Metric to track the average value
+    """Metric to track the average value.
 
     This is generally used for logging strings
 
@@ -202,14 +197,17 @@ class AverageMetric(BaseMetric):
         self.reset()
 
     def reset(self) -> None:
+        """Reset Metric."""
         self.val = 0.0
         self.avg = 0.0
         self.sum = 0.0
         self.count = 0.0
 
     def update(self, val: NumType, n: int = 1) -> None:
-        """Update the metric using the current average value and the
-            number of samples used to compute the average value
+        """Update the metric.
+
+        Update the metric using the current average value and the
+        number of samples used to compute the average value
 
         Args:
             val (NumType): current average value
@@ -222,14 +220,12 @@ class AverageMetric(BaseMetric):
         self.avg = self.sum / self.count
 
     def get_val(self) -> float:
-        """Get the current average value
-
-        """
+        """Get the current average value."""
         return self.avg
 
 
 class SumMetric(AverageMetric):
-    """Metric to track the sum value
+    """Metric to track the sum value.
 
     Args:
         BaseMetric: Base metric class
@@ -239,19 +235,15 @@ class SumMetric(AverageMetric):
         super().__init__(name)
 
     def get_val(self) -> float:
-        """Get the current sum value
-
-        """
+        """Get the current sum value."""
         return self.sum
 
 
 class MetricDict:
-    """Class that wraps over a collection of metrics
-
-    """
+    """Class that wraps over a collection of metrics."""
 
     def __init__(self, metric_list: Iterable[BaseMetric]):
-        """Class that wraps over a collection of metrics
+        """Class that wraps over a collection of metrics.
 
         Args:
             metric_list (Iterable[BaseMetric]): list of metrics to wrap
@@ -260,13 +252,12 @@ class MetricDict:
         self._metrics_dict = {metric.name: metric for metric in metric_list}
 
     def reset(self) -> None:
-        """Reset all the metrics to default values
-        """
+        """Reset all the metrics to default values."""
         for key in self._metrics_dict:
             self._metrics_dict[key].reset()
 
     def update(self, metrics_dict: Union[LogType, "MetricDict"]) -> None:
-        """Update all the metrics using the current values
+        """Update all the metrics using the current values.
 
         Args:
             metrics_dict (Union[LogType, MetricDict]): Current value of metrics
@@ -284,8 +275,7 @@ class MetricDict:
         return "\n".join([repr(val) for key, val in self._metrics_dict.items()])
 
     def to_dict(self) -> LogType:
-        """Method to convert the metrics into a dictionary that can be
-            logged using the `LogBook`
+        """Convert the metrics into a dictionary for `LogBook`.
 
         Returns:
             LogType: Metric data in as a dictionary

@@ -144,7 +144,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for ml_logger.logger.base</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Abstract logger class&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;Abstract logger class.&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
@@ -152,30 +152,37 @@
 
 
 <div class="viewcode-block" id="Logger"><a class="viewcode-back" href="../../../ml_logger.logger.html#ml_logger.logger.base.Logger">[docs]</a><span class="k">class</span> <span class="nc">Logger</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Abstract Logger Class</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Abstract Logger Class.&quot;&quot;&quot;</span>
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">ConfigType</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialise the Logger</span>
+        <span class="sd">&quot;&quot;&quot;Initialise the Logger.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            config (ConfigType): config to initialise the logger</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">keys_to_retain</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">keys_to_skip</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">keys_to_check</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keys_to_skip</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keys_to_check</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">key_map</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">KeyMapType</span><span class="p">]</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;logbook_key_map&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">key_prefix</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;logbook_key_prefix&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Logger.write_log"><a class="viewcode-back" href="../../../ml_logger.logger.html#ml_logger.logger.base.Logger.write_log">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">write_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log</span><span class="p">:</span> <span class="n">LogType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Interface to write the log</span>
+<div class="viewcode-block" id="Logger.write"><a class="viewcode-back" href="../../../ml_logger.logger.html#ml_logger.logger.base.Logger.write">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log</span><span class="p">:</span> <span class="n">LogType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Interface to write the log.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            log (LogType): Log to write</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
+
+    <span class="k">def</span> <span class="nf">_validate_metric_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metric</span><span class="p">:</span> <span class="n">LogType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Valdiate that metric log has all the required keys.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">key</span> <span class="ow">in</span> <span class="n">metric</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys_to_check</span><span class="p">):</span>
+            <span class="n">key_string</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keys_to_check</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;One or more of the following keys missing in the metric: </span><span class="si">{</span><span class="n">key_string</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_prepare_log_to_write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log</span><span class="p">:</span> <span class="n">LogType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LogType</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Remove certain keys before writing the log.</span>
@@ -186,8 +193,7 @@
 <span class="sd">        `self.keys_to_retain` informs what keys are to be retained. All</span>
 <span class="sd">        keys are retained if `self.keys_to_retain` is None.</span>
 
-<span class="sd">        `self.keys_to_skip` informs what keys are to be skipped. No key</span>
-<span class="sd">        is skipped if `self.keys_to_skip` is None.</span>
+<span class="sd">        `self.keys_to_skip` informs what keys are to be skipped.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            log (LogType): Log to write</span>
@@ -205,15 +211,13 @@
             <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys_to_retain</span><span class="p">:</span>
                 <span class="n">processed_log</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">log</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys_to_skip</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys_to_skip</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">processed_log</span><span class="p">:</span>
-                    <span class="n">processed_log</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys_to_skip</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">processed_log</span><span class="p">:</span>
+                <span class="n">processed_log</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">processed_log</span>
 
     <span class="k">def</span> <span class="nf">_prepare_metric_log_to_write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log</span><span class="p">:</span> <span class="n">LogType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LogType</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Map some keys to another keys, remove some keys before writing</span>
-<span class="sd">        the log.</span>
+        <span class="sd">&quot;&quot;&quot;Map some keys to another keys, remove some keys before writing the log.</span>
 
 <span class="sd">        Some loggers require specific keys to be present. User can specify</span>
 <span class="sd">        those keys via a different name and should be mapped to the required</span>
@@ -225,8 +229,7 @@
 <span class="sd">        `self.keys_to_retain` informs what keys are to be retained. All</span>
 <span class="sd">        keys are retained if `self.keys_to_retain` is None.</span>
 
-<span class="sd">        `self.keys_to_skip` informs what keys are to be skipped. No key</span>
-<span class="sd">        is skipped if `self.keys_to_skip` is None.</span>
+<span class="sd">        `self.keys_to_skip` informs what keys are to be skipped.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            log (LogType): Log to write</span>
@@ -234,7 +237,6 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            LogType: Log with certain keys removed</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_map</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">mapped_key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="n">log</span><span class="p">[</span><span class="n">mapped_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">log</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>

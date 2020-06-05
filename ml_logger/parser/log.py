@@ -1,4 +1,4 @@
-"""Implementation of Parser to parse the logs"""
+"""Implementation of Parser to parse the logs."""
 
 import glob
 from typing import Iterator, Optional
@@ -9,10 +9,10 @@ from ml_logger.types import LogType, ParseLineFunctionType
 
 
 class Parser(BaseParser):
-    """Class to parse the log files"""
+    """Class to parse the log files."""
 
     def __init__(self, parse_line: ParseLineFunctionType = parse_json):
-        """Class to parse the log files
+        """Class to parse the log files.
 
         Args:
             parse_line (ParseLineFunctionType):
@@ -36,7 +36,7 @@ class Parser(BaseParser):
         return fn
 
     def _parse_file(self, file_path: str) -> Iterator[Optional[LogType]]:
-        """Open a log file and parse its content
+        """Open a log file and parse its content.
 
         Args:
             file_path (str): Log file to read from
@@ -47,14 +47,13 @@ class Parser(BaseParser):
         Yields:
             Iterator[Optional[LogType]]: Iterator over the logs
         """
-
         with open(file_path) as f:
             for line in f:
                 log = self.parse_line(line)
                 yield log
 
     def parse(self, filepath_pattern: str) -> Iterator[LogType]:
-        """Open a log file, parse its contents and return `logs`
+        """Open a log file, parse its contents and return `logs`.
 
         Args:
             filepath_pattern (str): filepath pattern to glob
@@ -72,9 +71,11 @@ class Parser(BaseParser):
                     yield log
 
     def parse_first_log(self, filepath_pattern: str) -> Optional[LogType]:
-        """Return the first log from a file. The method will return after
-        finding the first log. Unlike `get_logs()` method, it will not
-        iterate over the entire log file (thus saving memory and time).
+        """Return the first log from a file.
+
+        The method will return after finding the first log. Unlike `parse()`
+        method, it will not iterate over the entire log file (thus
+        saving memory and time).
 
         Args:
             filepath_pattern (str): filepath pattern to glob
@@ -91,9 +92,10 @@ class Parser(BaseParser):
         return None
 
     def parse_last_log(self, filepath_pattern: str) -> Optional[LogType]:
-        """Return the last log from a file. Like `get_logs()` method,
-        it will iterate over the entire log file but will not keep all
-        the logs in memory (thus saving memory).
+        """Return the last log from a file.
+
+        Like `parse()` method, it will iterate over the entire log file
+        but will not keep all the logs in memory (thus saving memory).
 
         Args:
             filepath_pattern (str): filepath pattern to glob

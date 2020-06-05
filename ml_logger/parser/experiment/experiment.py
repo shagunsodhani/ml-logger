@@ -1,7 +1,7 @@
-"""Container for the experiment data"""
+"""Container for the experiment data."""
 
-from collections.abc import Sequence
-from typing import Any, Callable, Dict, List, Optional, Union, overload
+from collections import UserList
+from typing import Any, Callable, Dict, List, Optional
 
 import pandas as pd
 
@@ -11,21 +11,21 @@ from ml_logger.types import LogType
 class Experiment:
     def __init__(
         self,
-        config: LogType,
+        config: Optional[LogType],
         metrics: Dict[str, pd.DataFrame],
         info: Optional[Dict[Any, Any]] = None,
     ):
-        """Class to hold the experiment data
+        """Class to hold the experiment data.
 
         Args:
-            config (LogType): Config used for the experiment
+            config (Optional[LogType]): Config used for the experiment
             metrics (Dict[str, pd.DataFrame]): Dictionary mapping strings
                 to dataframes. Keys could be "train", "validation", "test"
                 and corresponding dataframes would have the data for these
                 modes.
-            info (Dict[Any, Any]): A dictionary where the user can store
+            info (Optional[Dict[Any, Any]], optional): A dictionary where the user can store
                 any information about the experiment (that does not fit
-                within config and metrics).
+                within config and metrics). Defaults to None.
         """
         self.config = config
         self.metrics = metrics
@@ -34,18 +34,15 @@ class Experiment:
             self.info = info
 
 
-class ExperimentSequence(Sequence):  # type: ignore
-    """Provides a list-like interface to a collection of Experimente
-    """
-
+class ExperimentSequence(UserList):  # type: ignore
     def __init__(self, experiments: List[Experiment]):
-        self.experiments = experiments
-        super().__init__()
+        """List-like interface to a collection of Experiments."""
+        super().__init__(experiments)
 
     def groupby(
         self, group_fn: Callable[[Experiment], str]
     ) -> Dict[str, "ExperimentSequence"]:
-        """Group experiments in the sequence
+        """Group experiments in the sequence.
 
         Args:
             group_fn: Function to assign a string group id to the experiment
@@ -55,7 +52,7 @@ class ExperimentSequence(Sequence):  # type: ignore
             group id to a sequence of experiments
         """
         grouped_experiments: Dict[str, List[Experiment]] = {}
-        for experiment in self.experiments:
+        for experiment in self.data:
             key = group_fn(experiment)
             if key not in grouped_experiments:
                 grouped_experiments[key] = []
@@ -66,7 +63,7 @@ class ExperimentSequence(Sequence):  # type: ignore
         }
 
     def filter(self, filter_fn: Callable[[Experiment], bool]) -> "ExperimentSequence":
-        """Filter experiments in the sequence
+        """Filter experiments in the sequence.
 
         Args:
             filter_fn: Function to filter an experiment
@@ -76,23 +73,5 @@ class ExperimentSequence(Sequence):  # type: ignore
             filter condition is true
         """
         return ExperimentSequence(
-            [experiment for experiment in self.experiments if filter_fn(experiment)]
+            [experiment for experiment in self.data if filter_fn(experiment)]
         )
-
-    @overload  # noqa:F811
-    def __getitem__(self, index: int) -> Experiment:
-        pass
-
-    @overload  # noqa:F811
-    def __getitem__(self, index: slice) -> "ExperimentSequence":
-        pass
-
-    def __getitem__(  # noqa:F811
-        self, index: Union[int, slice]
-    ) -> Union[Experiment, "ExperimentSequence"]:
-        if isinstance(index, slice):
-            return ExperimentSequence(self.experiments[index])
-        return self.experiments[index]
-
-    def __len__(self) -> int:
-        return len(self.experiments)

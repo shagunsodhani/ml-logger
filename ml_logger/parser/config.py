@@ -1,4 +1,4 @@
-"""Implementation of Parser to parse config from logs"""
+"""Implementation of Parser to parse config from logs."""
 
 from typing import Optional
 
@@ -8,6 +8,7 @@ from ml_logger.types import LogType, ParseLineFunctionType
 
 
 def parse_json_and_match_key(line: str) -> Optional[LogType]:
+    """Parse a line as JSON string and check if it a valid log."""
     log = parse_json(line)
     if log:
         key = "logbook_type"
@@ -17,10 +18,10 @@ def parse_json_and_match_key(line: str) -> Optional[LogType]:
 
 
 class Parser(log_parser.Parser):
-    """Class to parse config from the logs"""
+    """Class to parse config from the logs."""
 
     def __init__(self, parse_line: ParseLineFunctionType = parse_json_and_match_key):
-        """Class to parse config from the log
+        """Class to parse config from the log.
 
         Args:
             parse_line (ParseLineFunctionType):

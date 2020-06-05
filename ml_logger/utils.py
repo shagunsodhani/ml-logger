@@ -1,3 +1,4 @@
+"""Utility Methods."""
 import pathlib
 from typing import Any, Dict, List, Tuple
 
@@ -30,7 +31,7 @@ def flatten_dict(
 
 
 def make_dir(path: str) -> None:
-    """Make dir, if not exists
+    """Make dir, if not exists.
 
     Args:
         path (str): dir to make

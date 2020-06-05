@@ -1,3 +1,4 @@
+"""Utility functions for the parser module."""
 import json
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -7,7 +8,7 @@ from ml_logger.types import LogType, ValueType
 def map_list_of_dicts_to_dict_of_lists(
     list_of_dicts: List[Dict[str, ValueType]]
 ) -> Dict[str, List[Optional[ValueType]]]:
-    """Map a list of dictionary to a dictionary of lists
+    """Map a list of dictionary to a dictionary of lists.
 
     Example input: [
         {"a": 1, "b": 2},
@@ -34,7 +35,7 @@ def map_list_of_dicts_to_dict_of_lists(
 
 
 def flatten_log(d: LogType, parent_key: str = "", sep: str = "#") -> LogType:
-    """Flatten a log using a separator
+    """Flatten a log using a separator.
 
     Taken from https://stackoverflow.com/a/6027615/1353861
 
@@ -59,8 +60,10 @@ def flatten_log(d: LogType, parent_key: str = "", sep: str = "#") -> LogType:
 def compare_logs(
     first_log: LogType, second_log: LogType, verbose: bool = False
 ) -> Tuple[List[str], List[str], List[str]]:
-    """Compare two logs and return list of keys that are either missing or
-        have different valus in the two logs.
+    """Compare two logs.
+
+    Return list of keys that are either missing or have different valus
+    in the two logs.
 
     Args:
         first_log (LogType): First Log
@@ -103,6 +106,7 @@ def compare_logs(
 
 
 def parse_json(line: str) -> Optional[LogType]:
+    """Parse a line as JSON string."""
     log: Optional[LogType]
     try:
         log = json.loads(line)
