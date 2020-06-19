@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 def parse_dependency(filepath):
     return [
         dependency
-        for dependency in open("requirements/dev.txt").read().splitlines()
+        for dependency in open(filepath).read().splitlines()
         if "==" in dependency
     ]
 
