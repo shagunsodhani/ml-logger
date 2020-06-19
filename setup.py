@@ -1,13 +1,29 @@
+import codecs
+import os.path
+
 import setuptools
 
-with open("README.md", "r") as fh:
-    long_description = fh.read()
+
+def read(rel_path):
+    here = os.path.abspath(os.path.dirname(__file__))
+    with codecs.open(os.path.join(here, rel_path), "r") as fp:
+        return fp.read()
+
+
+def get_version(rel_path):
+    # code taken from https://packaging.python.org/guides/single-sourcing-package-version/
+    for line in read(rel_path).splitlines():
+        if line.startswith("__version__"):
+            delim = '"' if '"' in line else "'"
+            return line.split(delim)[1]
+    else:
+        raise RuntimeError("Unable to find version string.")
 
 
 def parse_dependency(filepath):
     return [
         dependency
-        for dependency in open("requirements/dev.txt").read().splitlines()
+        for dependency in open(filepath).read().splitlines()
         if "==" in dependency
     ]
 
@@ -16,9 +32,12 @@ base_requirements = parse_dependency("requirements/filesystem.txt")
 all_requirements = base_requirements + parse_dependency("requirements/all.txt")
 dev_requirements = all_requirements + parse_dependency("requirements/dev.txt")
 
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
 setuptools.setup(
     name="mllogger",
-    version="0.6rc2",
+    version=get_version("ml_logger/__init__.py"),
     author="Shagun Sodhani",
     author_email="sshagunsodhani@gmail.com",
     description="Logging Utility for ML Experiments",
