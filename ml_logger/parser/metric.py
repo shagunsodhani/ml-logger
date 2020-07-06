@@ -5,7 +5,6 @@ from typing import Callable, Dict, List, Optional
 import pandas as pd
 
 from ml_logger.parser import log as log_parser
-from ml_logger.parser import utils as parser_utils
 from ml_logger.parser.utils import parse_json
 from ml_logger.types import LogType, MetricType, ParseLineFunctionType
 
@@ -128,9 +127,7 @@ def metrics_to_df(
     }
 
     metric_dfs = {
-        key: pd.DataFrame.from_dict(
-            data=parser_utils.map_list_of_dicts_to_dict_of_lists(metrics)
-        )
+        key: pd.json_normalize(data=metrics)
         for key, metrics in aggregated_metrics.items()
     }
     return metric_dfs
