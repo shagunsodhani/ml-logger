@@ -1,9 +1,8 @@
 """Logger class that writes to wandb."""
 
+import wandb
 from ml_logger.logger.base import Logger as BaseLogger
 from ml_logger.types import ConfigType, LogType, MetricType
-
-import wandb
 
 
 class Logger(BaseLogger):
@@ -23,7 +22,7 @@ class Logger(BaseLogger):
         """
         super().__init__(config=config)
         self.keys_to_skip = ["logbook_id", "logbook_type", "logbook_timestamp"]
-        self.keys_to_check = ["step"]
+        self.keys_to_check = []
         self.run = wandb.init(**config)
 
     def write(self, log: LogType) -> None:
@@ -49,11 +48,16 @@ class Logger(BaseLogger):
             metric (MetricType): Metric to write
         """
         self._validate_metric_log(metric)
-        step = metric.pop("step")
+        step = None
+        if "step" in metric:
+            step = metric.pop("step")
         if self.key_prefix:
             prefix = {metric.pop(self.key_prefix)}
             metric = {f"{prefix}_{key}": value for key, value in metric.items()}
-        wandb.log(metric, step)
+        if step:
+            wandb.log(metric, step)
+        else:
+            wandb.log(metric)
 
     def write_config(self, config: ConfigType) -> None:
         """Write config to wandb.
