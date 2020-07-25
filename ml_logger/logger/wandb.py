@@ -65,4 +65,4 @@ class Logger(BaseLogger):
         Args:
             config (ConfigType): Config to write
         """
-        wandb.config.update(config)
+        wandb.config.update(config, allow_val_change=True)
