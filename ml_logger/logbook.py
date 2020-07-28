@@ -44,6 +44,7 @@ class LogBook:
             logger_cls = getattr(logger_module, "Logger")
             logger = logger_cls(config=logger_config)
             self.loggers.append(logger)
+        self.write_config(config=config)
 
     def _process_log(self, log: LogType, log_type: str) -> LogType:
         """Process the log before writing.
