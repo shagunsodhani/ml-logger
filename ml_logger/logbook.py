@@ -124,6 +124,7 @@ def make_config(
     mlflow_config: Optional[ConfigType] = None,
     mlflow_key_map: Optional[KeyMapType] = None,
     mlflow_prefix_key: Optional[str] = None,
+    mongo_config: Optional[ConfigType] = None,
 ) -> ConfigType:
     """Make the config that can be passed to the LogBook constructor.
 
@@ -244,6 +245,12 @@ def make_config(
         loggers["mlflow"] = mlflow_config
         loggers["mlflow"]["logbook_key_map"] = mlflow_key_map
         loggers["mlflow"]["logbook_key_prefix"] = mlflow_prefix_key
+
+    if mongo_config is not None:
+        key = "mongo"
+        loggers[key] = mongo_config
+        loggers[key]["logbook_key_map"] = None
+        loggers[key]["logbook_key_prefix"] = None
 
     config = {"id": id, "name": name, "loggers": loggers}
     return config
