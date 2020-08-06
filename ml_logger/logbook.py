@@ -44,7 +44,6 @@ class LogBook:
             logger_cls = getattr(logger_module, "Logger")
             logger = logger_cls(config=logger_config)
             self.loggers.append(logger)
-        self.write_config(config=config)
 
     def _process_log(self, log: LogType, log_type: str) -> LogType:
         """Process the log before writing.
@@ -68,9 +67,9 @@ class LogBook:
             log (LogType): Log to write
             log_type (str, optional): Type of this log. Defaults to "metric".
         """
-        log = self._process_log(log, log_type)
+        log = self._process_log(deepcopy(log), log_type)
         for logger in self.loggers:
-            logger.write(log=deepcopy(log))
+            logger.write(log=log)
 
     def write_config(self, config: ConfigType) -> None:
         """Write config to loggers.
@@ -124,6 +123,7 @@ def make_config(
     mlflow_config: Optional[ConfigType] = None,
     mlflow_key_map: Optional[KeyMapType] = None,
     mlflow_prefix_key: Optional[str] = None,
+    mongo_config: Optional[ConfigType] = None,
 ) -> ConfigType:
     """Make the config that can be passed to the LogBook constructor.
 
@@ -244,6 +244,12 @@ def make_config(
         loggers["mlflow"] = mlflow_config
         loggers["mlflow"]["logbook_key_map"] = mlflow_key_map
         loggers["mlflow"]["logbook_key_prefix"] = mlflow_prefix_key
+
+    if mongo_config is not None:
+        key = "mongo"
+        loggers[key] = mongo_config
+        loggers[key]["logbook_key_map"] = None
+        loggers[key]["logbook_key_prefix"] = None
 
     config = {"id": id, "name": name, "loggers": loggers}
     return config

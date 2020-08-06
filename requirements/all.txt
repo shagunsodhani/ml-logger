@@ -1,4 +1,5 @@
 -r filesystem.txt
+pymongo==3.11.0
 wandb==0.8.28
 tensorboardX==2.0
 mlflow==1.7.0
