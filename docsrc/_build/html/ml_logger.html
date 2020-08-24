@@ -176,6 +176,7 @@
 <li class="toctree-l2"><a class="reference internal" href="ml_logger.logger.html#module-ml_logger.logger.base">ml_logger.logger.base module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ml_logger.logger.html#module-ml_logger.logger.filesystem">ml_logger.logger.filesystem module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ml_logger.logger.html#module-ml_logger.logger.mlflow">ml_logger.logger.mlflow module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ml_logger.logger.html#ml-logger-logger-mongo-module">ml_logger.logger.mongo module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ml_logger.logger.html#module-ml_logger.logger.tensorboard">ml_logger.logger.tensorboard module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ml_logger.logger.html#module-ml_logger.logger.wandb">ml_logger.logger.wandb module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ml_logger.logger.html#module-ml_logger.logger">Module contents</a></li>
@@ -283,7 +284,7 @@ Defaults to “info”.</p></li>
 
 <dl class="py function">
 <dt id="ml_logger.logbook.make_config">
-<code class="sig-prename descclassname">ml_logger.logbook.</code><code class="sig-name descname">make_config</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">id</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'0'</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'default_logger'</span></em>, <em class="sig-param"><span class="n">write_to_console</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">logger_dir</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">filename_prefix</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">create_multiple_log_files</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">wandb_config</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">wandb_key_map</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">wandb_prefix_key</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tensorboard_config</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tensorboard_key_map</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tensorboard_prefix_key</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">mlflow_config</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">mlflow_key_map</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">mlflow_prefix_key</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><a class="reference internal" href="_modules/ml_logger/logbook.html#make_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logbook.make_config" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ml_logger.logbook.</code><code class="sig-name descname">make_config</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">id</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'0'</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'default_logger'</span></em>, <em class="sig-param"><span class="n">write_to_console</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">logger_dir</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">filename_prefix</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">create_multiple_log_files</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">wandb_config</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">wandb_key_map</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">wandb_prefix_key</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tensorboard_config</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tensorboard_key_map</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tensorboard_prefix_key</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">mlflow_config</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">mlflow_key_map</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">mlflow_prefix_key</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">mongo_config</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><a class="reference internal" href="_modules/ml_logger/logbook.html#make_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logbook.make_config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make the config that can be passed to the LogBook constructor.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -332,14 +333,13 @@ the remaining keys before values are logged in the wandb logger.
 This argument is ignored if set to None. Defaults to None.</p></li>
 <li><p><strong>tensorboard_config</strong> (<em>Optional</em><em>[</em><em>ConfigType</em><em>]</em><em>, </em><em>optional</em>) – config to
 initialise the tensorboardX logger. The config can have
-any parameters that tensorboardX.SummaryWriter() method accepts
-(<a class="reference external" href="https://tensorboardx.readthedocs.io/en/latest/tensorboard.html#tensorboardX.SummaryWriter">https://tensorboardx.readthedocs.io/en/latest/tensorboard.html#tensorboardX.SummaryWriter</a>).
-Note that the config is passed as keyword arguments to the
-tensorboardX.SummaryWriter() method. This provides a lot
+any parameters that [tensorboardX.SummaryWriter() method](<a class="reference external" href="https://tensorboardx.readthedocs.io/en/latest/tensorboard.html#tensorboardX.SummaryWriter">https://tensorboardx.readthedocs.io/en/latest/tensorboard.html#tensorboardX.SummaryWriter</a>)
+accepts. Note that the config is passed as keyword arguments
+to the tensorboardX.SummaryWriter() method. This provides a lot
 of flexibility to the users to configure tensorboard. This also
 means that config should not have any parameters that
 tensorboardX.SummaryWriter() would not accept. Defaults to None.</p></li>
-<li><p><strong>tensorboard_key_map</strong> (<em>Optional</em><em>[</em><em>KeyMapType</em><em>]</em><em>, </em><em>optional</em>) – <p>When using
+<li><p><strong>tensorboard_key_map</strong> (<em>Optional</em><em>[</em><em>KeyMapType</em><em>]</em><em>, </em><em>optional</em>) – When using
 tensorboard logger for logging metrics, certain keys are required.
 This dictionary provides an easy way to map the keys in the <cite>log</cite>
 (to be written) with the keys that tensorboard logger needs.
@@ -347,11 +347,8 @@ For instance, tensorboard logger needs a <cite>main_tag</cite> key and a
 <cite>global_step</cite> in all the metric logs. If your logs have a key
 called <cite>epoch</cite> that you want to use as <cite>step</cite>, and a key called
 <cite>mode</cite> that you want to use as <cite>main_tag</cite>, set <cite>tensorboard_key_map</cite>
-as <cite>{epoch: global_step, mode: main_tag}</cite>. This argument is</p>
-<blockquote>
-<div><p>ignored if set to None. Defaults to None.</p>
-</div></blockquote>
-</p></li>
+as <cite>{epoch: global_step, mode: main_tag}</cite>. This argument is
+ignored if set to None. Defaults to None.</p></li>
 <li><p><strong>tensorboard_prefix_key</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – When a metric is
 logged to tensorboard, prefix the value (corresponding to the key)
 to all the remaining keys before values are logged in the
@@ -359,10 +356,9 @@ tensorboard logger. This argument is ignored if set to None.
 Defaults to None.</p></li>
 <li><p><strong>mlflow_config</strong> (<em>Optional</em><em>[</em><em>ConfigType</em><em>]</em><em>, </em><em>optional</em>) – config to
 initialise an mlflow experiment. The config can have
-any parameters that mlflow.create_experiment() method accepts
-(<a class="reference external" href="https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.create_experiment">https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.create_experiment</a>).
-Note that the config is passed as keyword arguments to the
-mlflow.create_experiment() method. This provides a lot
+any parameters that [mlflow.create_experiment() method](<a class="reference external" href="https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.create_experiment">https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.create_experiment</a>)
+accepts. Note that the config is passed as keyword arguments
+to the mlflow.create_experiment() method. This provides a lot
 of flexibility to the users to configure mlflow. This also
 means that config should not have any parameters that
 mlflow.create_experiment would not accept. Defaults to None.</p></li>
@@ -378,6 +374,19 @@ argument is ignored if set to None. Defaults to None.</p></li>
 to mlflow, prefix the value (corresponding to the key) to all
 the remaining keys before values are logged in the mlflow logger.
 This argument is ignored if set to None. Defaults to None.</p></li>
+<li><p><strong>mongo_config</strong> (<em>Optional</em><em>[</em><em>ConfigType</em><em>]</em><em>, </em><em>optional</em>) – <p>config to
+initialise connection to a collection in mongodb. The config
+supports the following keys:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>host: host where mongodb is running.</p></li>
+<li><p>port: port on which mongodb is running.</p></li>
+<li><p>db: name of the db to use.</p></li>
+<li><p>collection: name of the collection to use.</p></li>
+</ol>
+</div></blockquote>
+<p>Defaults to None.</p>
+</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

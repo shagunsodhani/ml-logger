@@ -445,32 +445,6 @@ list of keys with values missing in the second log,]</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="ml_logger.parser.utils.map_list_of_dicts_to_dict_of_lists">
-<code class="sig-prename descclassname">ml_logger.parser.utils.</code><code class="sig-name descname">map_list_of_dicts_to_dict_of_lists</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">list_of_dicts</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">, </span>float<span class="p">]</span><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Dict[str, List[Union[str, int, float, None]]]<a class="reference internal" href="_modules/ml_logger/parser/utils.html#map_list_of_dicts_to_dict_of_lists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.parser.utils.map_list_of_dicts_to_dict_of_lists" title="Permalink to this definition">¶</a></dt>
-<dd><p>Map a list of dictionary to a dictionary of lists.</p>
-<dl class="simple">
-<dt>Example input: [</dt><dd><p>{“a”: 1, “b”: 2},
-{“b”: 3, “c”: 4},]</p>
-</dd>
-<dt>Example output: {</dt><dd><p>“a”: [1],
-“b”: [2, 3],
-“c”: [4],}</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>list_of_dicts</strong> (<em>List</em><em>[</em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>ValueType</em><em>]</em><em>]</em>) – List of dictionaries</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Dictionary of lists</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Dict[str, List[Optional[ValueType]]]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt id="ml_logger.parser.utils.parse_json">
 <code class="sig-prename descclassname">ml_logger.parser.utils.</code><code class="sig-name descname">parse_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">line</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><a class="reference internal" href="_modules/ml_logger/parser/utils.html#parse_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.parser.utils.parse_json" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse a line as JSON string.</p>
