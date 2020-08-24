@@ -172,10 +172,9 @@ def make_config(
             This argument is ignored if set to None. Defaults to None.
         tensorboard_config (Optional[ConfigType], optional): config to
             initialise the tensorboardX logger. The config can have
-            any parameters that tensorboardX.SummaryWriter() method accepts
-            (https://tensorboardx.readthedocs.io/en/latest/tensorboard.html#tensorboardX.SummaryWriter).
-            Note that the config is passed as keyword arguments to the
-            tensorboardX.SummaryWriter() method. This provides a lot
+            any parameters that [tensorboardX.SummaryWriter() method](https://tensorboardx.readthedocs.io/en/latest/tensorboard.html#tensorboardX.SummaryWriter)
+            accepts. Note that the config is passed as keyword arguments
+            to the tensorboardX.SummaryWriter() method. This provides a lot
             of flexibility to the users to configure tensorboard. This also
             means that config should not have any parameters that
             tensorboardX.SummaryWriter() would not accept. Defaults to None.
@@ -188,7 +187,7 @@ def make_config(
             called `epoch` that you want to use as `step`, and a key called
             `mode` that you want to use as `main_tag`, set `tensorboard_key_map`
             as `{epoch: global_step, mode: main_tag}`. This argument is
-             ignored if set to None. Defaults to None.
+            ignored if set to None. Defaults to None.
         tensorboard_prefix_key (Optional[str], optional): When a metric is
             logged to tensorboard, prefix the value (corresponding to the key)
             to all the remaining keys before values are logged in the
@@ -196,10 +195,9 @@ def make_config(
             Defaults to None.
         mlflow_config (Optional[ConfigType], optional): config to
             initialise an mlflow experiment. The config can have
-            any parameters that mlflow.create_experiment() method accepts
-            (https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.create_experiment).
-            Note that the config is passed as keyword arguments to the
-            mlflow.create_experiment() method. This provides a lot
+            any parameters that [mlflow.create_experiment() method](https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.create_experiment)
+            accepts. Note that the config is passed as keyword arguments
+            to the mlflow.create_experiment() method. This provides a lot
             of flexibility to the users to configure mlflow. This also
             means that config should not have any parameters that
             mlflow.create_experiment would not accept. Defaults to None.
@@ -215,6 +213,15 @@ def make_config(
             to mlflow, prefix the value (corresponding to the key) to all
             the remaining keys before values are logged in the mlflow logger.
             This argument is ignored if set to None. Defaults to None.
+        mongo_config (Optional[ConfigType], optional): config to
+            initialise connection to a collection in mongodb. The config
+            supports the following keys:
+                (1) host: host where mongodb is running.
+                (2) port: port on which mongodb is running.
+                (3) db: name of the db to use.
+                (4) collection: name of the collection to use.
+            Defaults to None.
+
     Returns:
         ConfigType: config to construct the LogBook
     """
