@@ -213,9 +213,9 @@
 <span class="sd">            log (LogType): Log to write</span>
 <span class="sd">            log_type (str, optional): Type of this log. Defaults to &quot;metric&quot;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">log</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_log</span><span class="p">(</span><span class="n">log</span><span class="p">,</span> <span class="n">log_type</span><span class="p">)</span>
+        <span class="n">log</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_log</span><span class="p">(</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">log</span><span class="p">),</span> <span class="n">log_type</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">logger</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">loggers</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">log</span><span class="p">))</span></div>
+            <span class="n">logger</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="n">log</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="LogBook.write_config"><a class="viewcode-back" href="../../ml_logger.html#ml_logger.logbook.LogBook.write_config">[docs]</a>    <span class="k">def</span> <span class="nf">write_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">ConfigType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Write config to loggers.</span>
@@ -269,6 +269,7 @@
     <span class="n">mlflow_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ConfigType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">mlflow_key_map</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">KeyMapType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">mlflow_prefix_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">mongo_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ConfigType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ConfigType</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Make the config that can be passed to the LogBook constructor.</span>
 
@@ -317,10 +318,9 @@
 <span class="sd">            This argument is ignored if set to None. Defaults to None.</span>
 <span class="sd">        tensorboard_config (Optional[ConfigType], optional): config to</span>
 <span class="sd">            initialise the tensorboardX logger. The config can have</span>
-<span class="sd">            any parameters that tensorboardX.SummaryWriter() method accepts</span>
-<span class="sd">            (https://tensorboardx.readthedocs.io/en/latest/tensorboard.html#tensorboardX.SummaryWriter).</span>
-<span class="sd">            Note that the config is passed as keyword arguments to the</span>
-<span class="sd">            tensorboardX.SummaryWriter() method. This provides a lot</span>
+<span class="sd">            any parameters that [tensorboardX.SummaryWriter() method](https://tensorboardx.readthedocs.io/en/latest/tensorboard.html#tensorboardX.SummaryWriter)</span>
+<span class="sd">            accepts. Note that the config is passed as keyword arguments</span>
+<span class="sd">            to the tensorboardX.SummaryWriter() method. This provides a lot</span>
 <span class="sd">            of flexibility to the users to configure tensorboard. This also</span>
 <span class="sd">            means that config should not have any parameters that</span>
 <span class="sd">            tensorboardX.SummaryWriter() would not accept. Defaults to None.</span>
@@ -333,7 +333,7 @@
 <span class="sd">            called `epoch` that you want to use as `step`, and a key called</span>
 <span class="sd">            `mode` that you want to use as `main_tag`, set `tensorboard_key_map`</span>
 <span class="sd">            as `{epoch: global_step, mode: main_tag}`. This argument is</span>
-<span class="sd">             ignored if set to None. Defaults to None.</span>
+<span class="sd">            ignored if set to None. Defaults to None.</span>
 <span class="sd">        tensorboard_prefix_key (Optional[str], optional): When a metric is</span>
 <span class="sd">            logged to tensorboard, prefix the value (corresponding to the key)</span>
 <span class="sd">            to all the remaining keys before values are logged in the</span>
@@ -341,10 +341,9 @@
 <span class="sd">            Defaults to None.</span>
 <span class="sd">        mlflow_config (Optional[ConfigType], optional): config to</span>
 <span class="sd">            initialise an mlflow experiment. The config can have</span>
-<span class="sd">            any parameters that mlflow.create_experiment() method accepts</span>
-<span class="sd">            (https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.create_experiment).</span>
-<span class="sd">            Note that the config is passed as keyword arguments to the</span>
-<span class="sd">            mlflow.create_experiment() method. This provides a lot</span>
+<span class="sd">            any parameters that [mlflow.create_experiment() method](https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.create_experiment)</span>
+<span class="sd">            accepts. Note that the config is passed as keyword arguments</span>
+<span class="sd">            to the mlflow.create_experiment() method. This provides a lot</span>
 <span class="sd">            of flexibility to the users to configure mlflow. This also</span>
 <span class="sd">            means that config should not have any parameters that</span>
 <span class="sd">            mlflow.create_experiment would not accept. Defaults to None.</span>
@@ -360,6 +359,15 @@
 <span class="sd">            to mlflow, prefix the value (corresponding to the key) to all</span>
 <span class="sd">            the remaining keys before values are logged in the mlflow logger.</span>
 <span class="sd">            This argument is ignored if set to None. Defaults to None.</span>
+<span class="sd">        mongo_config (Optional[ConfigType], optional): config to</span>
+<span class="sd">            initialise connection to a collection in mongodb. The config</span>
+<span class="sd">            supports the following keys:</span>
+<span class="sd">                (1) host: host where mongodb is running.</span>
+<span class="sd">                (2) port: port on which mongodb is running.</span>
+<span class="sd">                (3) db: name of the db to use.</span>
+<span class="sd">                (4) collection: name of the collection to use.</span>
+<span class="sd">            Defaults to None.</span>
+
 <span class="sd">    Returns:</span>
 <span class="sd">        ConfigType: config to construct the LogBook</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -389,6 +397,12 @@
         <span class="n">loggers</span><span class="p">[</span><span class="s2">&quot;mlflow&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mlflow_config</span>
         <span class="n">loggers</span><span class="p">[</span><span class="s2">&quot;mlflow&quot;</span><span class="p">][</span><span class="s2">&quot;logbook_key_map&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mlflow_key_map</span>
         <span class="n">loggers</span><span class="p">[</span><span class="s2">&quot;mlflow&quot;</span><span class="p">][</span><span class="s2">&quot;logbook_key_prefix&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mlflow_prefix_key</span>
+
+    <span class="k">if</span> <span class="n">mongo_config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;mongo&quot;</span>
+        <span class="n">loggers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">mongo_config</span>
+        <span class="n">loggers</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;logbook_key_map&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">loggers</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;logbook_key_prefix&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="n">config</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="nb">id</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;loggers&quot;</span><span class="p">:</span> <span class="n">loggers</span><span class="p">}</span>
     <span class="k">return</span> <span class="n">config</span></div>

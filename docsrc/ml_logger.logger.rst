@@ -28,6 +28,14 @@ ml\_logger.logger.mlflow module
    :undoc-members:
    :show-inheritance:
 
+ml\_logger.logger.mongo module
+------------------------------
+
+.. automodule:: ml_logger.logger.mongo
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 ml\_logger.logger.tensorboard module
 ------------------------------------
 
