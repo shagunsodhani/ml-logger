@@ -8,6 +8,16 @@ from ml_logger.parser.utils import parse_json
 from ml_logger.types import LogType, ParseLineFunctionType
 
 
+def parse_json_and_match_value(line: str, value: str) -> Optional[LogType]:
+    """Parse a line as JSON string and check if it a valid log."""
+    log = parse_json(line)
+    if log:
+        key = "logbook_type"
+        if key not in log or log[key] != value:
+            log = None
+    return log
+
+
 class Parser(BaseParser):
     """Class to parse the log files."""
 
