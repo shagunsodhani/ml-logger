@@ -1,7 +1,7 @@
 """Base class that all parsers extend."""
 
 from abc import ABC
-from typing import Iterator, Optional
+from typing import Dict, Iterator, Optional
 
 from ml_logger.parser.utils import parse_json
 from ml_logger.types import LogType, ParseLineFunctionType
@@ -39,3 +39,18 @@ class Parser(ABC):
             for line in f:
                 log = self.parse_line(line)
                 yield log
+
+    def _wrap_parse_line(
+        self, parser_functions: Dict[str, ParseLineFunctionType]
+    ) -> ParseLineFunctionType:
+        def fn(line: str) -> Optional[LogType]:
+            log = None
+            for parser_type, parser_func in parser_functions.items():
+                log = parser_func(line)
+                if log is not None:
+                    if self.log_key not in log:
+                        log[self.log_key] = parser_type
+                    break
+            return log
+
+        return fn

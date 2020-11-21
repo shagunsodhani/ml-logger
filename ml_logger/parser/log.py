@@ -22,18 +22,10 @@ class Parser(BaseParser):
         """
         super().__init__(parse_line)
         self.log_type = "log"
-        self.parse_line = self._wrap_parse_line(parse_line)
-
-    def _wrap_parse_line(
-        self, parse_line: ParseLineFunctionType
-    ) -> ParseLineFunctionType:
-        def fn(line: str) -> Optional[LogType]:
-            log = parse_line(line)
-            if log is not None and self.log_key not in log:
-                log[self.log_key] = self.log_type
-            return log
-
-        return fn
+        # this will likely go away soon
+        self.parse_line = self._wrap_parse_line(
+            parser_functions={self.log_type: parse_line}
+        )
 
     def _parse_file(self, file_path: str) -> Iterator[Optional[LogType]]:
         """Open a log file and parse its content.

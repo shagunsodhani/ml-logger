@@ -37,25 +37,13 @@ class Parser(base_parser.Parser):
         """
         self.log_key = "logbook_type"
         self.log_type = "experiment"
-        self.parse_line = self._wrap_parse_line(parse_config_line, parse_metric_line)
-
-    def _wrap_parse_line(
-        self,
-        parse_config_line: ParseLineFunctionType,
-        parse_metric_line: ParseLineFunctionType,
-    ) -> ParseLineFunctionType:
-        def fn(line: str) -> Optional[LogType]:
-            log = parse_config_line(line)
-            if log is not None:
-                if self.log_key not in log:
-                    log[self.log_key] = "config"
-            else:
-                log = parse_metric_line(line)
-                if log is not None and self.log_key not in log:
-                    log[self.log_key] = "metric"
-            return log
-
-        return fn
+        self.parse_line = self._wrap_parse_line(
+            parser_functions={
+                "config": parse_config_line,
+                "metric": parse_metric_line,
+                "info": parse_json,
+            }
+        )
 
     def parse(self, filepath_pattern: str) -> Experiment:
         """Load one experiment from the log dir.
