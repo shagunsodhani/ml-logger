@@ -1,19 +1,19 @@
 """Implementation of Parser to parse experiment from the logs."""
 
 import glob
-from typing import Optional
+from typing import Any, Dict
 
 from ml_logger.parser import base as base_parser
 from ml_logger.parser.config import (
-    parse_json_and_match_key as default_config_line_parser,
+    parse_json_and_match_value as default_config_line_parser,
 )
 from ml_logger.parser.experiment.experiment import Experiment
 from ml_logger.parser.metric import metrics_to_df
 from ml_logger.parser.metric import (
-    parse_json_and_match_key as default_metric_line_parser,
+    parse_json_and_match_value as default_metric_line_parser,
 )
 from ml_logger.parser.utils import parse_json
-from ml_logger.types import LogType, ParseLineFunctionType
+from ml_logger.types import ParseLineFunctionType
 
 
 class Parser(base_parser.Parser):

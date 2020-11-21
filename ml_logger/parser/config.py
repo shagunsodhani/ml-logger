@@ -3,11 +3,11 @@
 from typing import Optional
 
 from ml_logger.parser import log as log_parser
-from ml_logger.parser.utils import parse_json
 from ml_logger.types import LogType, ParseLineFunctionType
 
 
 def parse_json_and_match_value(line: str) -> Optional[LogType]:
+    """Parse a line as JSON log and check if it a valid config log."""
     return log_parser.parse_json_and_match_value(line=line, value="config")
 
 

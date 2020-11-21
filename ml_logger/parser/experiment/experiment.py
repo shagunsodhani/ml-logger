@@ -34,6 +34,7 @@ class Experiment:
 
     @property
     def config(self) -> Optional[LogType]:
+        """Access the config property."""
         if len(self.configs) > 0:
             return self.configs[-1]
         return None
