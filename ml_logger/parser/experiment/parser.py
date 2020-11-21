@@ -12,6 +12,7 @@ from ml_logger.parser.metric import metrics_to_df
 from ml_logger.parser.metric import (
     parse_json_and_match_key as default_metric_line_parser,
 )
+from ml_logger.parser.utils import parse_json
 from ml_logger.types import LogType, ParseLineFunctionType
 
 
@@ -22,6 +23,7 @@ class Parser(base_parser.Parser):
         self,
         parse_config_line: ParseLineFunctionType = default_config_line_parser,
         parse_metric_line: ParseLineFunctionType = default_metric_line_parser,
+        parse_info_line: ParseLineFunctionType = parse_json,
     ):
         """Class to parse experiment from the logs.
 
@@ -55,6 +57,7 @@ class Parser(base_parser.Parser):
         """
         configs = []
         metric_logs = []
+        info: Dict[Any, Any] = {}
         paths = glob.glob(filepath_pattern)
         for file_path in paths:
             for log in self._parse_file(file_path=file_path):
@@ -64,10 +67,11 @@ class Parser(base_parser.Parser):
                         configs.append(log)
                     elif log[self.log_key] == "metric":
                         metric_logs.append(log)
-        if len(configs) == 0:
-            config = None
-        else:
-            config = configs[-1]
+                    else:
+                        info_key = log[self.log_key]
+                        if info_key not in info:
+                            info[info_key] = []
+                        info[info_key].append(log)
         return Experiment(
-            config=config, metrics=metrics_to_df(metric_logs=metric_logs), info={},
+            configs=configs, metrics=metrics_to_df(metric_logs=metric_logs), info=info
         )
