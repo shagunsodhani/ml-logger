@@ -4,14 +4,13 @@ from collections import UserList
 from typing import Any, Callable, Dict, List, Optional
 
 import pandas as pd
-
 from ml_logger.types import LogType
 
 
 class Experiment:
     def __init__(
         self,
-        config: Optional[LogType],
+        configs: List[LogType],
         metrics: Dict[str, pd.DataFrame],
         info: Optional[Dict[Any, Any]] = None,
     ):
@@ -27,11 +26,17 @@ class Experiment:
                 any information about the experiment (that does not fit
                 within config and metrics). Defaults to None.
         """
-        self.config = config
+        self.configs = configs
         self.metrics = metrics
         self.info: Dict[Any, Any] = {}
         if info is not None:
             self.info = info
+
+    @property
+    def config(self) -> Optional[LogType]:
+        if len(self.configs) > 0:
+            return self.configs[-1]
+        return None
 
 
 class ExperimentSequence(UserList):  # type: ignore
