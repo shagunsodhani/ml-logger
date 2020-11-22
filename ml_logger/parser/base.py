@@ -48,6 +48,8 @@ class Parser(ABC):
             for parser_type, parser_func in parser_functions.items():
                 log = parser_func(line)
                 if log is not None:
+                    if not isinstance(log, dict):
+                        log = {"data": log}
                     if self.log_key not in log:
                         log[self.log_key] = parser_type
                     break
