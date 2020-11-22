@@ -1,9 +1,13 @@
 """Container for the experiment data."""
 
+import gzip
+import json
 from collections import UserList
+from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
 
 import pandas as pd
+from ml_logger import utils
 from ml_logger.types import LogType
 
 
@@ -38,6 +42,57 @@ class Experiment:
         if len(self.configs) > 0:
             return self.configs[-1]
         return None
+
+    def serialize(self, dir_path: str) -> None:
+        """Serialize the experiment data and store at `dir_path`.
+
+        * configs are stored as jsonl (since there are only a few configs per experiment) in a file called `config.jsonl`.
+        * metrics are stored in [`feather` format](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_feather.html).
+        * info is stored in the gzip format.
+        """
+        utils.make_dir(dir_path)
+        path_to_save = f"{dir_path}/config.jsonl"
+        with open(path_to_save, "w") as f:
+            for config in self.configs:
+                f.write(json.dumps(config) + "\n")
+        print(f"Saved configs at {path_to_save}")
+
+        metric_dir = f"{dir_path}/metric"
+        utils.make_dir(metric_dir)
+        for key in self.metrics:
+            path_to_save = f"{metric_dir}/{key}"
+            self.metrics[key].to_feather(path=path_to_save)
+            print(f"Saved `{key}`` metrics at {path_to_save}")
+
+        path_to_save = f"{dir_path}/info.gzip"
+        with gzip.open(path_to_save, "wb") as f:  # type: ignore[assignment]
+            f.write(json.dumps(self.info).encode("utf-8"))  # type: ignore[arg-type]
+        print(f"Saved info at {path_to_save}")
+
+
+def deserialize(dir_path: str) -> Experiment:
+    """Deserialize the experiment data stored at `dir_path` and return an Experiment object."""
+    path_to_load_from = f"{dir_path}/config.jsonl"
+    configs = []
+    with open(path_to_load_from) as f:
+        for line in f:
+            configs.append(json.loads(line))
+    print(f"Loaded configs from {path_to_load_from}")
+
+    metrics = {}
+    dir_to_load_from = Path(f"{dir_path}/metric/")
+    for path_to_load_metric in dir_to_load_from.iterdir():
+        if path_to_load_metric.is_file():
+            key = path_to_load_metric.parts[-1]
+            metrics[key] = pd.read_feather(path_to_load_metric)
+            print(f"Loaded `{key}`` metrics from {path_to_load_metric}")
+
+    path_to_load_from = f"{dir_path}/info.gzip"
+    with gzip.open(path_to_load_from, "rb") as f:  # type: ignore[assignment]
+        info = json.loads(f.read().decode("utf-8"))  # type: ignore[attr-defined]
+    print(f"Loaded info from {path_to_load_from}")
+
+    return Experiment(configs=configs, metrics=metrics, info=info)
 
 
 class ExperimentSequence(UserList):  # type: ignore
