@@ -43,7 +43,7 @@ class Parser(base_parser.Parser):
             parser_functions={
                 "config": parse_config_line,
                 "metric": parse_metric_line,
-                "info": parse_json,
+                "info": parse_info_line,
             }
         )
 
