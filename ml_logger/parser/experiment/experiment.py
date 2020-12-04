@@ -55,19 +55,19 @@ class Experiment:
         with open(path_to_save, "w") as f:
             for config in self.configs:
                 f.write(json.dumps(config) + "\n")
-        print(f"Saved configs at {path_to_save}")
 
         metric_dir = f"{dir_path}/metric"
         utils.make_dir(metric_dir)
         for key in self.metrics:
             path_to_save = f"{metric_dir}/{key}"
-            self.metrics[key].to_feather(path=path_to_save)
-            print(f"Saved `{key}`` metrics at {path_to_save}")
+            if self.metrics[key].empty:
+                pass
+            else:
+                self.metrics[key].to_feather(path=path_to_save)
 
         path_to_save = f"{dir_path}/info.gzip"
         with gzip.open(path_to_save, "wb") as f:  # type: ignore[assignment]
             f.write(json.dumps(self.info).encode("utf-8"))  # type: ignore[arg-type]
-        print(f"Saved info at {path_to_save}")
 
     def __eq__(self, other: object) -> bool:
         """Compare two `Experiment` objects"""
@@ -96,7 +96,6 @@ def deserialize(dir_path: str) -> Experiment:
     with open(path_to_load_from) as f:
         for line in f:
             configs.append(json.loads(line))
-    print(f"Loaded configs from {path_to_load_from}")
 
     metrics = {}
     dir_to_load_from = Path(f"{dir_path}/metric/")
@@ -104,12 +103,12 @@ def deserialize(dir_path: str) -> Experiment:
         if path_to_load_metric.is_file():
             key = path_to_load_metric.parts[-1]
             metrics[key] = pd.read_feather(path_to_load_metric)
-            print(f"Loaded `{key}`` metrics from {path_to_load_metric}")
+    if not metrics:
+        metrics["all"] = pd.DataFrame()
 
     path_to_load_from = f"{dir_path}/info.gzip"
     with gzip.open(path_to_load_from, "rb") as f:  # type: ignore[assignment]
         info = json.loads(f.read().decode("utf-8"))  # type: ignore[attr-defined]
-    print(f"Loaded info from {path_to_load_from}")
 
     return Experiment(configs=configs, metrics=metrics, info=info)
 
