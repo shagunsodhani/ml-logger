@@ -75,18 +75,13 @@ class Experiment:
             return NotImplemented
         return (
             self.configs == other.configs
-            and compare_keys_in_dict(self.metrics, other.metrics)
+            and utils.compare_keys_in_dict(self.metrics, other.metrics)
             and all(
                 self.metrics[key].equals(other.metrics[key]) for key in self.metrics
             )
-            and compare_keys_in_dict(self.info, other.info)
+            and utils.compare_keys_in_dict(self.info, other.info)
             and all(self.info[key] == other.info[key] for key in self.info)
         )
-
-
-def compare_keys_in_dict(dict1: Dict[Any, Any], dict2: Dict[Any, Any]) -> bool:
-    """Check that the two dicts have the same set of keys"""
-    return set(dict1.keys()) == set(dict2.keys())
 
 
 def deserialize(dir_path: str) -> Experiment:
