@@ -8,21 +8,24 @@ from typing import Any, Callable, Dict, List, Optional
 
 import pandas as pd
 from ml_logger import utils
-from ml_logger.types import LogType
+from ml_logger.types import ConfigType, MetricType
+
+ExperimentMetricType = Dict[str, pd.DataFrame]
+ExperimentInfoType = Dict[Any, Any]
 
 
 class Experiment:
     def __init__(
         self,
-        configs: List[LogType],
-        metrics: Dict[str, pd.DataFrame],
-        info: Optional[Dict[Any, Any]] = None,
+        configs: List[ConfigType],
+        metrics: ExperimentMetricType,
+        info: Optional[ExperimentInfoType] = None,
     ):
         """Class to hold the experiment data.
 
         Args:
-            config (Optional[LogType]): Config used for the experiment
-            metrics (Dict[str, pd.DataFrame]): Dictionary mapping strings
+            configs (List[ConfigType]): Configs used for the experiment
+            metrics (ExperimentMetricType): Dictionary mapping strings
                 to dataframes. Keys could be "train", "validation", "test"
                 and corresponding dataframes would have the data for these
                 modes.
@@ -37,7 +40,7 @@ class Experiment:
             self.info = info
 
     @property
-    def config(self) -> Optional[LogType]:
+    def config(self) -> Optional[ConfigType]:
         """Access the config property."""
         if len(self.configs) > 0:
             return self.configs[-1]
