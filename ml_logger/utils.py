@@ -37,3 +37,8 @@ def make_dir(path: str) -> None:
         path (str): dir to make
     """
     pathlib.Path(path).mkdir(parents=True, exist_ok=True)
+
+
+def compare_keys_in_dict(dict1: Dict[Any, Any], dict2: Dict[Any, Any]) -> bool:
+    """Check that the two dicts have the same set of keys."""
+    return set(dict1.keys()) == set(dict2.keys())

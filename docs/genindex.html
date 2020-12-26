@@ -1,16 +1,18 @@
 
 
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; ml_logger 0.6rc1 documentation</title>
+  <title>Index &mdash; ml_logger 0.7 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
 
   
   
@@ -18,22 +20,19 @@
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" /> 
 </head>
@@ -49,7 +48,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> ml_logger
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> ml_logger
           
 
           
@@ -72,6 +71,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -79,14 +79,24 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">ml_logger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/readme.html">Why ml_logger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/readme.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/readme.html#use">Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/readme.html#note">Note</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/readme.html#dev-setup">Dev Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/readme.html#acknowledgements">Acknowledgements</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pages/api/modules.html">ml_logger</a></li>
 </ul>
 
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -125,7 +135,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Index</li>
     
@@ -151,6 +161,7 @@
  <a href="#A"><strong>A</strong></a>
  | <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
@@ -167,11 +178,13 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ml_logger.parser.html#ml_logger.parser.metric.aggregate_metrics">aggregate_metrics() (in module ml_logger.parser.metric)</a>
+      <li><a href="pages/api/ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.ExperimentSequence.aggregate">aggregate() (ml_logger.parser.experiment.experiment.ExperimentSequence method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ml_logger.html#ml_logger.metrics.AverageMetric">AverageMetric (class in ml_logger.metrics)</a>
+      <li><a href="pages/api/ml_logger.parser.html#ml_logger.parser.metric.aggregate_metrics">aggregate_metrics() (in module ml_logger.parser.metric)</a>
+</li>
+      <li><a href="pages/api/ml_logger.html#ml_logger.metrics.AverageMetric">AverageMetric (class in ml_logger.metrics)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -179,7 +192,7 @@
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ml_logger.html#ml_logger.metrics.BaseMetric">BaseMetric (class in ml_logger.metrics)</a>
+      <li><a href="pages/api/ml_logger.html#ml_logger.metrics.BaseMetric">BaseMetric (class in ml_logger.metrics)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -187,15 +200,29 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ml_logger.parser.html#ml_logger.parser.utils.compare_logs">compare_logs() (in module ml_logger.parser.utils)</a>
+      <li><a href="pages/api/ml_logger.html#ml_logger.utils.compare_keys_in_dict">compare_keys_in_dict() (in module ml_logger.utils)</a>
 </li>
-      <li><a href="ml_logger.html#ml_logger.metrics.ComparisonMetric">ComparisonMetric (class in ml_logger.metrics)</a>
+      <li><a href="pages/api/ml_logger.parser.html#ml_logger.parser.utils.compare_logs">compare_logs() (in module ml_logger.parser.utils)</a>
+</li>
+      <li><a href="pages/api/ml_logger.html#ml_logger.metrics.ComparisonMetric">ComparisonMetric (class in ml_logger.metrics)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ml_logger.html#ml_logger.metrics.ConstantMetric">ConstantMetric (class in ml_logger.metrics)</a>
+      <li><a href="pages/api/ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.concat_metrics">concat_metrics() (in module ml_logger.parser.experiment.experiment)</a>
 </li>
-      <li><a href="ml_logger.html#ml_logger.metrics.CurrentMetric">CurrentMetric (class in ml_logger.metrics)</a>
+      <li><a href="pages/api/ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.Experiment.config">config() (ml_logger.parser.experiment.experiment.Experiment property)</a>
+</li>
+      <li><a href="pages/api/ml_logger.html#ml_logger.metrics.ConstantMetric">ConstantMetric (class in ml_logger.metrics)</a>
+</li>
+      <li><a href="pages/api/ml_logger.html#ml_logger.metrics.CurrentMetric">CurrentMetric (class in ml_logger.metrics)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pages/api/ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.deserialize">deserialize() (in module ml_logger.parser.experiment.experiment)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -203,11 +230,11 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.Experiment">Experiment (class in ml_logger.parser.experiment.experiment)</a>
+      <li><a href="pages/api/ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.Experiment">Experiment (class in ml_logger.parser.experiment.experiment)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.ExperimentSequence">ExperimentSequence (class in ml_logger.parser.experiment.experiment)</a>
+      <li><a href="pages/api/ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.ExperimentSequence">ExperimentSequence (class in ml_logger.parser.experiment.experiment)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -215,13 +242,13 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.ExperimentSequence.filter">filter() (ml_logger.parser.experiment.experiment.ExperimentSequence method)</a>
+      <li><a href="pages/api/ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.ExperimentSequence.filter">filter() (ml_logger.parser.experiment.experiment.ExperimentSequence method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ml_logger.html#ml_logger.utils.flatten_dict">flatten_dict() (in module ml_logger.utils)</a>
+      <li><a href="pages/api/ml_logger.html#ml_logger.utils.flatten_dict">flatten_dict() (in module ml_logger.utils)</a>
 </li>
-      <li><a href="ml_logger.parser.html#ml_logger.parser.utils.flatten_log">flatten_log() (in module ml_logger.parser.utils)</a>
+      <li><a href="pages/api/ml_logger.parser.html#ml_logger.parser.utils.flatten_log">flatten_log() (in module ml_logger.parser.utils)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -229,21 +256,21 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ml_logger.logger.html#ml_logger.logger.filesystem.get_logger_file_path">get_logger_file_path() (in module ml_logger.logger.filesystem)</a>
+      <li><a href="pages/api/ml_logger.logger.html#ml_logger.logger.filesystem.get_logger_file_path">get_logger_file_path() (in module ml_logger.logger.filesystem)</a>
 </li>
-      <li><a href="ml_logger.html#ml_logger.metrics.AverageMetric.get_val">get_val() (ml_logger.metrics.AverageMetric method)</a>
+      <li><a href="pages/api/ml_logger.html#ml_logger.metrics.AverageMetric.get_val">get_val() (ml_logger.metrics.AverageMetric method)</a>
 
       <ul>
-        <li><a href="ml_logger.html#ml_logger.metrics.BaseMetric.get_val">(ml_logger.metrics.BaseMetric method)</a>
+        <li><a href="pages/api/ml_logger.html#ml_logger.metrics.BaseMetric.get_val">(ml_logger.metrics.BaseMetric method)</a>
 </li>
-        <li><a href="ml_logger.html#ml_logger.metrics.SumMetric.get_val">(ml_logger.metrics.SumMetric method)</a>
+        <li><a href="pages/api/ml_logger.html#ml_logger.metrics.SumMetric.get_val">(ml_logger.metrics.SumMetric method)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ml_logger.parser.html#ml_logger.parser.metric.group_metrics">group_metrics() (in module ml_logger.parser.metric)</a>
+      <li><a href="pages/api/ml_logger.parser.html#ml_logger.parser.metric.group_metrics">group_metrics() (in module ml_logger.parser.metric)</a>
 </li>
-      <li><a href="ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.ExperimentSequence.groupby">groupby() (ml_logger.parser.experiment.experiment.ExperimentSequence method)</a>
+      <li><a href="pages/api/ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.ExperimentSequence.groupby">groupby() (ml_logger.parser.experiment.experiment.ExperimentSequence method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -251,18 +278,20 @@
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ml_logger.html#ml_logger.logbook.LogBook">LogBook (class in ml_logger.logbook)</a>
+      <li><a href="pages/api/ml_logger.html#ml_logger.logbook.LogBook">LogBook (class in ml_logger.logbook)</a>
 </li>
-      <li><a href="ml_logger.logger.html#ml_logger.logger.base.Logger">Logger (class in ml_logger.logger.base)</a>
+      <li><a href="pages/api/ml_logger.logger.html#ml_logger.logger.base.Logger">Logger (class in ml_logger.logger.base)</a>
 
       <ul>
-        <li><a href="ml_logger.logger.html#ml_logger.logger.filesystem.Logger">(class in ml_logger.logger.filesystem)</a>
+        <li><a href="pages/api/ml_logger.logger.html#ml_logger.logger.filesystem.Logger">(class in ml_logger.logger.filesystem)</a>
 </li>
-        <li><a href="ml_logger.logger.html#ml_logger.logger.mlflow.Logger">(class in ml_logger.logger.mlflow)</a>
+        <li><a href="pages/api/ml_logger.logger.html#ml_logger.logger.mlflow.Logger">(class in ml_logger.logger.mlflow)</a>
 </li>
-        <li><a href="ml_logger.logger.html#ml_logger.logger.tensorboard.Logger">(class in ml_logger.logger.tensorboard)</a>
+        <li><a href="pages/api/ml_logger.logger.html#ml_logger.logger.mongo.Logger">(class in ml_logger.logger.mongo)</a>
 </li>
-        <li><a href="ml_logger.logger.html#ml_logger.logger.wandb.Logger">(class in ml_logger.logger.wandb)</a>
+        <li><a href="pages/api/ml_logger.logger.html#ml_logger.logger.tensorboard.Logger">(class in ml_logger.logger.tensorboard)</a>
+</li>
+        <li><a href="pages/api/ml_logger.logger.html#ml_logger.logger.wandb.Logger">(class in ml_logger.logger.wandb)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -271,114 +300,121 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ml_logger.html#ml_logger.logbook.make_config">make_config() (in module ml_logger.logbook)</a>
+      <li><a href="pages/api/ml_logger.html#ml_logger.logbook.make_config">make_config() (in module ml_logger.logbook)</a>
 </li>
-      <li><a href="ml_logger.html#ml_logger.utils.make_dir">make_dir() (in module ml_logger.utils)</a>
+      <li><a href="pages/api/ml_logger.html#ml_logger.utils.make_dir">make_dir() (in module ml_logger.utils)</a>
 </li>
-      <li><a href="ml_logger.html#ml_logger.metrics.MaxMetric">MaxMetric (class in ml_logger.metrics)</a>
+      <li><a href="pages/api/ml_logger.html#ml_logger.metrics.MaxMetric">MaxMetric (class in ml_logger.metrics)</a>
 </li>
-      <li><a href="ml_logger.html#ml_logger.metrics.MetricDict">MetricDict (class in ml_logger.metrics)</a>
+      <li><a href="pages/api/ml_logger.html#ml_logger.metrics.MetricDict">MetricDict (class in ml_logger.metrics)</a>
 </li>
-      <li><a href="ml_logger.parser.html#ml_logger.parser.metric.metrics_to_df">metrics_to_df() (in module ml_logger.parser.metric)</a>
+      <li><a href="pages/api/ml_logger.parser.html#ml_logger.parser.metric.metrics_to_df">metrics_to_df() (in module ml_logger.parser.metric)</a>
 </li>
-      <li><a href="ml_logger.html#ml_logger.metrics.MinMetric">MinMetric (class in ml_logger.metrics)</a>
+      <li><a href="pages/api/ml_logger.html#ml_logger.metrics.MinMetric">MinMetric (class in ml_logger.metrics)</a>
 </li>
       <li>
     ml_logger
 
       <ul>
-        <li><a href="ml_logger.html#module-ml_logger">module</a>
+        <li><a href="pages/api/ml_logger.html#module-ml_logger">module</a>
 </li>
       </ul></li>
       <li>
     ml_logger.logbook
 
       <ul>
-        <li><a href="ml_logger.html#module-ml_logger.logbook">module</a>
+        <li><a href="pages/api/ml_logger.html#module-ml_logger.logbook">module</a>
 </li>
       </ul></li>
       <li>
     ml_logger.logger
 
       <ul>
-        <li><a href="ml_logger.logger.html#module-ml_logger.logger">module</a>
+        <li><a href="pages/api/ml_logger.logger.html#module-ml_logger.logger">module</a>
 </li>
       </ul></li>
       <li>
     ml_logger.logger.base
 
       <ul>
-        <li><a href="ml_logger.logger.html#module-ml_logger.logger.base">module</a>
+        <li><a href="pages/api/ml_logger.logger.html#module-ml_logger.logger.base">module</a>
 </li>
       </ul></li>
       <li>
     ml_logger.logger.filesystem
 
       <ul>
-        <li><a href="ml_logger.logger.html#module-ml_logger.logger.filesystem">module</a>
+        <li><a href="pages/api/ml_logger.logger.html#module-ml_logger.logger.filesystem">module</a>
 </li>
       </ul></li>
       <li>
     ml_logger.logger.mlflow
 
       <ul>
-        <li><a href="ml_logger.logger.html#module-ml_logger.logger.mlflow">module</a>
+        <li><a href="pages/api/ml_logger.logger.html#module-ml_logger.logger.mlflow">module</a>
+</li>
+      </ul></li>
+      <li>
+    ml_logger.logger.mongo
+
+      <ul>
+        <li><a href="pages/api/ml_logger.logger.html#module-ml_logger.logger.mongo">module</a>
 </li>
       </ul></li>
       <li>
     ml_logger.logger.tensorboard
 
       <ul>
-        <li><a href="ml_logger.logger.html#module-ml_logger.logger.tensorboard">module</a>
+        <li><a href="pages/api/ml_logger.logger.html#module-ml_logger.logger.tensorboard">module</a>
 </li>
       </ul></li>
       <li>
     ml_logger.logger.wandb
 
       <ul>
-        <li><a href="ml_logger.logger.html#module-ml_logger.logger.wandb">module</a>
+        <li><a href="pages/api/ml_logger.logger.html#module-ml_logger.logger.wandb">module</a>
 </li>
       </ul></li>
       <li>
     ml_logger.metrics
 
       <ul>
-        <li><a href="ml_logger.html#module-ml_logger.metrics">module</a>
+        <li><a href="pages/api/ml_logger.html#module-ml_logger.metrics">module</a>
 </li>
       </ul></li>
       <li>
     ml_logger.parser
 
       <ul>
-        <li><a href="ml_logger.parser.html#module-ml_logger.parser">module</a>
+        <li><a href="pages/api/ml_logger.parser.html#module-ml_logger.parser">module</a>
 </li>
       </ul></li>
       <li>
     ml_logger.parser.base
 
       <ul>
-        <li><a href="ml_logger.parser.html#module-ml_logger.parser.base">module</a>
+        <li><a href="pages/api/ml_logger.parser.html#module-ml_logger.parser.base">module</a>
 </li>
       </ul></li>
       <li>
     ml_logger.parser.config
 
       <ul>
-        <li><a href="ml_logger.parser.html#module-ml_logger.parser.config">module</a>
+        <li><a href="pages/api/ml_logger.parser.html#module-ml_logger.parser.config">module</a>
 </li>
       </ul></li>
       <li>
     ml_logger.parser.experiment
 
       <ul>
-        <li><a href="ml_logger.parser.experiment.html#module-ml_logger.parser.experiment">module</a>
+        <li><a href="pages/api/ml_logger.parser.experiment.html#module-ml_logger.parser.experiment">module</a>
 </li>
       </ul></li>
       <li>
     ml_logger.parser.experiment.experiment
 
       <ul>
-        <li><a href="ml_logger.parser.experiment.html#module-ml_logger.parser.experiment.experiment">module</a>
+        <li><a href="pages/api/ml_logger.parser.experiment.html#module-ml_logger.parser.experiment.experiment">module</a>
 </li>
       </ul></li>
   </ul></td>
@@ -387,87 +423,89 @@
     ml_logger.parser.experiment.parser
 
       <ul>
-        <li><a href="ml_logger.parser.experiment.html#module-ml_logger.parser.experiment.parser">module</a>
+        <li><a href="pages/api/ml_logger.parser.experiment.html#module-ml_logger.parser.experiment.parser">module</a>
 </li>
       </ul></li>
       <li>
     ml_logger.parser.log
 
       <ul>
-        <li><a href="ml_logger.parser.html#module-ml_logger.parser.log">module</a>
+        <li><a href="pages/api/ml_logger.parser.html#module-ml_logger.parser.log">module</a>
 </li>
       </ul></li>
       <li>
     ml_logger.parser.metric
 
       <ul>
-        <li><a href="ml_logger.parser.html#module-ml_logger.parser.metric">module</a>
+        <li><a href="pages/api/ml_logger.parser.html#module-ml_logger.parser.metric">module</a>
 </li>
       </ul></li>
       <li>
     ml_logger.parser.utils
 
       <ul>
-        <li><a href="ml_logger.parser.html#module-ml_logger.parser.utils">module</a>
+        <li><a href="pages/api/ml_logger.parser.html#module-ml_logger.parser.utils">module</a>
 </li>
       </ul></li>
       <li>
     ml_logger.types
 
       <ul>
-        <li><a href="ml_logger.html#module-ml_logger.types">module</a>
+        <li><a href="pages/api/ml_logger.html#module-ml_logger.types">module</a>
 </li>
       </ul></li>
       <li>
     ml_logger.utils
 
       <ul>
-        <li><a href="ml_logger.html#module-ml_logger.utils">module</a>
+        <li><a href="pages/api/ml_logger.html#module-ml_logger.utils">module</a>
 </li>
       </ul></li>
       <li>
     module
 
       <ul>
-        <li><a href="ml_logger.html#module-ml_logger">ml_logger</a>
+        <li><a href="pages/api/ml_logger.html#module-ml_logger">ml_logger</a>
 </li>
-        <li><a href="ml_logger.html#module-ml_logger.logbook">ml_logger.logbook</a>
+        <li><a href="pages/api/ml_logger.html#module-ml_logger.logbook">ml_logger.logbook</a>
 </li>
-        <li><a href="ml_logger.logger.html#module-ml_logger.logger">ml_logger.logger</a>
+        <li><a href="pages/api/ml_logger.logger.html#module-ml_logger.logger">ml_logger.logger</a>
 </li>
-        <li><a href="ml_logger.logger.html#module-ml_logger.logger.base">ml_logger.logger.base</a>
+        <li><a href="pages/api/ml_logger.logger.html#module-ml_logger.logger.base">ml_logger.logger.base</a>
 </li>
-        <li><a href="ml_logger.logger.html#module-ml_logger.logger.filesystem">ml_logger.logger.filesystem</a>
+        <li><a href="pages/api/ml_logger.logger.html#module-ml_logger.logger.filesystem">ml_logger.logger.filesystem</a>
 </li>
-        <li><a href="ml_logger.logger.html#module-ml_logger.logger.mlflow">ml_logger.logger.mlflow</a>
+        <li><a href="pages/api/ml_logger.logger.html#module-ml_logger.logger.mlflow">ml_logger.logger.mlflow</a>
 </li>
-        <li><a href="ml_logger.logger.html#module-ml_logger.logger.tensorboard">ml_logger.logger.tensorboard</a>
+        <li><a href="pages/api/ml_logger.logger.html#module-ml_logger.logger.mongo">ml_logger.logger.mongo</a>
 </li>
-        <li><a href="ml_logger.logger.html#module-ml_logger.logger.wandb">ml_logger.logger.wandb</a>
+        <li><a href="pages/api/ml_logger.logger.html#module-ml_logger.logger.tensorboard">ml_logger.logger.tensorboard</a>
 </li>
-        <li><a href="ml_logger.html#module-ml_logger.metrics">ml_logger.metrics</a>
+        <li><a href="pages/api/ml_logger.logger.html#module-ml_logger.logger.wandb">ml_logger.logger.wandb</a>
 </li>
-        <li><a href="ml_logger.parser.html#module-ml_logger.parser">ml_logger.parser</a>
+        <li><a href="pages/api/ml_logger.html#module-ml_logger.metrics">ml_logger.metrics</a>
 </li>
-        <li><a href="ml_logger.parser.html#module-ml_logger.parser.base">ml_logger.parser.base</a>
+        <li><a href="pages/api/ml_logger.parser.html#module-ml_logger.parser">ml_logger.parser</a>
 </li>
-        <li><a href="ml_logger.parser.html#module-ml_logger.parser.config">ml_logger.parser.config</a>
+        <li><a href="pages/api/ml_logger.parser.html#module-ml_logger.parser.base">ml_logger.parser.base</a>
 </li>
-        <li><a href="ml_logger.parser.experiment.html#module-ml_logger.parser.experiment">ml_logger.parser.experiment</a>
+        <li><a href="pages/api/ml_logger.parser.html#module-ml_logger.parser.config">ml_logger.parser.config</a>
 </li>
-        <li><a href="ml_logger.parser.experiment.html#module-ml_logger.parser.experiment.experiment">ml_logger.parser.experiment.experiment</a>
+        <li><a href="pages/api/ml_logger.parser.experiment.html#module-ml_logger.parser.experiment">ml_logger.parser.experiment</a>
 </li>
-        <li><a href="ml_logger.parser.experiment.html#module-ml_logger.parser.experiment.parser">ml_logger.parser.experiment.parser</a>
+        <li><a href="pages/api/ml_logger.parser.experiment.html#module-ml_logger.parser.experiment.experiment">ml_logger.parser.experiment.experiment</a>
 </li>
-        <li><a href="ml_logger.parser.html#module-ml_logger.parser.log">ml_logger.parser.log</a>
+        <li><a href="pages/api/ml_logger.parser.experiment.html#module-ml_logger.parser.experiment.parser">ml_logger.parser.experiment.parser</a>
 </li>
-        <li><a href="ml_logger.parser.html#module-ml_logger.parser.metric">ml_logger.parser.metric</a>
+        <li><a href="pages/api/ml_logger.parser.html#module-ml_logger.parser.log">ml_logger.parser.log</a>
 </li>
-        <li><a href="ml_logger.parser.html#module-ml_logger.parser.utils">ml_logger.parser.utils</a>
+        <li><a href="pages/api/ml_logger.parser.html#module-ml_logger.parser.metric">ml_logger.parser.metric</a>
 </li>
-        <li><a href="ml_logger.html#module-ml_logger.types">ml_logger.types</a>
+        <li><a href="pages/api/ml_logger.parser.html#module-ml_logger.parser.utils">ml_logger.parser.utils</a>
 </li>
-        <li><a href="ml_logger.html#module-ml_logger.utils">ml_logger.utils</a>
+        <li><a href="pages/api/ml_logger.html#module-ml_logger.types">ml_logger.types</a>
+</li>
+        <li><a href="pages/api/ml_logger.html#module-ml_logger.utils">ml_logger.utils</a>
 </li>
       </ul></li>
   </ul></td>
@@ -476,38 +514,40 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ml_logger.parser.experiment.html#ml_logger.parser.experiment.parser.Parser.parse">parse() (ml_logger.parser.experiment.parser.Parser method)</a>
+      <li><a href="pages/api/ml_logger.parser.experiment.html#ml_logger.parser.experiment.parser.Parser.parse">parse() (ml_logger.parser.experiment.parser.Parser method)</a>
 
       <ul>
-        <li><a href="ml_logger.parser.html#ml_logger.parser.log.Parser.parse">(ml_logger.parser.log.Parser method)</a>
+        <li><a href="pages/api/ml_logger.parser.html#ml_logger.parser.log.Parser.parse">(ml_logger.parser.log.Parser method)</a>
 </li>
       </ul></li>
-      <li><a href="ml_logger.parser.html#ml_logger.parser.metric.Parser.parse_as_df">parse_as_df() (ml_logger.parser.metric.Parser method)</a>
+      <li><a href="pages/api/ml_logger.parser.html#ml_logger.parser.metric.Parser.parse_as_df">parse_as_df() (ml_logger.parser.metric.Parser method)</a>
 </li>
-      <li><a href="ml_logger.parser.html#ml_logger.parser.log.Parser.parse_first_log">parse_first_log() (ml_logger.parser.log.Parser method)</a>
+      <li><a href="pages/api/ml_logger.parser.html#ml_logger.parser.log.Parser.parse_first_log">parse_first_log() (ml_logger.parser.log.Parser method)</a>
 </li>
-      <li><a href="ml_logger.parser.html#ml_logger.parser.utils.parse_json">parse_json() (in module ml_logger.parser.utils)</a>
+      <li><a href="pages/api/ml_logger.parser.html#ml_logger.parser.utils.parse_json">parse_json() (in module ml_logger.parser.utils)</a>
 </li>
-      <li><a href="ml_logger.parser.html#ml_logger.parser.config.parse_json_and_match_key">parse_json_and_match_key() (in module ml_logger.parser.config)</a>
+      <li><a href="pages/api/ml_logger.parser.html#ml_logger.parser.config.parse_json_and_match_value">parse_json_and_match_value() (in module ml_logger.parser.config)</a>
 
       <ul>
-        <li><a href="ml_logger.parser.html#ml_logger.parser.metric.parse_json_and_match_key">(in module ml_logger.parser.metric)</a>
+        <li><a href="pages/api/ml_logger.parser.html#ml_logger.parser.log.parse_json_and_match_value">(in module ml_logger.parser.log)</a>
+</li>
+        <li><a href="pages/api/ml_logger.parser.html#ml_logger.parser.metric.parse_json_and_match_value">(in module ml_logger.parser.metric)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ml_logger.parser.html#ml_logger.parser.log.Parser.parse_last_log">parse_last_log() (ml_logger.parser.log.Parser method)</a>
+      <li><a href="pages/api/ml_logger.parser.html#ml_logger.parser.log.Parser.parse_last_log">parse_last_log() (ml_logger.parser.log.Parser method)</a>
 </li>
-      <li><a href="ml_logger.parser.html#ml_logger.parser.base.Parser">Parser (class in ml_logger.parser.base)</a>
+      <li><a href="pages/api/ml_logger.parser.html#ml_logger.parser.base.Parser">Parser (class in ml_logger.parser.base)</a>
 
       <ul>
-        <li><a href="ml_logger.parser.html#ml_logger.parser.config.Parser">(class in ml_logger.parser.config)</a>
+        <li><a href="pages/api/ml_logger.parser.html#ml_logger.parser.config.Parser">(class in ml_logger.parser.config)</a>
 </li>
-        <li><a href="ml_logger.parser.experiment.html#ml_logger.parser.experiment.parser.Parser">(class in ml_logger.parser.experiment.parser)</a>
+        <li><a href="pages/api/ml_logger.parser.experiment.html#ml_logger.parser.experiment.parser.Parser">(class in ml_logger.parser.experiment.parser)</a>
 </li>
-        <li><a href="ml_logger.parser.html#ml_logger.parser.log.Parser">(class in ml_logger.parser.log)</a>
+        <li><a href="pages/api/ml_logger.parser.html#ml_logger.parser.log.Parser">(class in ml_logger.parser.log)</a>
 </li>
-        <li><a href="ml_logger.parser.html#ml_logger.parser.metric.Parser">(class in ml_logger.parser.metric)</a>
+        <li><a href="pages/api/ml_logger.parser.html#ml_logger.parser.metric.Parser">(class in ml_logger.parser.metric)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -516,25 +556,35 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ml_logger.html#ml_logger.metrics.AverageMetric.reset">reset() (ml_logger.metrics.AverageMetric method)</a>
+      <li><a href="pages/api/ml_logger.html#ml_logger.metrics.AverageMetric.reset">reset() (ml_logger.metrics.AverageMetric method)</a>
 
       <ul>
-        <li><a href="ml_logger.html#ml_logger.metrics.BaseMetric.reset">(ml_logger.metrics.BaseMetric method)</a>
+        <li><a href="pages/api/ml_logger.html#ml_logger.metrics.BaseMetric.reset">(ml_logger.metrics.BaseMetric method)</a>
 </li>
-        <li><a href="ml_logger.html#ml_logger.metrics.ComparisonMetric.reset">(ml_logger.metrics.ComparisonMetric method)</a>
+        <li><a href="pages/api/ml_logger.html#ml_logger.metrics.ComparisonMetric.reset">(ml_logger.metrics.ComparisonMetric method)</a>
 </li>
-        <li><a href="ml_logger.html#ml_logger.metrics.ConstantMetric.reset">(ml_logger.metrics.ConstantMetric method)</a>
+        <li><a href="pages/api/ml_logger.html#ml_logger.metrics.ConstantMetric.reset">(ml_logger.metrics.ConstantMetric method)</a>
 </li>
-        <li><a href="ml_logger.html#ml_logger.metrics.MetricDict.reset">(ml_logger.metrics.MetricDict method)</a>
+        <li><a href="pages/api/ml_logger.html#ml_logger.metrics.MetricDict.reset">(ml_logger.metrics.MetricDict method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pages/api/ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.return_first_config">return_first_config() (in module ml_logger.parser.experiment.experiment)</a>
+</li>
+      <li><a href="pages/api/ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.return_first_infos">return_first_infos() (in module ml_logger.parser.experiment.experiment)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ml_logger.html#ml_logger.metrics.SumMetric">SumMetric (class in ml_logger.metrics)</a>
+      <li><a href="pages/api/ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.Experiment.serialize">serialize() (ml_logger.parser.experiment.experiment.Experiment method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="pages/api/ml_logger.html#ml_logger.metrics.SumMetric">SumMetric (class in ml_logger.metrics)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -542,7 +592,7 @@
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ml_logger.html#ml_logger.metrics.MetricDict.to_dict">to_dict() (ml_logger.metrics.MetricDict method)</a>
+      <li><a href="pages/api/ml_logger.html#ml_logger.metrics.MetricDict.to_dict">to_dict() (ml_logger.metrics.MetricDict method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -550,18 +600,18 @@
 <h2 id="U">U</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ml_logger.html#ml_logger.metrics.AverageMetric.update">update() (ml_logger.metrics.AverageMetric method)</a>
+      <li><a href="pages/api/ml_logger.html#ml_logger.metrics.AverageMetric.update">update() (ml_logger.metrics.AverageMetric method)</a>
 
       <ul>
-        <li><a href="ml_logger.html#ml_logger.metrics.BaseMetric.update">(ml_logger.metrics.BaseMetric method)</a>
+        <li><a href="pages/api/ml_logger.html#ml_logger.metrics.BaseMetric.update">(ml_logger.metrics.BaseMetric method)</a>
 </li>
-        <li><a href="ml_logger.html#ml_logger.metrics.ComparisonMetric.update">(ml_logger.metrics.ComparisonMetric method)</a>
+        <li><a href="pages/api/ml_logger.html#ml_logger.metrics.ComparisonMetric.update">(ml_logger.metrics.ComparisonMetric method)</a>
 </li>
-        <li><a href="ml_logger.html#ml_logger.metrics.ConstantMetric.update">(ml_logger.metrics.ConstantMetric method)</a>
+        <li><a href="pages/api/ml_logger.html#ml_logger.metrics.ConstantMetric.update">(ml_logger.metrics.ConstantMetric method)</a>
 </li>
-        <li><a href="ml_logger.html#ml_logger.metrics.CurrentMetric.update">(ml_logger.metrics.CurrentMetric method)</a>
+        <li><a href="pages/api/ml_logger.html#ml_logger.metrics.CurrentMetric.update">(ml_logger.metrics.CurrentMetric method)</a>
 </li>
-        <li><a href="ml_logger.html#ml_logger.metrics.MetricDict.update">(ml_logger.metrics.MetricDict method)</a>
+        <li><a href="pages/api/ml_logger.html#ml_logger.metrics.MetricDict.update">(ml_logger.metrics.MetricDict method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -570,44 +620,46 @@
 <h2 id="W">W</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ml_logger.html#ml_logger.logbook.LogBook.write">write() (ml_logger.logbook.LogBook method)</a>
+      <li><a href="pages/api/ml_logger.html#ml_logger.logbook.LogBook.write">write() (ml_logger.logbook.LogBook method)</a>
 
       <ul>
-        <li><a href="ml_logger.logger.html#ml_logger.logger.base.Logger.write">(ml_logger.logger.base.Logger method)</a>
+        <li><a href="pages/api/ml_logger.logger.html#ml_logger.logger.base.Logger.write">(ml_logger.logger.base.Logger method)</a>
 </li>
-        <li><a href="ml_logger.logger.html#ml_logger.logger.filesystem.Logger.write">(ml_logger.logger.filesystem.Logger method)</a>
+        <li><a href="pages/api/ml_logger.logger.html#ml_logger.logger.filesystem.Logger.write">(ml_logger.logger.filesystem.Logger method)</a>
 </li>
-        <li><a href="ml_logger.logger.html#ml_logger.logger.mlflow.Logger.write">(ml_logger.logger.mlflow.Logger method)</a>
+        <li><a href="pages/api/ml_logger.logger.html#ml_logger.logger.mlflow.Logger.write">(ml_logger.logger.mlflow.Logger method)</a>
 </li>
-        <li><a href="ml_logger.logger.html#ml_logger.logger.tensorboard.Logger.write">(ml_logger.logger.tensorboard.Logger method)</a>
+        <li><a href="pages/api/ml_logger.logger.html#ml_logger.logger.mongo.Logger.write">(ml_logger.logger.mongo.Logger method)</a>
 </li>
-        <li><a href="ml_logger.logger.html#ml_logger.logger.wandb.Logger.write">(ml_logger.logger.wandb.Logger method)</a>
+        <li><a href="pages/api/ml_logger.logger.html#ml_logger.logger.tensorboard.Logger.write">(ml_logger.logger.tensorboard.Logger method)</a>
+</li>
+        <li><a href="pages/api/ml_logger.logger.html#ml_logger.logger.wandb.Logger.write">(ml_logger.logger.wandb.Logger method)</a>
 </li>
       </ul></li>
-      <li><a href="ml_logger.html#ml_logger.logbook.LogBook.write_config">write_config() (ml_logger.logbook.LogBook method)</a>
+      <li><a href="pages/api/ml_logger.html#ml_logger.logbook.LogBook.write_config">write_config() (ml_logger.logbook.LogBook method)</a>
 
       <ul>
-        <li><a href="ml_logger.logger.html#ml_logger.logger.mlflow.Logger.write_config">(ml_logger.logger.mlflow.Logger method)</a>
+        <li><a href="pages/api/ml_logger.logger.html#ml_logger.logger.mlflow.Logger.write_config">(ml_logger.logger.mlflow.Logger method)</a>
 </li>
-        <li><a href="ml_logger.logger.html#ml_logger.logger.tensorboard.Logger.write_config">(ml_logger.logger.tensorboard.Logger method)</a>
+        <li><a href="pages/api/ml_logger.logger.html#ml_logger.logger.tensorboard.Logger.write_config">(ml_logger.logger.tensorboard.Logger method)</a>
 </li>
-        <li><a href="ml_logger.logger.html#ml_logger.logger.wandb.Logger.write_config">(ml_logger.logger.wandb.Logger method)</a>
+        <li><a href="pages/api/ml_logger.logger.html#ml_logger.logger.wandb.Logger.write_config">(ml_logger.logger.wandb.Logger method)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ml_logger.html#ml_logger.logbook.LogBook.write_message">write_message() (ml_logger.logbook.LogBook method)</a>
+      <li><a href="pages/api/ml_logger.html#ml_logger.logbook.LogBook.write_message">write_message() (ml_logger.logbook.LogBook method)</a>
 </li>
-      <li><a href="ml_logger.html#ml_logger.logbook.LogBook.write_metadata">write_metadata() (ml_logger.logbook.LogBook method)</a>
+      <li><a href="pages/api/ml_logger.html#ml_logger.logbook.LogBook.write_metadata">write_metadata() (ml_logger.logbook.LogBook method)</a>
 </li>
-      <li><a href="ml_logger.html#ml_logger.logbook.LogBook.write_metric">write_metric() (ml_logger.logbook.LogBook method)</a>
+      <li><a href="pages/api/ml_logger.html#ml_logger.logbook.LogBook.write_metric">write_metric() (ml_logger.logbook.LogBook method)</a>
 
       <ul>
-        <li><a href="ml_logger.logger.html#ml_logger.logger.mlflow.Logger.write_metric">(ml_logger.logger.mlflow.Logger method)</a>
+        <li><a href="pages/api/ml_logger.logger.html#ml_logger.logger.mlflow.Logger.write_metric">(ml_logger.logger.mlflow.Logger method)</a>
 </li>
-        <li><a href="ml_logger.logger.html#ml_logger.logger.tensorboard.Logger.write_metric">(ml_logger.logger.tensorboard.Logger method)</a>
+        <li><a href="pages/api/ml_logger.logger.html#ml_logger.logger.tensorboard.Logger.write_metric">(ml_logger.logger.tensorboard.Logger method)</a>
 </li>
-        <li><a href="ml_logger.logger.html#ml_logger.logger.wandb.Logger.write_metric">(ml_logger.logger.wandb.Logger method)</a>
+        <li><a href="pages/api/ml_logger.logger.html#ml_logger.logger.wandb.Logger.write_metric">(ml_logger.logger.wandb.Logger method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -625,11 +677,19 @@
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2020, Shagun Sodhani
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -640,7 +700,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

@@ -1,0 +1,329 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Why ml_logger &mdash; ml_logger 0.7 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ml_logger" href="api/modules.html" />
+    <link rel="prev" title="ml_logger: Logging utility for ML experiments" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> ml_logger
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Why ml_logger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#use">Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#note">Note</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#dev-setup">Dev Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#acknowledgements">Acknowledgements</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">ml_logger</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ml_logger</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Why ml_logger</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/pages/readme.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="why-ml-logger">
+<h1>Why ml_logger<a class="headerlink" href="#why-ml-logger" title="Permalink to this headline">¶</a></h1>
+<p>People use different tools for logging experimental results -
+<a class="reference external" href="https://www.tensorflow.org/tensorboard">Tensorboard</a>,
+<a class="reference external" href="https://www.wandb.com/">Wandb</a> etc to name a few. Working with
+different collaborators, I will have to switch my logging tool with each
+new project. So I made this simple tool that provides a common interface
+to logging results to different loggers.</p>
+</div>
+<div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">&quot;mllogger[all]&quot;</span></code></p></li>
+</ul>
+<p>If you want to use only the filesystem logger, use
+<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">&quot;mllogger&quot;</span></code></p>
+<p><strong>Install from source</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">git&#64;github.com:shagunsodhani/ml-logger.git</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">ml-logger</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">&quot;.[all]&quot;</span></code></p></li>
+</ul>
+<p>Alternatively,
+<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">&quot;git+https://git&#64;github.com/shagunsodhani/ml-logger.git&#64;master#egg=ml_logger[all]&quot;</span></code></p>
+<p>If you want to use only the filesystem logger, use <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">.</span></code> or
+<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">&quot;git+https://git&#64;github.com/shagunsodhani/ml-logger.git&#64;master#egg=ml_logger&quot;</span></code>.</p>
+</div>
+<div class="section" id="use">
+<h1>Use<a class="headerlink" href="#use" title="Permalink to this headline">¶</a></h1>
+<ul>
+<li><p>Make a <code class="docutils literal notranslate"><span class="pre">logbook_config</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ml_logger</span> <span class="kn">import</span> <span class="n">logbook</span> <span class="k">as</span> <span class="n">ml_logbook</span>
+<span class="n">logbook_config</span> <span class="o">=</span> <span class="n">ml_logbook</span><span class="o">.</span><span class="n">make_config</span><span class="p">(</span>
+    <span class="n">logger_dir</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">path</span> <span class="n">to</span> <span class="n">write</span> <span class="n">logs</span><span class="o">&gt;</span><span class="p">,</span>
+    <span class="n">wandb_config</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">wandb</span> <span class="n">config</span> <span class="ow">or</span> <span class="kc">None</span><span class="o">&gt;</span><span class="p">,</span>
+    <span class="n">tensorboard_config</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">tensorboard</span> <span class="n">config</span> <span class="ow">or</span> <span class="kc">None</span><span class="o">&gt;</span><span class="p">,</span>
+    <span class="n">mlflow_config</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">mlflow</span> <span class="n">config</span> <span class="ow">or</span> <span class="kc">None</span><span class="o">&gt;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The API for <code class="docutils literal notranslate"><span class="pre">make_config</span></code> can be accessed
+<a class="reference external" href="https://shagunsodhani.com/ml-logger/ml_logger.html?highlight=logbook%20make_config#ml_logger.logbook.make_config">here</a>.</p>
+</li>
+<li><p>Make a <code class="docutils literal notranslate"><span class="pre">LogBook</span></code> instance:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">logbook</span> <span class="o">=</span> <span class="n">ml_logbook</span><span class="o">.</span><span class="n">LogBook</span><span class="p">(</span><span class="n">config</span> <span class="o">=</span> <span class="n">logbook_config</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Use the <code class="docutils literal notranslate"><span class="pre">logbook</span></code> instance:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">log</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;epoch&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;loss&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="s2">&quot;accuracy&quot;</span><span class="p">:</span> <span class="mf">0.2</span>
+<span class="p">}</span>
+<span class="n">logbook</span><span class="o">.</span><span class="n">write_metric_log</span><span class="p">(</span><span class="n">log</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The API for <code class="docutils literal notranslate"><span class="pre">write_metric_log</span></code> can be accessed
+<a class="reference external" href="https://shagunsodhani.com/ml-logger/ml_logger.html?highlight=write_metric_log#ml_logger.logbook.LogBook.write_metric_log">here</a>.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="note">
+<h1>Note<a class="headerlink" href="#note" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>If you are writing to wandb, the <code class="docutils literal notranslate"><span class="pre">log</span></code> must have a key called
+<code class="docutils literal notranslate"><span class="pre">step</span></code>. If your <code class="docutils literal notranslate"><span class="pre">log</span></code> already captures the <code class="docutils literal notranslate"><span class="pre">step</span></code> but as a
+different key (say <code class="docutils literal notranslate"><span class="pre">epoch</span></code>), you can pass the <code class="docutils literal notranslate"><span class="pre">wandb_key_map</span></code>
+argument (set as <code class="docutils literal notranslate"><span class="pre">{epoch:</span> <span class="pre">step}</span></code>). For more details, refer the
+documentation
+<a class="reference external" href="https://shagunsodhani.com/ml-logger/ml_logger.html?highlight=make_config#ml_logger.logbook.make_config">here</a>.</p></li>
+<li><p>If you are writing to mlflow, the <code class="docutils literal notranslate"><span class="pre">log</span></code> must have a key called
+<code class="docutils literal notranslate"><span class="pre">step</span></code>. If your <code class="docutils literal notranslate"><span class="pre">log</span></code> already captures the <code class="docutils literal notranslate"><span class="pre">step</span></code> but as a
+different key (say <code class="docutils literal notranslate"><span class="pre">epoch</span></code>), you can pass the <code class="docutils literal notranslate"><span class="pre">mlflow_key_map</span></code>
+argument (set as <code class="docutils literal notranslate"><span class="pre">{epoch:</span> <span class="pre">step}</span></code>). For more details, refer the
+documentation
+<a class="reference external" href="https://shagunsodhani.com/ml-logger/ml_logger.html?highlight=make_config#ml_logger.logbook.make_config">here</a>.</p></li>
+<li><p>If you are writing to tensorboard, the <code class="docutils literal notranslate"><span class="pre">log</span></code> must have a key called
+<code class="docutils literal notranslate"><span class="pre">main_tag</span></code> or <code class="docutils literal notranslate"><span class="pre">tag</span></code> which acts as the data Identifier and another
+key called <code class="docutils literal notranslate"><span class="pre">global_step</span></code>. These keys are described
+<a class="reference external" href="https://tensorboardx.readthedocs.io/en/latest/tensorboard.html#tensorboardX.SummaryWriter.add_scalars">here</a>.
+If your <code class="docutils literal notranslate"><span class="pre">log</span></code> already captures these values but as different key
+(say <code class="docutils literal notranslate"><span class="pre">mode</span></code> for <code class="docutils literal notranslate"><span class="pre">main_tag</span></code> and <code class="docutils literal notranslate"><span class="pre">epoch</span></code> for <code class="docutils literal notranslate"><span class="pre">global_step</span></code>),
+you can pass the <code class="docutils literal notranslate"><span class="pre">tensorboard_key_map</span></code> argument (set as
+<code class="docutils literal notranslate"><span class="pre">{mode:</span> <span class="pre">main_tag,</span> <span class="pre">epoch:</span> <span class="pre">global_step}</span></code>). For more details, refer
+the documentation
+<a class="reference external" href="https://shagunsodhani.com/ml-logger/ml_logger.html?highlight=make_config#ml_logger.logbook.make_config">here</a>.</p></li>
+</ul>
+</div>
+<div class="section" id="dev-setup">
+<h1>Dev Setup<a class="headerlink" href="#dev-setup" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">&quot;.[dev]&quot;</span></code></p></li>
+<li><p>Install pre-commit hooks <code class="docutils literal notranslate"><span class="pre">pre-commit</span> <span class="pre">install</span></code></p></li>
+<li><p>The code is linted using:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">black</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">flake8</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mypy</span></code></p></li>
+</ul>
+</li>
+<li><p>Tests can be run locally using <code class="docutils literal notranslate"><span class="pre">nox</span></code></p></li>
+</ul>
+</div>
+<div class="section" id="acknowledgements">
+<h1>Acknowledgements<a class="headerlink" href="#acknowledgements" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Config for <code class="docutils literal notranslate"><span class="pre">circleci</span></code>, <code class="docutils literal notranslate"><span class="pre">pre-commit</span></code>, <code class="docutils literal notranslate"><span class="pre">mypy</span></code> etc are
+borrowed/modified from
+<a class="reference external" href="https://github.com/facebookresearch/hydra">Hydra</a></p></li>
+</ul>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="api/modules.html" class="btn btn-neutral float-right" title="ml_logger" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../index.html" class="btn btn-neutral float-left" title="ml_logger: Logging utility for ML experiments" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Shagun Sodhani
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -5,18 +5,12 @@ from typing import Callable, Dict, List, Optional
 import pandas as pd
 
 from ml_logger.parser import log as log_parser
-from ml_logger.parser.utils import parse_json
 from ml_logger.types import LogType, MetricType, ParseLineFunctionType
 
 
-def parse_json_and_match_key(line: str) -> Optional[LogType]:
-    """Parse a line as JSON string and check if it a valid metric log."""
-    log = parse_json(line)
-    if log:
-        key = "logbook_type"
-        if key not in log or log[key] != "metric":
-            log = None
-    return log
+def parse_json_and_match_value(line: str) -> Optional[LogType]:
+    """Parse a line as JSON log and check if it a valid metric log."""
+    return log_parser.parse_json_and_match_value(line=line, value="metric")
 
 
 def group_metrics(metrics: List[MetricType]) -> Dict[str, List[MetricType]]:
@@ -50,14 +44,14 @@ def aggregate_metrics(metrics: List[MetricType]) -> List[MetricType]:
 class Parser(log_parser.Parser):
     """Class to parse the metrics from the logs."""
 
-    def __init__(self, parse_line: ParseLineFunctionType = parse_json_and_match_key):
+    def __init__(self, parse_line: ParseLineFunctionType = parse_json_and_match_value):
         """Class to parse the metrics from the logs.
 
         Args:
             parse_line (ParseLineFunctionType):
                 Function to parse a line in the log file. The function
                 should return None if the line is not a valid log statement
-                (eg error messages). Defaults to parse_json_and_match_key.
+                (eg error messages). Defaults to parse_json_and_match_value.
         """
         super().__init__(parse_line)
         self.log_type = "metric"

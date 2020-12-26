@@ -1,0 +1,451 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ml_logger.logger package &mdash; ml_logger 0.7 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="ml_logger.parser package" href="ml_logger.parser.html" />
+    <link rel="prev" title="ml_logger package" href="ml_logger.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> ml_logger
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Why ml_logger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#use">Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#note">Note</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#dev-setup">Dev Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#acknowledgements">Acknowledgements</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">ml_logger</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="ml_logger.html">ml_logger package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="ml_logger.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">ml_logger.logger package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ml_logger.parser.html">ml_logger.parser package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ml_logger.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ml_logger.html#module-ml_logger.logbook">ml_logger.logbook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ml_logger.html#module-ml_logger.metrics">ml_logger.metrics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ml_logger.html#module-ml_logger.types">ml_logger.types module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ml_logger.html#module-ml_logger.utils">ml_logger.utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ml_logger.html#module-ml_logger">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ml_logger</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">ml_logger</a> &raquo;</li>
+        
+          <li><a href="ml_logger.html">ml_logger package</a> &raquo;</li>
+        
+      <li>ml_logger.logger package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/pages/api/ml_logger.logger.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ml-logger-logger-package">
+<h1>ml_logger.logger package<a class="headerlink" href="#ml-logger-logger-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-ml_logger.logger.base">
+<span id="ml-logger-logger-base-module"></span><h2>ml_logger.logger.base module<a class="headerlink" href="#module-ml_logger.logger.base" title="Permalink to this headline">¶</a></h2>
+<p>Abstract logger class.</p>
+<dl class="py class">
+<dt id="ml_logger.logger.base.Logger">
+<em class="property">class </em><code class="sig-prename descclassname">ml_logger.logger.base.</code><code class="sig-name descname">Logger</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ml_logger/logger/base.html#Logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logger.base.Logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Abstract Logger Class.</p>
+<dl class="py method">
+<dt id="ml_logger.logger.base.Logger.write">
+<em class="property">abstract </em><code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">log</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/ml_logger/logger/base.html#Logger.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logger.base.Logger.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interface to write the log.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>log</strong> (<em>LogType</em>) – Log to write</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-ml_logger.logger.filesystem">
+<span id="ml-logger-logger-filesystem-module"></span><h2>ml_logger.logger.filesystem module<a class="headerlink" href="#module-ml_logger.logger.filesystem" title="Permalink to this headline">¶</a></h2>
+<p>Functions to interface with the filesystem.</p>
+<dl class="py class">
+<dt id="ml_logger.logger.filesystem.Logger">
+<em class="property">class </em><code class="sig-prename descclassname">ml_logger.logger.filesystem.</code><code class="sig-name descname">Logger</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ml_logger/logger/filesystem.html#Logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logger.filesystem.Logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ml_logger.logger.base.Logger" title="ml_logger.logger.base.Logger"><code class="xref py py-class docutils literal notranslate"><span class="pre">ml_logger.logger.base.Logger</span></code></a></p>
+<p>Logger class that writes to the filesystem.</p>
+<dl class="py method">
+<dt id="ml_logger.logger.filesystem.Logger.write">
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">log</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/ml_logger/logger/filesystem.html#Logger.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logger.filesystem.Logger.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the log to the filesystem.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>log</strong> (<em>LogType</em>) – Log to write</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="ml_logger.logger.filesystem.get_logger_file_path">
+<code class="sig-prename descclassname">ml_logger.logger.filesystem.</code><code class="sig-name descname">get_logger_file_path</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">logger_dir</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">filename_prefix</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">filename_suffix</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/ml_logger/logger/filesystem.html#get_logger_file_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logger.filesystem.get_logger_file_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get path to the file (to write logs to).</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-ml_logger.logger.mlflow">
+<span id="ml-logger-logger-mlflow-module"></span><h2>ml_logger.logger.mlflow module<a class="headerlink" href="#module-ml_logger.logger.mlflow" title="Permalink to this headline">¶</a></h2>
+<p>Logger class that writes to mlflow.</p>
+<dl class="py class">
+<dt id="ml_logger.logger.mlflow.Logger">
+<em class="property">class </em><code class="sig-prename descclassname">ml_logger.logger.mlflow.</code><code class="sig-name descname">Logger</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ml_logger/logger/mlflow.html#Logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logger.mlflow.Logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ml_logger.logger.base.Logger" title="ml_logger.logger.base.Logger"><code class="xref py py-class docutils literal notranslate"><span class="pre">ml_logger.logger.base.Logger</span></code></a></p>
+<p>Logger class that writes to mlflow.</p>
+<dl class="py method">
+<dt id="ml_logger.logger.mlflow.Logger.write">
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">log</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/ml_logger/logger/mlflow.html#Logger.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logger.mlflow.Logger.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the log to mlflow.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>log</strong> (<em>LogType</em>) – Log to write</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ml_logger.logger.mlflow.Logger.write_config">
+<code class="sig-name descname">write_config</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/ml_logger/logger/mlflow.html#Logger.write_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logger.mlflow.Logger.write_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the config to mlflow.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>config</strong> (<em>ConfigType</em>) – Config to write</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ml_logger.logger.mlflow.Logger.write_metric">
+<code class="sig-name descname">write_metric</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">metric</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/ml_logger/logger/mlflow.html#Logger.write_metric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logger.mlflow.Logger.write_metric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write metric to mlflow.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>metric</strong> (<em>MetricType</em>) – Metric to write</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-ml_logger.logger.mongo">
+<span id="ml-logger-logger-mongo-module"></span><h2>ml_logger.logger.mongo module<a class="headerlink" href="#module-ml_logger.logger.mongo" title="Permalink to this headline">¶</a></h2>
+<p>Functions to interface with the mongodb.</p>
+<dl class="py class">
+<dt id="ml_logger.logger.mongo.Logger">
+<em class="property">class </em><code class="sig-prename descclassname">ml_logger.logger.mongo.</code><code class="sig-name descname">Logger</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ml_logger/logger/mongo.html#Logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logger.mongo.Logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ml_logger.logger.base.Logger" title="ml_logger.logger.base.Logger"><code class="xref py py-class docutils literal notranslate"><span class="pre">ml_logger.logger.base.Logger</span></code></a></p>
+<p>Logger class that writes to the mongodb.</p>
+<dl class="py method">
+<dt id="ml_logger.logger.mongo.Logger.write">
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">log</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/ml_logger/logger/mongo.html#Logger.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logger.mongo.Logger.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the log to the filesystem.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>log</strong> (<em>LogType</em>) – Log to write</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-ml_logger.logger.tensorboard">
+<span id="ml-logger-logger-tensorboard-module"></span><h2>ml_logger.logger.tensorboard module<a class="headerlink" href="#module-ml_logger.logger.tensorboard" title="Permalink to this headline">¶</a></h2>
+<p>Logger class that writes to tensorboard.</p>
+<dl class="py class">
+<dt id="ml_logger.logger.tensorboard.Logger">
+<em class="property">class </em><code class="sig-prename descclassname">ml_logger.logger.tensorboard.</code><code class="sig-name descname">Logger</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ml_logger/logger/tensorboard.html#Logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logger.tensorboard.Logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ml_logger.logger.base.Logger" title="ml_logger.logger.base.Logger"><code class="xref py py-class docutils literal notranslate"><span class="pre">ml_logger.logger.base.Logger</span></code></a></p>
+<p>Logger class that writes to tensorboardX.</p>
+<dl class="py method">
+<dt id="ml_logger.logger.tensorboard.Logger.write">
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">log</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/ml_logger/logger/tensorboard.html#Logger.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logger.tensorboard.Logger.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the log to tensorboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>log</strong> (<em>LogType</em>) – Log to write</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ml_logger.logger.tensorboard.Logger.write_config">
+<code class="sig-name descname">write_config</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/ml_logger/logger/tensorboard.html#Logger.write_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logger.tensorboard.Logger.write_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the config to tensorboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>config</strong> (<em>ConfigType</em>) – Config to write</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ml_logger.logger.tensorboard.Logger.write_metric">
+<code class="sig-name descname">write_metric</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">metric</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/ml_logger/logger/tensorboard.html#Logger.write_metric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logger.tensorboard.Logger.write_metric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write metric to tensorboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>metric</strong> (<em>MetricType</em>) – Metric to write</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-ml_logger.logger.wandb">
+<span id="ml-logger-logger-wandb-module"></span><h2>ml_logger.logger.wandb module<a class="headerlink" href="#module-ml_logger.logger.wandb" title="Permalink to this headline">¶</a></h2>
+<p>Logger class that writes to wandb.</p>
+<dl class="py class">
+<dt id="ml_logger.logger.wandb.Logger">
+<em class="property">class </em><code class="sig-prename descclassname">ml_logger.logger.wandb.</code><code class="sig-name descname">Logger</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ml_logger/logger/wandb.html#Logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logger.wandb.Logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ml_logger.logger.base.Logger" title="ml_logger.logger.base.Logger"><code class="xref py py-class docutils literal notranslate"><span class="pre">ml_logger.logger.base.Logger</span></code></a></p>
+<p>Logger class that writes to wandb.</p>
+<dl class="py method">
+<dt id="ml_logger.logger.wandb.Logger.write">
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">log</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/ml_logger/logger/wandb.html#Logger.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logger.wandb.Logger.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write log to wandb.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>log</strong> (<em>LogType</em>) – Log to write</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ml_logger.logger.wandb.Logger.write_config">
+<code class="sig-name descname">write_config</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/ml_logger/logger/wandb.html#Logger.write_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logger.wandb.Logger.write_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write config to wandb.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>config</strong> (<em>ConfigType</em>) – Config to write</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ml_logger.logger.wandb.Logger.write_metric">
+<code class="sig-name descname">write_metric</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">metric</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/ml_logger/logger/wandb.html#Logger.write_metric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logger.wandb.Logger.write_metric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write metric to wandb.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>metric</strong> (<em>MetricType</em>) – Metric to write</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-ml_logger.logger">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-ml_logger.logger" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ml_logger.parser.html" class="btn btn-neutral float-right" title="ml_logger.parser package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ml_logger.html" class="btn btn-neutral float-left" title="ml_logger package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Shagun Sodhani
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
