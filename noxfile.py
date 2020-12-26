@@ -1,4 +1,5 @@
 # type: ignore
+"""Noxfile for tests."""
 import os
 
 import nox
@@ -14,6 +15,7 @@ paths_to_check = ["ml_logger", "noxfile.py"]
 
 
 def setup(session: Session) -> None:
+    """Install ml_logger."""
     session.install("--upgrade", "setuptools", "pip")
     session.install("-r", "requirements/dev.txt")
     session.install(".")
@@ -21,6 +23,7 @@ def setup(session: Session) -> None:
 
 @nox.session(python=PYTHON_VERSIONS)
 def lint(session: Session) -> None:
+    """Run black, flake8 and isort."""
     setup(session)
     for _path in paths_to_check:
         session.run("black", "--check", _path)
@@ -30,6 +33,7 @@ def lint(session: Session) -> None:
 
 @nox.session(python=PYTHON_VERSIONS)
 def mypy(session: Session) -> None:
+    """Run mypy."""
     setup(session)
     for _path in paths_to_check:
         session.run("mypy", "--strict", _path)
@@ -37,5 +41,6 @@ def mypy(session: Session) -> None:
 
 @nox.session(python=PYTHON_VERSIONS)
 def test_metrics(session: Session) -> None:
+    """Run tests."""
     setup(session)
     session.run("pytest", "tests")
