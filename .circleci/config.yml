@@ -4,10 +4,12 @@
 #
 version: 2.1
 jobs:
-  # Linux
-  py36_linux:
+  test_linux:
+    parameters:
+      py_version:
+        type: string
     docker:
-      - image: circleci/python:3.6
+      - image: circleci/python:<< parameters.py_version >>
     steps:
       - checkout
       - run:
@@ -18,48 +20,17 @@ jobs:
       - run:
           name: "Testing ml_logger"
           command: |
-              export NOX_PYTHON_VERSIONS=3.6
+              export NOX_PYTHON_VERSIONS=<< parameters.py_version >>
               pip install nox
               python3 -m nox
-
-  py37_linux:
-    docker:
-      - image: circleci/python:3.7
-    steps:
-      - checkout
-      - run:
-          name: "Preparing environment"
-          command: |
-            sudo apt-get install -y expect
-            sudo pip install nox
-      - run:
-          name: "Testing ml_logger"
-          command: |
-              export NOX_PYTHON_VERSIONS=3.7
-              pip install nox
-              python3 -m nox
-
-  py38_linux:
-    docker:
-      - image: circleci/python:3.8
-    steps:
-      - checkout
-      - run:
-          name: "Preparing environment"
-          command: |
-            sudo apt-get install -y expect
-            sudo pip install nox
-      - run:
-          name: "Testing ml_logger"
-          command: |
-              export NOX_PYTHON_VERSIONS=3.8
-              pip install nox
-              python3 -m nox
-
+              
 workflows:
   version: 2.0
   build:
     jobs:
-      - py36_linux
-      - py37_linux
-      - py38_linux
+      - test_linux:
+          matrix:
+            parameters:
+              py_version: ["3.6", "3.7", "3.8", "3.9"]
+
+
