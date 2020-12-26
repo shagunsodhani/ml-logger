@@ -108,11 +108,11 @@ def get_logs(log_type: str = "config", valid: bool = True):
         if valid:
             return _get_valid_config_logs()
         return _get_invalid_config_logs()
-    elif log_type == "message":
+    if log_type == "message":
         if valid:
             return _get_valid_message_logs()
         return _get_invalid_message_logs()
-    elif log_type == "metric":
+    if log_type == "metric":
         if valid:
             return _get_valid_metric_logs()
         return _get_invalid_metric_logs()

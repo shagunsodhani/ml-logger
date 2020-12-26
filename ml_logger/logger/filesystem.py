@@ -17,7 +17,7 @@ def to_json_serializable(val: Any) -> Any:
     """Serialize values as json."""
     if isinstance(val, np.floating):
         return float(val)
-    elif isinstance(val, np.integer):
+    if isinstance(val, np.integer):
         return int(val)
     return val
 
