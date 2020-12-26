@@ -52,7 +52,6 @@ ml\_logger.parser.utils module
    :undoc-members:
    :show-inheritance:
 
-
 Module contents
 ---------------
 

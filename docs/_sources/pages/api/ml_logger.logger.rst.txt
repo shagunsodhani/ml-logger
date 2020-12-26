@@ -52,7 +52,6 @@ ml\_logger.logger.wandb module
    :undoc-members:
    :show-inheritance:
 
-
 Module contents
 ---------------
 

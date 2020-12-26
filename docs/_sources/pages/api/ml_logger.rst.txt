@@ -45,7 +45,6 @@ ml\_logger.utils module
    :undoc-members:
    :show-inheritance:
 
-
 Module contents
 ---------------
 

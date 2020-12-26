@@ -18,14 +18,14 @@ ml_logger: Logging utility for ML experiments
 
 .. toctree::
    :maxdepth: 3
-   :caption: Getting Started:
+   :caption: Getting Started
 
    pages/readme
 
 
 .. toctree::
    :maxdepth: 3
-   :caption: API:
+   :caption: API
 
    pages/api/modules
 
