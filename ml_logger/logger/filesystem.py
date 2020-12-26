@@ -3,12 +3,27 @@
 import json
 import logging
 import os
-from functools import partial
-from typing import Optional
+from functools import partial, singledispatch
+from typing import Any, Optional
+
+import numpy as np
 
 from ml_logger.logger.base import Logger as BaseLogger
 from ml_logger.types import ConfigType, LogType
 from ml_logger.utils import make_dir
+
+
+# The dispatch logic is inspired from https://ellisvalentiner.com/post/serializing-numpyfloat32-json/
+@singledispatch
+def to_json_serializable(val: Any) -> str:
+    """Default function for serializing values as json."""
+    return str(val)
+
+
+@to_json_serializable.register(np.float32)
+def ts_float32(val: np.float32) -> np.float64:
+    "Function for serializing values as json when input is an instance of np.float32." ""
+    return np.float64(val)
 
 
 def _serialize_log_to_json(log: LogType) -> str:
@@ -20,7 +35,7 @@ def _serialize_log_to_json(log: LogType) -> str:
     Returns:
         str: JSON serialized string
     """
-    return json.dumps(log)
+    return json.dumps(log, default=to_json_serializable)
 
 
 def _get_logger(logger_name: str = "default_logger") -> logging.Logger:
