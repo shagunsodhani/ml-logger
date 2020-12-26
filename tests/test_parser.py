@@ -43,7 +43,6 @@ def test_parser(tmp_path, logs):
         compare_components(experiment.info[key], grouped_logs[key], key)
     key = "config"
     compare_components(experiment.configs, grouped_logs[key], key)
-    breakpoint()
 
 
 def compare_components(exp_component, log_group, key):
