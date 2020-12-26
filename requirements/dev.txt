@@ -9,7 +9,6 @@ flake8-docstrings==1.5.0
 flake8==3.8.4
 mypy==0.790
 nox==2020.8.22
-pandas==1.1.4
 pre-commit==2.8.2
 pytest==6.1.2
 sphinx-autodoc-annotation==1.0-1

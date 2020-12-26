@@ -13,25 +13,27 @@ PYTHON_VERSIONS = os.environ.get(
 paths_to_check = ["ml_logger", "noxfile.py"]
 
 
-@nox.session(python=PYTHON_VERSIONS)
-def lint(session: Session) -> None:
+def setup(session: Session) -> None:
     session.install("--upgrade", "setuptools", "pip")
     session.install("-r", "requirements/dev.txt")
-    session.run("flake8", "ml_logger")
+    session.install(".")
+
+
+@nox.session(python=PYTHON_VERSIONS)
+def lint(session: Session) -> None:
+    setup(session)
     for _path in paths_to_check:
         session.run("black", "--check", _path)
 
 
 @nox.session(python=PYTHON_VERSIONS)
 def mypy(session: Session) -> None:
-    session.install("--upgrade", "setuptools", "pip")
-    session.install("-r", "requirements/dev.txt")
+    setup(session)
     for _path in paths_to_check:
         session.run("mypy", "--strict", _path)
 
 
 @nox.session(python=PYTHON_VERSIONS)
 def test_metrics(session: Session) -> None:
-    session.install("--upgrade", "setuptools", "pip")
-    session.install("-r", "requirements/dev.txt")
+    setup(session)
     session.run("pytest", "tests")
