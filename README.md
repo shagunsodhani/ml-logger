@@ -80,6 +80,7 @@ If you want to use only the filesystem logger, use `pip install .` or `pip insta
     * `black`
     * `flake8`
     * `mypy`
+    * `isort`
 * Tests can be run locally using `nox`
 
 ### Acknowledgements

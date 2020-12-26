@@ -24,6 +24,8 @@ def lint(session: Session) -> None:
     setup(session)
     for _path in paths_to_check:
         session.run("black", "--check", _path)
+        session.run("flake8", _path)
+        session.run("isort", _path, "--check", "--diff")
 
 
 @nox.session(python=PYTHON_VERSIONS)
