@@ -198,7 +198,7 @@ to logging results to different loggers.</p>
 </pre></div>
 </div>
 <p>The API for <code class="docutils literal notranslate"><span class="pre">make_config</span></code> can be accessed
-<a class="reference external" href="https://shagunsodhani.com/ml-logger/ml_logger.html?highlight=logbook%20make_config#ml_logger.logbook.make_config">here</a>.</p>
+<a class="reference external" href="api/ml_logger.html?highlight=make_config#ml_logger.logbook.make_config">here</a>.</p>
 </li>
 <li><p>Make a <code class="docutils literal notranslate"><span class="pre">LogBook</span></code> instance:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">logbook</span> <span class="o">=</span> <span class="n">ml_logbook</span><span class="o">.</span><span class="n">LogBook</span><span class="p">(</span><span class="n">config</span> <span class="o">=</span> <span class="n">logbook_config</span><span class="p">)</span>
@@ -211,11 +211,11 @@ to logging results to different loggers.</p>
     <span class="s2">&quot;loss&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
     <span class="s2">&quot;accuracy&quot;</span><span class="p">:</span> <span class="mf">0.2</span>
 <span class="p">}</span>
-<span class="n">logbook</span><span class="o">.</span><span class="n">write_metric_log</span><span class="p">(</span><span class="n">log</span><span class="p">)</span>
+<span class="n">logbook</span><span class="o">.</span><span class="n">write_metric</span><span class="p">(</span><span class="n">log</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The API for <code class="docutils literal notranslate"><span class="pre">write_metric_log</span></code> can be accessed
-<a class="reference external" href="https://shagunsodhani.com/ml-logger/ml_logger.html?highlight=write_metric_log#ml_logger.logbook.LogBook.write_metric_log">here</a>.</p>
+<p>The API for <code class="docutils literal notranslate"><span class="pre">write_metric</span></code> can be accessed
+<a class="reference external" href="api/ml_logger.html?highlight=write_metric#ml_logger.logbook.LogBook.write_metric">here</a>.</p>
 </li>
 </ul>
 </div>
@@ -227,13 +227,13 @@ to logging results to different loggers.</p>
 different key (say <code class="docutils literal notranslate"><span class="pre">epoch</span></code>), you can pass the <code class="docutils literal notranslate"><span class="pre">wandb_key_map</span></code>
 argument (set as <code class="docutils literal notranslate"><span class="pre">{epoch:</span> <span class="pre">step}</span></code>). For more details, refer the
 documentation
-<a class="reference external" href="https://shagunsodhani.com/ml-logger/ml_logger.html?highlight=make_config#ml_logger.logbook.make_config">here</a>.</p></li>
+<a class="reference external" href="api/ml_logger.html?highlight=wandb_key_map#ml_logger.logbook.make_config">here</a>.</p></li>
 <li><p>If you are writing to mlflow, the <code class="docutils literal notranslate"><span class="pre">log</span></code> must have a key called
 <code class="docutils literal notranslate"><span class="pre">step</span></code>. If your <code class="docutils literal notranslate"><span class="pre">log</span></code> already captures the <code class="docutils literal notranslate"><span class="pre">step</span></code> but as a
 different key (say <code class="docutils literal notranslate"><span class="pre">epoch</span></code>), you can pass the <code class="docutils literal notranslate"><span class="pre">mlflow_key_map</span></code>
 argument (set as <code class="docutils literal notranslate"><span class="pre">{epoch:</span> <span class="pre">step}</span></code>). For more details, refer the
 documentation
-<a class="reference external" href="https://shagunsodhani.com/ml-logger/ml_logger.html?highlight=make_config#ml_logger.logbook.make_config">here</a>.</p></li>
+<a class="reference external" href="api/ml_logger.html?highlight=mlflow_key_map#ml_logger.logbook.make_config">here</a>.</p></li>
 <li><p>If you are writing to tensorboard, the <code class="docutils literal notranslate"><span class="pre">log</span></code> must have a key called
 <code class="docutils literal notranslate"><span class="pre">main_tag</span></code> or <code class="docutils literal notranslate"><span class="pre">tag</span></code> which acts as the data Identifier and another
 key called <code class="docutils literal notranslate"><span class="pre">global_step</span></code>. These keys are described
@@ -243,7 +243,7 @@ If your <code class="docutils literal notranslate"><span class="pre">log</span><
 you can pass the <code class="docutils literal notranslate"><span class="pre">tensorboard_key_map</span></code> argument (set as
 <code class="docutils literal notranslate"><span class="pre">{mode:</span> <span class="pre">main_tag,</span> <span class="pre">epoch:</span> <span class="pre">global_step}</span></code>). For more details, refer
 the documentation
-<a class="reference external" href="https://shagunsodhani.com/ml-logger/ml_logger.html?highlight=make_config#ml_logger.logbook.make_config">here</a>.</p></li>
+<a class="reference external" href="api/ml_logger.html?highlight=tensorboard_key_map#ml_logger.logbook.make_config">here</a>.</p></li>
 </ul>
 </div>
 <div class="section" id="dev-setup">
@@ -256,6 +256,7 @@ the documentation
 <li><p><code class="docutils literal notranslate"><span class="pre">black</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">flake8</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">mypy</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">isort</span></code></p></li>
 </ul>
 </li>
 <li><p>Tests can be run locally using <code class="docutils literal notranslate"><span class="pre">nox</span></code></p></li>

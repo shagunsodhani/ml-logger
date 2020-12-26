@@ -256,12 +256,12 @@ tensorboard, remote backends, etc.</p>
 
 <dl class="py method">
 <dt id="ml_logger.logbook.LogBook.write_message">
-<code class="sig-name descname">write_message</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">message</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">log_type</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'info'</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/ml_logger/logbook.html#LogBook.write_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logbook.LogBook.write_message" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">write_message</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">message</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">log_type</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'info'</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/ml_logger/logbook.html#LogBook.write_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logbook.LogBook.write_message" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write message string to loggers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>message</strong> (<em>str</em>) – Message string to write</p></li>
+<li><p><strong>message</strong> (<em>Any</em>) – Message string to write</p></li>
 <li><p><strong>log_type</strong> (<em>str</em><em>, </em><em>optional</em>) – Type of this message (log).
 Defaults to “info”.</p></li>
 </ul>
@@ -282,7 +282,7 @@ Defaults to “info”.</p></li>
 
 <dl class="py method">
 <dt id="ml_logger.logbook.LogBook.write_metric">
-<code class="sig-name descname">write_metric</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">metric</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/ml_logger/logbook.html#LogBook.write_metric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logbook.LogBook.write_metric" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">write_metric</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">metric</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/ml_logger/logbook.html#LogBook.write_metric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.logbook.LogBook.write_metric" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write metric to loggers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

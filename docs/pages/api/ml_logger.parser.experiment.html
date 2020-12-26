@@ -332,11 +332,12 @@ group id to a sequence of experiments</p>
 <p>Class to parse an experiment from the log dir.</p>
 <dl class="py method">
 <dt id="ml_logger.parser.experiment.parser.Parser.parse">
-<code class="sig-name descname">parse</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filepath_pattern</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ml_logger.parser.experiment.experiment.Experiment" title="ml_logger.parser.experiment.experiment.Experiment">ml_logger.parser.experiment.experiment.Experiment</a><a class="reference internal" href="../../_modules/ml_logger/parser/experiment/parser.html#Parser.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.parser.experiment.parser.Parser.parse" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">parse</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filepath_pattern</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>pathlib.Path<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ml_logger.parser.experiment.experiment.Experiment" title="ml_logger.parser.experiment.experiment.Experiment">ml_logger.parser.experiment.experiment.Experiment</a><a class="reference internal" href="../../_modules/ml_logger/parser/experiment/parser.html#Parser.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ml_logger.parser.experiment.parser.Parser.parse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load one experiment from the log dir.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>filepath_pattern</strong> (<em>str</em>) – filepath pattern to glob</p>
+<dd class="field-odd"><p><strong>filepath_pattern</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – filepath pattern to glob
+or instance of Path (directory) object.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Experiment</p>

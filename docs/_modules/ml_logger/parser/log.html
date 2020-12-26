@@ -158,7 +158,8 @@
 <span></span><span class="sd">&quot;&quot;&quot;Implementation of Parser to parse the logs.&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">glob</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">ml_logger.parser.base</span> <span class="kn">import</span> <span class="n">Parser</span> <span class="k">as</span> <span class="n">BaseParser</span>
 <span class="kn">from</span> <span class="nn">ml_logger.parser.utils</span> <span class="kn">import</span> <span class="n">parse_json</span>
@@ -194,11 +195,11 @@
             <span class="n">parser_functions</span><span class="o">=</span><span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">log_type</span><span class="p">:</span> <span class="n">parse_line</span><span class="p">}</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_parse_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">LogType</span><span class="p">]]:</span>
+    <span class="k">def</span> <span class="nf">_parse_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">LogType</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;Open a log file and parse its content.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            file_path (str): Log file to read from</span>
+<span class="sd">            file_path (Union[str, Path]): Log file to read from</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Iterator[Optional[LogType]]: Iterator over the logs</span>
