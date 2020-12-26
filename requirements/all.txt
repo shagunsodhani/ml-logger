@@ -1,5 +1,5 @@
 -r filesystem.txt
-pymongo==3.11.1
-wandb==0.10.11
-tensorboardX==2.1
-mlflow==1.12.1
+pymongo>=3.11.1
+wandb>=0.10.11
+tensorboardX>=2.1
+mlflow>=1.12.1
