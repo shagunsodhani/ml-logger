@@ -3,15 +3,39 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to ml_logger's documentation!
-=====================================
+ml_logger: Logging utility for ML experiments
+=============================================
+
+|CircleCI| |PyPI - License| |PyPI - Python Version| |Code style: black|
+
+.. |CircleCI| image:: https://circleci.com/gh/shagunsodhani/ml-logger.svg?style=svg
+   :target: https://circleci.com/gh/shagunsodhani/ml-logger
+.. |PyPI - License| image:: https://img.shields.io/pypi/l/mllogger
+.. |PyPI - Python Version| image:: https://img.shields.io/pypi/pyversions/mllogger
+.. |Code style: black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
+   :target: https://github.com/psf/black
+
 
 .. toctree::
    :maxdepth: 3
-   :caption: Contents:
+   :caption: Getting Started
 
-   modules
+   pages/readme
 
+
+.. toctree::
+   :maxdepth: 3
+   :caption: API
+
+   pages/api/modules
+
+
+Community
+=========
+
+- If you have questions, `open an Issue <https://github.com/shagunsodhani/ml-logger/issues>`__
+- Or, use `Github Discussions <https://github.com/shagunsodhani/ml-logger/discussions>`__
+- To contribute, `open a Pull Request (PR) <https://github.com/shagunsodhani/ml-logger/pulls>`__
 
 Indices and tables
 ==================

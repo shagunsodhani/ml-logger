@@ -1,15 +1,18 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ml_logger.logbook &mdash; ml_logger 0.6rc1 documentation</title>
+  <title>ml_logger.logbook &mdash; ml_logger 0.7 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
 
   
   
@@ -17,22 +20,19 @@
   
 
   
-  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
 </head>
@@ -48,7 +48,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home"> ml_logger
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> ml_logger
           
 
           
@@ -71,6 +71,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -78,14 +79,24 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption"><span class="caption-text">Getting Started:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">ml_logger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/readme.html">Why ml_logger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/readme.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/readme.html#use">Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/readme.html#note">Note</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/readme.html#dev-setup">Dev Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/readme.html#acknowledgements">Acknowledgements</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pages/api/modules.html">ml_logger</a></li>
 </ul>
 
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -124,7 +135,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../index.html">Module code</a> &raquo;</li>
         
@@ -160,7 +171,7 @@
 <span class="kn">from</span> <span class="nn">ml_logger.types</span> <span class="kn">import</span> <span class="n">ConfigType</span><span class="p">,</span> <span class="n">KeyMapType</span><span class="p">,</span> <span class="n">LogType</span><span class="p">,</span> <span class="n">MetricType</span>
 
 
-<div class="viewcode-block" id="LogBook"><a class="viewcode-back" href="../../ml_logger.html#ml_logger.logbook.LogBook">[docs]</a><span class="k">class</span> <span class="nc">LogBook</span><span class="p">:</span>
+<div class="viewcode-block" id="LogBook"><a class="viewcode-back" href="../../pages/api/ml_logger.html#ml_logger.logbook.LogBook">[docs]</a><span class="k">class</span> <span class="nc">LogBook</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;This class provides an interface to persist the logs on the filesystem, tensorboard, remote backends, etc.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">ConfigType</span><span class="p">):</span>
@@ -206,7 +217,7 @@
         <span class="n">log</span><span class="p">[</span><span class="s2">&quot;logbook_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">log_type</span>
         <span class="k">return</span> <span class="n">log</span>
 
-<div class="viewcode-block" id="LogBook.write"><a class="viewcode-back" href="../../ml_logger.html#ml_logger.logbook.LogBook.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log</span><span class="p">:</span> <span class="n">LogType</span><span class="p">,</span> <span class="n">log_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;metric&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="LogBook.write"><a class="viewcode-back" href="../../pages/api/ml_logger.html#ml_logger.logbook.LogBook.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log</span><span class="p">:</span> <span class="n">LogType</span><span class="p">,</span> <span class="n">log_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;metric&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Write log to loggers.</span>
 
 <span class="sd">        Args:</span>
@@ -217,7 +228,7 @@
         <span class="k">for</span> <span class="n">logger</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">loggers</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="n">log</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LogBook.write_config"><a class="viewcode-back" href="../../ml_logger.html#ml_logger.logbook.LogBook.write_config">[docs]</a>    <span class="k">def</span> <span class="nf">write_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">ConfigType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="LogBook.write_config"><a class="viewcode-back" href="../../pages/api/ml_logger.html#ml_logger.logbook.LogBook.write_config">[docs]</a>    <span class="k">def</span> <span class="nf">write_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">ConfigType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Write config to loggers.</span>
 
 <span class="sd">        Args:</span>
@@ -225,7 +236,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">log_type</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LogBook.write_metric"><a class="viewcode-back" href="../../ml_logger.html#ml_logger.logbook.LogBook.write_metric">[docs]</a>    <span class="k">def</span> <span class="nf">write_metric</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metric</span><span class="p">:</span> <span class="n">MetricType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="LogBook.write_metric"><a class="viewcode-back" href="../../pages/api/ml_logger.html#ml_logger.logbook.LogBook.write_metric">[docs]</a>    <span class="k">def</span> <span class="nf">write_metric</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metric</span><span class="p">:</span> <span class="n">MetricType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Write metric to loggers.</span>
 
 <span class="sd">        Args:</span>
@@ -233,7 +244,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="n">metric</span><span class="p">,</span> <span class="n">log_type</span><span class="o">=</span><span class="s2">&quot;metric&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LogBook.write_message"><a class="viewcode-back" href="../../ml_logger.html#ml_logger.logbook.LogBook.write_message">[docs]</a>    <span class="k">def</span> <span class="nf">write_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">log_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;info&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="LogBook.write_message"><a class="viewcode-back" href="../../pages/api/ml_logger.html#ml_logger.logbook.LogBook.write_message">[docs]</a>    <span class="k">def</span> <span class="nf">write_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">log_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;info&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Write message string to loggers.</span>
 
 <span class="sd">        Args:</span>
@@ -243,7 +254,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="n">message</span><span class="p">},</span> <span class="n">log_type</span><span class="o">=</span><span class="n">log_type</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LogBook.write_metadata"><a class="viewcode-back" href="../../ml_logger.html#ml_logger.logbook.LogBook.write_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">write_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">LogType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="LogBook.write_metadata"><a class="viewcode-back" href="../../pages/api/ml_logger.html#ml_logger.logbook.LogBook.write_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">write_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">LogType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Write metadata to loggers.</span>
 
 <span class="sd">        Args:</span>
@@ -252,7 +263,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span> <span class="n">log_type</span><span class="o">=</span><span class="s2">&quot;metadata&quot;</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="make_config"><a class="viewcode-back" href="../../ml_logger.html#ml_logger.logbook.make_config">[docs]</a><span class="k">def</span> <span class="nf">make_config</span><span class="p">(</span>
+<div class="viewcode-block" id="make_config"><a class="viewcode-back" href="../../pages/api/ml_logger.html#ml_logger.logbook.make_config">[docs]</a><span class="k">def</span> <span class="nf">make_config</span><span class="p">(</span>
     <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;default_logger&quot;</span><span class="p">,</span>
     <span class="n">write_to_console</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -418,11 +429,19 @@
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2020, Shagun Sodhani
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -433,7 +452,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

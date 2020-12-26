@@ -1,15 +1,18 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Welcome to ml_logger’s documentation! &mdash; ml_logger 0.6rc1 documentation</title>
+  <title>ml_logger: Logging utility for ML experiments &mdash; ml_logger 0.7 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
 
   
   
@@ -17,25 +20,22 @@
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="ml_logger" href="modules.html" /> 
+    <link rel="next" title="Why ml_logger" href="pages/readme.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -49,7 +49,7 @@
           
 
           
-            <a href="#" class="icon icon-home"> ml_logger
+            <a href="#" class="icon icon-home" alt="Documentation Home"> ml_logger
           
 
           
@@ -72,6 +72,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -79,14 +80,24 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption"><span class="caption-text">Getting Started:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">ml_logger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/readme.html">Why ml_logger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/readme.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/readme.html#use">Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/readme.html#note">Note</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/readme.html#dev-setup">Dev Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/readme.html#acknowledgements">Acknowledgements</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pages/api/modules.html">ml_logger</a></li>
 </ul>
 
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -125,9 +136,9 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="#">Docs</a> &raquo;</li>
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Welcome to ml_logger’s documentation!</li>
+      <li>ml_logger: Logging utility for ML experiments</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -146,26 +157,46 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="welcome-to-ml-logger-s-documentation">
-<h1>Welcome to ml_logger’s documentation!<a class="headerlink" href="#welcome-to-ml-logger-s-documentation" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="ml-logger-logging-utility-for-ml-experiments">
+<h1>ml_logger: Logging utility for ML experiments<a class="headerlink" href="#ml-logger-logging-utility-for-ml-experiments" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://circleci.com/gh/shagunsodhani/ml-logger"><img alt="CircleCI" src="https://circleci.com/gh/shagunsodhani/ml-logger.svg?style=svg" /></a> <img alt="PyPI - License" src="https://img.shields.io/pypi/l/mllogger" /> <img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/mllogger" /> <a class="reference external" href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg" /></a></p>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption"><span class="caption-text">Getting Started:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">ml_logger</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="ml_logger.html">ml_logger package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="ml_logger.html#subpackages">Subpackages</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ml_logger.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ml_logger.html#module-ml_logger.logbook">ml_logger.logbook module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ml_logger.html#module-ml_logger.metrics">ml_logger.metrics module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ml_logger.html#module-ml_logger.types">ml_logger.types module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ml_logger.html#module-ml_logger.utils">ml_logger.utils module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ml_logger.html#module-ml_logger">Module contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/readme.html">Why ml_logger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/readme.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/readme.html#use">Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/readme.html#note">Note</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/readme.html#dev-setup">Dev Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/readme.html#acknowledgements">Acknowledgements</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">API:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pages/api/modules.html">ml_logger</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pages/api/ml_logger.html">ml_logger package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pages/api/ml_logger.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pages/api/ml_logger.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pages/api/ml_logger.html#module-ml_logger.logbook">ml_logger.logbook module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pages/api/ml_logger.html#module-ml_logger.metrics">ml_logger.metrics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pages/api/ml_logger.html#module-ml_logger.types">ml_logger.types module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pages/api/ml_logger.html#module-ml_logger.utils">ml_logger.utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pages/api/ml_logger.html#module-ml_logger">Module contents</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 </div>
+</div>
+<div class="section" id="community">
+<h1>Community<a class="headerlink" href="#community" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>If you have questions, <a class="reference external" href="https://github.com/shagunsodhani/ml-logger/issues">open an Issue</a></p></li>
+<li><p>Or, use <a class="reference external" href="https://github.com/shagunsodhani/ml-logger/discussions">Github Discussions</a></p></li>
+<li><p>To contribute, <a class="reference external" href="https://github.com/shagunsodhani/ml-logger/pulls">open a Pull Request (PR)</a></p></li>
+</ul>
 </div>
 <div class="section" id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
@@ -184,7 +215,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="modules.html" class="btn btn-neutral float-right" title="ml_logger" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="pages/readme.html" class="btn btn-neutral float-right" title="Why ml_logger" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>
@@ -194,11 +225,19 @@
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2020, Shagun Sodhani
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -209,7 +248,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

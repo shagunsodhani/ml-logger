@@ -1,15 +1,18 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ml_logger.parser.experiment.experiment &mdash; ml_logger 0.6rc1 documentation</title>
+  <title>ml_logger.parser.experiment.experiment &mdash; ml_logger 0.7 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
 
   
   
@@ -17,22 +20,19 @@
   
 
   
-  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
         <script src="../../../../_static/doctools.js"></script>
-        <script src="../../../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
 </head>
@@ -48,7 +48,7 @@
           
 
           
-            <a href="../../../../index.html" class="icon icon-home"> ml_logger
+            <a href="../../../../index.html" class="icon icon-home" alt="Documentation Home"> ml_logger
           
 
           
@@ -71,6 +71,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -78,14 +79,24 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption"><span class="caption-text">Getting Started:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">ml_logger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/readme.html">Why ml_logger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/readme.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/readme.html#use">Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/readme.html#note">Note</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/readme.html#dev-setup">Dev Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/readme.html#acknowledgements">Acknowledgements</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pages/api/modules.html">ml_logger</a></li>
 </ul>
 
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -124,7 +135,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../../../index.html">Module code</a> &raquo;</li>
         
@@ -146,26 +157,33 @@
   <h1>Source code for ml_logger.parser.experiment.experiment</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Container for the experiment data.&quot;&quot;&quot;</span>
 
+<span class="kn">import</span> <span class="nn">gzip</span>
+<span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">UserList</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="kn">from</span> <span class="nn">ml_logger.types</span> <span class="kn">import</span> <span class="n">LogType</span>
+<span class="kn">from</span> <span class="nn">ml_logger</span> <span class="kn">import</span> <span class="n">utils</span>
+<span class="kn">from</span> <span class="nn">ml_logger.types</span> <span class="kn">import</span> <span class="n">ConfigType</span>
+
+<span class="n">ExperimentMetricType</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span>
+<span class="n">ExperimentInfoType</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="Experiment"><a class="viewcode-back" href="../../../../ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.Experiment">[docs]</a><span class="k">class</span> <span class="nc">Experiment</span><span class="p">:</span>
+<div class="viewcode-block" id="Experiment"><a class="viewcode-back" href="../../../../pages/api/ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.Experiment">[docs]</a><span class="k">class</span> <span class="nc">Experiment</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LogType</span><span class="p">],</span>
-        <span class="n">metrics</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">],</span>
-        <span class="n">info</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">configs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ConfigType</span><span class="p">],</span>
+        <span class="n">metrics</span><span class="p">:</span> <span class="n">ExperimentMetricType</span><span class="p">,</span>
+        <span class="n">info</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ExperimentInfoType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Class to hold the experiment data.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            config (Optional[LogType]): Config used for the experiment</span>
-<span class="sd">            metrics (Dict[str, pd.DataFrame]): Dictionary mapping strings</span>
+<span class="sd">            configs (List[ConfigType]): Configs used for the experiment</span>
+<span class="sd">            metrics (ExperimentMetricType): Dictionary mapping strings</span>
 <span class="sd">                to dataframes. Keys could be &quot;train&quot;, &quot;validation&quot;, &quot;test&quot;</span>
 <span class="sd">                and corresponding dataframes would have the data for these</span>
 <span class="sd">                modes.</span>
@@ -173,19 +191,136 @@
 <span class="sd">                any information about the experiment (that does not fit</span>
 <span class="sd">                within config and metrics). Defaults to None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">configs</span> <span class="o">=</span> <span class="n">configs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span> <span class="o">=</span> <span class="n">metrics</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="n">info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">info</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">info</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">config</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ConfigType</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Access the config property.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">configs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="Experiment.serialize"><a class="viewcode-back" href="../../../../pages/api/ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.Experiment.serialize">[docs]</a>    <span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dir_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Serialize the experiment data and store at `dir_path`.</span>
+
+<span class="sd">        * configs are stored as jsonl (since there are only a few configs per experiment) in a file called `config.jsonl`.</span>
+<span class="sd">        * metrics are stored in [`feather` format](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_feather.html).</span>
+<span class="sd">        * info is stored in the gzip format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">utils</span><span class="o">.</span><span class="n">make_dir</span><span class="p">(</span><span class="n">dir_path</span><span class="p">)</span>
+        <span class="n">path_to_save</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dir_path</span><span class="si">}</span><span class="s2">/config.jsonl&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path_to_save</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">config</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">configs</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">config</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">metric_dir</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dir_path</span><span class="si">}</span><span class="s2">/metric&quot;</span>
+        <span class="n">utils</span><span class="o">.</span><span class="n">make_dir</span><span class="p">(</span><span class="n">metric_dir</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">:</span>
+            <span class="n">path_to_save</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">metric_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">to_feather</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path_to_save</span><span class="p">)</span>
+
+        <span class="n">path_to_save</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dir_path</span><span class="si">}</span><span class="s2">/info.gzip&quot;</span>
+        <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path_to_save</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>  <span class="c1"># type: ignore[assignment]</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>  <span class="c1"># type: ignore[arg-type]</span></div>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Compare two `Experiment` objects.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Experiment</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">NotImplemented</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">configs</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">configs</span>
+            <span class="ow">and</span> <span class="n">utils</span><span class="o">.</span><span class="n">compare_keys_in_dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">metrics</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="n">key</span><span class="p">])</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span>
+            <span class="p">)</span>
+            <span class="ow">and</span> <span class="n">utils</span><span class="o">.</span><span class="n">compare_keys_in_dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">info</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">)</span>
+        <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="ExperimentSequence"><a class="viewcode-back" href="../../../../ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.ExperimentSequence">[docs]</a><span class="k">class</span> <span class="nc">ExperimentSequence</span><span class="p">(</span><span class="n">UserList</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+<div class="viewcode-block" id="deserialize"><a class="viewcode-back" href="../../../../pages/api/ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.deserialize">[docs]</a><span class="k">def</span> <span class="nf">deserialize</span><span class="p">(</span><span class="n">dir_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Experiment</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Deserialize the experiment data stored at `dir_path` and return an Experiment object.&quot;&quot;&quot;</span>
+    <span class="n">path_to_load_from</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dir_path</span><span class="si">}</span><span class="s2">/config.jsonl&quot;</span>
+    <span class="n">configs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path_to_load_from</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">configs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">line</span><span class="p">))</span>
+
+    <span class="n">metrics</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">dir_to_load_from</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dir_path</span><span class="si">}</span><span class="s2">/metric/&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">path_to_load_metric</span> <span class="ow">in</span> <span class="n">dir_to_load_from</span><span class="o">.</span><span class="n">iterdir</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">path_to_load_metric</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">path_to_load_metric</span><span class="o">.</span><span class="n">parts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">metrics</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_feather</span><span class="p">(</span><span class="n">path_to_load_metric</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">metrics</span><span class="p">:</span>
+        <span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+    <span class="n">path_to_load_from</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dir_path</span><span class="si">}</span><span class="s2">/info.gzip&quot;</span>
+    <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path_to_load_from</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>  <span class="c1"># type: ignore[assignment]</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>  <span class="c1"># type: ignore[attr-defined]</span>
+
+    <span class="k">return</span> <span class="n">Experiment</span><span class="p">(</span><span class="n">configs</span><span class="o">=</span><span class="n">configs</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="n">metrics</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="n">info</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="return_first_config"><a class="viewcode-back" href="../../../../pages/api/ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.return_first_config">[docs]</a><span class="k">def</span> <span class="nf">return_first_config</span><span class="p">(</span><span class="n">config_lists</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">ConfigType</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">ConfigType</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Return the first config list, from a list of list of configs, else return empty list.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        config_lists (List[List[ConfigType]])</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List[ConfigType]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">config_list</span> <span class="ow">in</span> <span class="n">config_lists</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">config_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">config_list</span>
+    <span class="k">return</span> <span class="p">[]</span></div>
+
+
+<div class="viewcode-block" id="concat_metrics"><a class="viewcode-back" href="../../../../pages/api/ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.concat_metrics">[docs]</a><span class="k">def</span> <span class="nf">concat_metrics</span><span class="p">(</span><span class="n">metric_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ExperimentMetricType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">ExperimentMetricType</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Concatenate the metrics.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        metric_list (List[ExperimentMetricType])</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        ExperimentMetricType</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">concatenated_metrics</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">metric_keys</span> <span class="o">=</span> <span class="n">metric_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">metric_keys</span><span class="p">:</span>
+        <span class="n">concatenated_metrics</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">metric</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">metric_list</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">concatenated_metrics</span></div>
+
+
+<div class="viewcode-block" id="return_first_infos"><a class="viewcode-back" href="../../../../pages/api/ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.return_first_infos">[docs]</a><span class="k">def</span> <span class="nf">return_first_infos</span><span class="p">(</span><span class="n">info_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ExperimentInfoType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">ExperimentInfoType</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Return the first info, from a list of infos. Otherwise return empty info.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        info_list (List[ExperimentInfoType])</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        ExperimentInfoType</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">info_list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">info</span>
+    <span class="k">return</span> <span class="p">{}</span></div>
+
+
+<div class="viewcode-block" id="ExperimentSequence"><a class="viewcode-back" href="../../../../pages/api/ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.ExperimentSequence">[docs]</a><span class="k">class</span> <span class="nc">ExperimentSequence</span><span class="p">(</span><span class="n">UserList</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">experiments</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Experiment</span><span class="p">]):</span>
         <span class="sd">&quot;&quot;&quot;List-like interface to a collection of Experiments.&quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">experiments</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ExperimentSequence.groupby"><a class="viewcode-back" href="../../../../ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.ExperimentSequence.groupby">[docs]</a>    <span class="k">def</span> <span class="nf">groupby</span><span class="p">(</span>
+<div class="viewcode-block" id="ExperimentSequence.groupby"><a class="viewcode-back" href="../../../../pages/api/ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.ExperimentSequence.groupby">[docs]</a>    <span class="k">def</span> <span class="nf">groupby</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">group_fn</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Experiment</span><span class="p">],</span> <span class="nb">str</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s2">&quot;ExperimentSequence&quot;</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Group experiments in the sequence.</span>
@@ -208,7 +343,7 @@
             <span class="n">key</span><span class="p">:</span> <span class="n">ExperimentSequence</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">grouped_experiments</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
         <span class="p">}</span></div>
 
-<div class="viewcode-block" id="ExperimentSequence.filter"><a class="viewcode-back" href="../../../../ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.ExperimentSequence.filter">[docs]</a>    <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_fn</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Experiment</span><span class="p">],</span> <span class="nb">bool</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;ExperimentSequence&quot;</span><span class="p">:</span>
+<div class="viewcode-block" id="ExperimentSequence.filter"><a class="viewcode-back" href="../../../../pages/api/ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.ExperimentSequence.filter">[docs]</a>    <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_fn</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Experiment</span><span class="p">],</span> <span class="nb">bool</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;ExperimentSequence&quot;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Filter experiments in the sequence.</span>
 
 <span class="sd">        Args:</span>
@@ -220,6 +355,37 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">ExperimentSequence</span><span class="p">(</span>
             <span class="p">[</span><span class="n">experiment</span> <span class="k">for</span> <span class="n">experiment</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="k">if</span> <span class="n">filter_fn</span><span class="p">(</span><span class="n">experiment</span><span class="p">)]</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExperimentSequence.aggregate"><a class="viewcode-back" href="../../../../pages/api/ml_logger.parser.experiment.html#ml_logger.parser.experiment.experiment.ExperimentSequence.aggregate">[docs]</a>    <span class="k">def</span> <span class="nf">aggregate</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">aggregate_configs</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span>
+            <span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">ConfigType</span><span class="p">]]],</span> <span class="n">List</span><span class="p">[</span><span class="n">ConfigType</span><span class="p">]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="n">return_first_config</span><span class="p">,</span>
+        <span class="n">aggregate_metrics</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span>
+            <span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">ExperimentMetricType</span><span class="p">]],</span> <span class="n">ExperimentMetricType</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="n">concat_metrics</span><span class="p">,</span>
+        <span class="n">aggregate_infos</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span>
+            <span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">ExperimentInfoType</span><span class="p">]],</span> <span class="n">ExperimentInfoType</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="n">return_first_infos</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Experiment</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Aggregate a sequence of experiments into a single experiment.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            aggregate_configs (Callable[ [List[List[ConfigType]]], List[ConfigType] ], optional):</span>
+<span class="sd">                Function to aggregate the configs. Defaults to return_first_config.</span>
+<span class="sd">            aggregate_metrics (Callable[ [List[ExperimentMetricType]], ExperimentMetricType ], optional):</span>
+<span class="sd">                Function to aggregate the metrics. Defaults to concat_metrics.</span>
+<span class="sd">            aggregate_infos (Callable[ [List[ExperimentInfoType]], ExperimentInfoType ], optional):</span>
+<span class="sd">                Function to aggregate the information. Defaults to return_first_infos.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Experiment: Aggregated Experiment.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Experiment</span><span class="p">(</span>
+            <span class="n">configs</span><span class="o">=</span><span class="n">aggregate_configs</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">exp</span><span class="o">.</span><span class="n">config</span> <span class="k">for</span> <span class="n">exp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">]),</span>
+            <span class="n">metrics</span><span class="o">=</span><span class="n">aggregate_metrics</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">exp</span><span class="o">.</span><span class="n">metrics</span> <span class="k">for</span> <span class="n">exp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">]),</span>
+            <span class="n">info</span><span class="o">=</span><span class="n">aggregate_infos</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">exp</span><span class="o">.</span><span class="n">info</span> <span class="k">for</span> <span class="n">exp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">]),</span>
         <span class="p">)</span></div></div>
 </pre></div>
 
@@ -233,11 +399,19 @@
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2020, Shagun Sodhani
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -248,7 +422,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
