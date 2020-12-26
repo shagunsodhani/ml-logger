@@ -1,7 +1,8 @@
 """Implementation of Parser to parse the logs."""
 
 import glob
-from typing import Iterator, Optional
+from pathlib import Path
+from typing import Iterator, Optional, Union
 
 from ml_logger.parser.base import Parser as BaseParser
 from ml_logger.parser.utils import parse_json
@@ -37,11 +38,11 @@ class Parser(BaseParser):
             parser_functions={self.log_type: parse_line}
         )
 
-    def _parse_file(self, file_path: str) -> Iterator[Optional[LogType]]:
+    def _parse_file(self, file_path: Union[str, Path]) -> Iterator[Optional[LogType]]:
         """Open a log file and parse its content.
 
         Args:
-            file_path (str): Log file to read from
+            file_path (Union[str, Path]): Log file to read from
 
         Returns:
             Iterator[Optional[LogType]]: Iterator over the logs

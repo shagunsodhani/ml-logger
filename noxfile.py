@@ -40,7 +40,7 @@ def mypy(session: Session) -> None:
 
 
 @nox.session(python=PYTHON_VERSIONS)
-def test_metrics(session: Session) -> None:
+def test(session: Session) -> None:
     """Run tests."""
     setup(session)
     session.run("pytest", "tests")

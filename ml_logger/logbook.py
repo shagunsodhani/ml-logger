@@ -8,7 +8,7 @@ tensorboard, remote backends, etc.
 import importlib
 import time
 from copy import deepcopy
-from typing import List, Optional
+from typing import Any, List, Optional
 
 from ml_logger.logger.base import Logger as LoggerType
 from ml_logger.types import ConfigType, KeyMapType, LogType, MetricType
@@ -87,11 +87,11 @@ class LogBook:
         """
         return self.write(log=metric, log_type="metric")
 
-    def write_message(self, message: str, log_type: str = "info") -> None:
+    def write_message(self, message: Any, log_type: str = "info") -> None:
         """Write message string to loggers.
 
         Args:
-            message (str): Message string to write
+            message (Any): Message string to write
             log_type (str, optional): Type of this message (log).
                 Defaults to "info".
         """

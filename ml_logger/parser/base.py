@@ -1,7 +1,8 @@
 """Base class that all parsers extend."""
 
 from abc import ABC
-from typing import Dict, Iterator, Optional
+from pathlib import Path
+from typing import Dict, Iterator, Optional, Union
 
 from ml_logger.parser.utils import parse_json
 from ml_logger.types import LogType, ParseLineFunctionType
@@ -23,11 +24,11 @@ class Parser(ABC):
         self.log_type = "base_parser"
         self.parse_line = parse_line
 
-    def _parse_file(self, file_path: str) -> Iterator[Optional[LogType]]:
+    def _parse_file(self, file_path: Union[str, Path]) -> Iterator[Optional[LogType]]:
         """Open a log file and parse its content.
 
         Args:
-            file_path (str): Log file to read from
+            file_path (Union[str, Path]): Log file to read from
 
         Returns:
             Iterator[Optional[LogType]]: Iterator over the logs

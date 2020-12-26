@@ -4,11 +4,22 @@ import json
 import logging
 import os
 from functools import partial
-from typing import Optional
+from typing import Any, Optional
+
+import numpy as np
 
 from ml_logger.logger.base import Logger as BaseLogger
 from ml_logger.types import ConfigType, LogType
 from ml_logger.utils import make_dir
+
+
+def to_json_serializable(val: Any) -> Any:
+    """Serialize values as json."""
+    if isinstance(val, np.floating):
+        return float(val)
+    if isinstance(val, np.integer):
+        return int(val)
+    return val
 
 
 def _serialize_log_to_json(log: LogType) -> str:
@@ -20,7 +31,7 @@ def _serialize_log_to_json(log: LogType) -> str:
     Returns:
         str: JSON serialized string
     """
-    return json.dumps(log)
+    return json.dumps(log, default=to_json_serializable)
 
 
 def _get_logger(logger_name: str = "default_logger") -> logging.Logger:

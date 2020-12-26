@@ -1,7 +1,9 @@
 """Implementation of Parser to parse experiment from the logs."""
 
 import glob
-from typing import Any, Dict
+import os
+from pathlib import Path
+from typing import Any, Dict, Union
 
 from ml_logger.parser import base as base_parser
 from ml_logger.parser.config import (
@@ -47,18 +49,31 @@ class Parser(base_parser.Parser):
             }
         )
 
-    def parse(self, filepath_pattern: str) -> Experiment:
+    def parse(self, filepath_pattern: Union[str, Path]) -> Experiment:
         """Load one experiment from the log dir.
 
         Args:
-            filepath_pattern (str): filepath pattern to glob
+            filepath_pattern (Union[str, Path]): filepath pattern to glob
+                or instance of Path (directory) object.
         Returns:
             Experiment
         """
         configs = []
         metric_logs = []
         info: Dict[Any, Any] = {}
-        paths = glob.glob(filepath_pattern)
+        # check if filepath_pattern is a directory
+        if os.path.isdir(filepath_pattern):
+            filepath_pattern = Path(filepath_pattern)
+            # convert the filepath_patter to a Path object.
+        if isinstance(filepath_pattern, Path):
+            if filepath_pattern.is_dir():
+                # iterate over all the files in the directory.
+                paths = list(filepath_pattern.iterdir())
+            else:
+                paths = [filepath_pattern]
+        else:
+            paths = [Path(_path) for _path in glob.glob(filepath_pattern)]
+        paths = [_path for _path in paths if _path.is_file()]
         for file_path in paths:
             for log in self._parse_file(file_path=file_path):
                 # At this point, if log is not None, it will have a key self.log_key
