@@ -14,7 +14,7 @@ from ml_logger.utils import make_dir
 
 
 def to_json_serializable(val: Any) -> Any:
-    """Default function for serializing values as json."""
+    """Serialize values as json."""
     if isinstance(val, np.floating):
         return float(val)
     elif isinstance(val, np.integer):

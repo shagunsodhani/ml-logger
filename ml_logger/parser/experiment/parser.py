@@ -74,7 +74,6 @@ class Parser(base_parser.Parser):
         else:
             paths = [Path(_path) for _path in glob.glob(filepath_pattern)]
         paths = [_path for _path in paths if _path.is_file()]
-        assert paths, "No logs to parse"
         for file_path in paths:
             for log in self._parse_file(file_path=file_path):
                 # At this point, if log is not None, it will have a key self.log_key
