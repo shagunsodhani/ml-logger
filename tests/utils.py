@@ -126,3 +126,30 @@ def get_logs_and_types(valid: bool = True):
     for _type in log_types:
         for log in get_logs(log_type=_type, valid=valid):
             yield (log, _type)
+
+
+def get_logs_and_types_for_parser():
+    logs_and_types = [
+        ({"num_layers": 2, "lr": 0.01}, "config"),
+        ({"dataset": "mnist", "optim": "adam"}, "config"),
+        (
+            {
+                "alpha": np.float64(0.2),
+                "beta": np.float32(0.1),
+                "gamma": np.int64(1),
+                "delta": np.int32(10),
+            },
+            "config",
+        ),
+        ({"message": "Starting training."}, "message"),
+        ({"best_acc_so_far": 0.0, "best_lr": 0.01}, "metadata"),
+        ({"acc": 20.2, "loss": 0.01, "mode": "train", "epoch": 1}, "metric"),
+        ({"acc": 40.4, "loss": 0.001, "mode": "train", "epoch": 2}, "metric"),
+        (
+            {"acc@1": 21.3, "acc@5": 50.2, "loss": 0.001, "mode": "eval", "epoch": 2},
+            "metric",
+        ),
+        ({"best_acc_so_far": 21.3, "best_lr": 0.01}, "metadata"),
+        ({"message": "Ending training."}, "message"),
+    ]
+    return [logs_and_types]
