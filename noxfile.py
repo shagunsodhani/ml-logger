@@ -1,11 +1,19 @@
 # type: ignore
+import os
+
 import nox
 from nox.sessions import Session
+
+DEFAULT_PYTHON_VERSIONS = ["3.6", "3.7", "3.8", "3.9"]
+
+PYTHON_VERSIONS = os.environ.get(
+    "NOX_PYTHON_VERSIONS", ",".join(DEFAULT_PYTHON_VERSIONS)
+).split(",")
 
 paths_to_check = ["ml_logger", "noxfile.py"]
 
 
-@nox.session()
+@nox.session(python=PYTHON_VERSIONS)
 def lint(session: Session) -> None:
     session.install("--upgrade", "setuptools", "pip")
     session.install("-r", "requirements/dev.txt")
@@ -14,7 +22,7 @@ def lint(session: Session) -> None:
         session.run("black", "--check", _path)
 
 
-@nox.session()
+@nox.session(python=PYTHON_VERSIONS)
 def mypy(session: Session) -> None:
     session.install("--upgrade", "setuptools", "pip")
     session.install("-r", "requirements/dev.txt")
@@ -22,8 +30,8 @@ def mypy(session: Session) -> None:
         session.run("mypy", "--strict", _path)
 
 
-@nox.session()
-def test_metrics(session) -> None:
+@nox.session(python=PYTHON_VERSIONS)
+def test_metrics(session: Session) -> None:
     session.install("--upgrade", "setuptools", "pip")
     session.install("-r", "requirements/dev.txt")
     session.run("pytest", "tests")
