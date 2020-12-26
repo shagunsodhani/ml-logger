@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
 
 import pandas as pd
+
 from ml_logger import utils
 from ml_logger.types import ConfigType
 
@@ -211,8 +212,21 @@ class ExperimentSequence(UserList):  # type: ignore
             [List[ExperimentInfoType]], ExperimentInfoType
         ] = return_first_infos,
     ) -> Experiment:
+        """Aggregate a sequence of experiments into a single experiment.
+
+        Args:
+            aggregate_configs (Callable[ [List[List[ConfigType]]], List[ConfigType] ], optional):
+                Function to aggregate the configs. Defaults to return_first_config.
+            aggregate_metrics (Callable[ [List[ExperimentMetricType]], ExperimentMetricType ], optional):
+                Function to aggregate the metrics. Defaults to concat_metrics.
+            aggregate_infos (Callable[ [List[ExperimentInfoType]], ExperimentInfoType ], optional):
+                Function to aggregate the information. Defaults to return_first_infos.
+
+        Returns:
+            Experiment: Aggregated Experiment.
+        """
         return Experiment(
             configs=aggregate_configs(*[exp.config for exp in self.data]),
             metrics=aggregate_metrics(*[exp.metrics for exp in self.data]),
-            infos=aggregate_infos(*[exp.infos for exp in self.data]),
+            info=aggregate_infos(*[exp.info for exp in self.data]),
         )

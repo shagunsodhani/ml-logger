@@ -1,6 +1,7 @@
 """Logger class that writes to wandb."""
 
 import wandb
+
 from ml_logger.logger.base import Logger as BaseLogger
 from ml_logger.types import ConfigType, LogType, MetricType
 

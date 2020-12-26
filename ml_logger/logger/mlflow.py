@@ -1,9 +1,9 @@
 """Logger class that writes to mlflow."""
 
+import mlflow
+
 from ml_logger.logger.base import Logger as BaseLogger
 from ml_logger.types import ConfigType, LogType, MetricType
-
-import mlflow
 
 
 class Logger(BaseLogger):

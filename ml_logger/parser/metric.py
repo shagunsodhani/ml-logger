@@ -3,6 +3,7 @@
 from typing import Callable, Dict, List, Optional
 
 import pandas as pd
+
 from ml_logger.parser import log as log_parser
 from ml_logger.types import LogType, MetricType, ParseLineFunctionType
 
