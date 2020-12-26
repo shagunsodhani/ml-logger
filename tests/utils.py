@@ -1,3 +1,5 @@
+import numpy as np
+
 from ml_logger import logbook as ml_logbook
 from ml_logger.types import ConfigType
 
@@ -17,7 +19,17 @@ def make_logbook(logger_dir: str) -> ml_logbook.LogBook:
 
 
 def _get_valid_config_logs():
-    log1 = [{"num_layers": 2, "lr": 0.01}, {"dataset": "mnist", "optim": "adam"}]
+    log1 = [
+        {
+            "num_layers": 2,
+            "lr": 0.01,
+            "alpha": np.float64(0.2),
+            "beta": np.float32(0.1),
+            "gamma": np.int64(1),
+            "delta": np.int32(10),
+        },
+        {"dataset": "mnist", "optim": "adam"},
+    ]
     log2 = [{"num_layers": 2, "lr": 0.01}, {"num_layers": 3, "lr": 0.001, "none": None}]
     log3 = [{}]
     log4 = []
@@ -36,7 +48,13 @@ def _get_valid_message_logs():
     log1 = ["This is a message", "This is another message"]
     log2 = [""]
     log3 = []
-    log4 = [["num_layers=2"], ["lr=0.01"]]
+    log4 = [
+        ["num_layers=2"],
+        ["lr=0.01"],
+        [
+            f"alpha:{np.float64(0.2)}, beta:{np.float32(0.1)}, gamma:{np.int64(1)}, delta: {np.int32(10)}"
+        ],
+    ]
     log5 = [{}, [], None]
     log6 = [{"num_layers": 2, "lr": 0.01}, {"dataset": "mnist", "optim": "adam"}]
     log7 = [
@@ -61,7 +79,19 @@ def _get_valid_metric_logs():
     log2 = [{"acc": 20.2, "loss": 0.01, "acc@1": 10.1, "mode": "train", "none": None}]
     log3 = [{}]
     log4 = []
-    log5 = [{"unnested_metric": 1, "nested_metric": {"metric1": 3, "metric2": 0.001}}]
+    log5 = [
+        {
+            "unnested_metric": 1,
+            "nested_metric": {
+                "metric1": 3,
+                "metric2": 0.001,
+                "alpha": np.float64(0.2),
+                "beta": np.float32(0.1),
+                "gamma": np.int64(1),
+                "delta": np.int32(10),
+            },
+        }
+    ]
     return [log1, log2, log3, log4, log5]
 
 
