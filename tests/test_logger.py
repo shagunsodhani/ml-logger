@@ -1,6 +1,6 @@
 import pytest
 
-from tests.utils import get_logs, make_logbook
+from tests.utils import get_logs, get_logs_and_types, make_logbook
 
 
 @pytest.mark.parametrize("logs", get_logs(log_type="config", valid=True))
@@ -63,9 +63,16 @@ def test_write_invalid_metric_logs(tmp_path, logs):
             logbook.write_metric(log)
 
 
-# def test_logger(tmp_path, logs):
-#     logbook = make_logbook(tmp_path)
-#     for log in logs:
-#         logbook.write_config(log)
-#     # print(logs)
-#     assert False
+@pytest.mark.parametrize("logs, log_type", get_logs_and_types(valid=True))
+def test_logger_with_valid_logs(tmp_path, logs, log_type):
+    logbook = make_logbook(tmp_path)
+    for log in logs:
+        logbook.write(log, log_type)
+
+
+@pytest.mark.parametrize("logs, log_type", get_logs_and_types(valid=False))
+def test_logger_with_invalid_logs(tmp_path, logs, log_type):
+    logbook = make_logbook(tmp_path)
+    with pytest.raises(TypeError):
+        for log in logs:
+            logbook.write(log, log_type)

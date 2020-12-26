@@ -72,28 +72,27 @@ def _get_invalid_metric_logs():
     return [log1, log2, log3]
 
 
-def get_logs(log_type: bool = "config", valid: bool = True):
+def get_logs(log_type: str = "config", valid: bool = True):
     if log_type == "config" or log_type == "metadata":
         # both config and metadata have the same type.
         if valid:
             return _get_valid_config_logs()
-        else:
-            return _get_invalid_config_logs()
+        return _get_invalid_config_logs()
     elif log_type == "message":
         if valid:
             return _get_valid_message_logs()
-        else:
-            return _get_invalid_message_logs()
+        return _get_invalid_message_logs()
     elif log_type == "metric":
         if valid:
             return _get_valid_metric_logs()
-        else:
-            return _get_invalid_metric_logs()
+        return _get_invalid_metric_logs()
 
 
-# def get_logs_list():
-#     return get_config_logs()
-#     logs_list = []
-# log = {"epoch": 1, "loss": 0.1, "accuracy": 0.2}
-# logs = [log]
-# return [logs]
+def get_logs_and_types(valid: bool = True):
+    log_types = ["config", "metadata", "metric"]
+    if not valid:
+        log_types.append("message")
+        # generally messages can not be directly written using `logbook.write`
+    for _type in log_types:
+        for log in get_logs(log_type=_type, valid=valid):
+            yield (log, _type)
