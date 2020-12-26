@@ -73,7 +73,7 @@ class Experiment:
             f.write(json.dumps(self.info).encode("utf-8"))  # type: ignore[arg-type]
 
     def __eq__(self, other: object) -> bool:
-        """Compare two `Experiment` objects"""
+        """Compare two `Experiment` objects."""
         if not isinstance(other, Experiment):
             return NotImplemented
         return (
@@ -112,8 +112,7 @@ def deserialize(dir_path: str) -> Experiment:
 
 
 def return_first_config(config_lists: List[List[ConfigType]]) -> List[ConfigType]:
-    """Return the first config list, from a list of list of configs. Otherwise
-    return empty list.
+    """Return the first config list, from a list of list of configs, else return empty list.
 
     Args:
         config_lists (List[List[ConfigType]])
