@@ -1,0 +1,6 @@
+[tool.towncrier]
+    package = "ml_logger"
+    package_dir = ""
+    filename = "NEWS.md"
+    directory = "news/"
+    title_format = "{version} ({project_date})"
