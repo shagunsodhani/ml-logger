@@ -3,6 +3,9 @@
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/mllogger)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
+
+This repo has been archived and moved to [xplogger](https://github.com/shagunsodhani/xplogger)
+
 # ml-logger
 Logging utility for ML experiments
 
